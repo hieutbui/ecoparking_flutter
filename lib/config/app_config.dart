@@ -17,11 +17,11 @@ class AppConfig {
   static const Color onErrorColor = Colors.white;
   static const Color errorContainerColor = Color(0xFFDF321D);
   static const Color onErrorContainerColor = Color(0xFFDF321D);
-  static const Color surfaceColor = Color(0xFFF9F9F9);
-  static const Color onSurfaceColor = Colors.black;
+  static const Color surfaceColor = Colors.white;
+  static const Color onSurfaceColor = Color(0xFF353535);
   static const Color surfaceVariantColor = Color(0xFFE5E5E5);
   static const Color onSurfaceVariantColor = Colors.black;
-  static const Color surfaceContainerColor = Colors.white;
+  static const Color surfaceContainerColor = Color(0xFFF4F4F4);
   static const Color onSurfaceContainerColor = Colors.black;
   static const Color onInverseSurface = Color(0xFFF4EFF4);
   static const Color outlineColor = Colors.black;

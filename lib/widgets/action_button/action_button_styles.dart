@@ -21,7 +21,7 @@ class AppButtonStyles {
         );
       case ActionButtonType.negative:
         return BoxDecoration(
-          color: Theme.of(context).colorScheme.tertiary,
+          color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: defaultButtonBorderRadius,
         );
       case ActionButtonType.hollow:
