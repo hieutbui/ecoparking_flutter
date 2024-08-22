@@ -2,6 +2,7 @@ import 'package:ecoparking_flutter/config/themes.dart';
 import 'package:ecoparking_flutter/pages/resource/image_paths.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/info_rectangle/info_rectangle.dart';
+import 'package:ecoparking_flutter/widgets/search_bar/search_bar.dart';
 import 'package:ecoparking_flutter/widgets/selection_card/selection_card.dart';
 import 'package:ecoparking_flutter/widgets/theme_builder.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,36 @@ class MyApp extends StatelessWidget {
                     isSelected: false,
                     isShowSelectCircle: true,
                     titleColor: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text('Search Bar'),
+                  SearchAnchor(
+                    builder: (context, controller) {
+                      return AppSearchBar(
+                        controller: controller,
+                        onChanged: (String value) {
+                          print(value);
+                        },
+                        onTap: () {
+                          controller.openView();
+                        },
+                        isShowFilter: true,
+                        onFilterPressed: () {
+                          print('Filter pressed');
+                        },
+                      );
+                    },
+                    suggestionsBuilder: (context, controller) {
+                      return List<ListTile>.generate(5, (int index) {
+                        final String item = 'Item $index';
+                        return ListTile(
+                          title: Text(item),
+                          onTap: () {
+                            controller.closeView(item);
+                          },
+                        );
+                      });
+                    },
                   ),
                 ],
               ),
