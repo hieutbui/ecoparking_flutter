@@ -8,6 +8,7 @@ import 'package:ecoparking_flutter/widgets/avatar_button/avatar_button.dart';
 import 'package:ecoparking_flutter/widgets/info_rectangle/info_rectangle.dart';
 import 'package:ecoparking_flutter/widgets/search_bar/search_bar.dart';
 import 'package:ecoparking_flutter/widgets/selection_card/selection_card.dart';
+import 'package:ecoparking_flutter/widgets/text_input_row/text_input_row.dart';
 import 'package:ecoparking_flutter/widgets/theme_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -213,6 +214,18 @@ class TestPage extends StatelessWidget {
             AvatarButton(
               onImageSelected: (Uint8List? image) {
                 debugPrint('Image selected: $image');
+              },
+            ),
+            const SizedBox(height: 16),
+            const Text('Text Input Row'),
+            TextInputRow(
+              controller: TextEditingController(),
+              hintText: 'hint text',
+              textInputAction: TextInputAction.done,
+              isShowObscure: true,
+              prefixIcon: Icons.lock_rounded,
+              onChanged: (String value) {
+                debugPrint(value);
               },
             ),
           ],
