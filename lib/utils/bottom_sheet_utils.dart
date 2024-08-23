@@ -1,7 +1,8 @@
+import 'package:ecoparking_flutter/config/app_config.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetUtils {
-  static void showBottomSheet({
+  static void show({
     required BuildContext context,
     required Widget Function(BuildContext) builder,
     bool isDismissible = true,
@@ -9,15 +10,15 @@ class BottomSheetUtils {
     bool showDragHandle = true,
     double? maxHeight,
     double? maxWidth,
-  }) {
-    showModalBottomSheet(
+  }) async {
+    await showModalBottomSheet(
       context: context,
       showDragHandle: showDragHandle,
       isDismissible: isDismissible,
       isScrollControlled: isScrollControlled,
       constraints: BoxConstraints(
         maxHeight: maxHeight ?? MediaQuery.sizeOf(context).height * 0.5,
-        maxWidth: maxWidth ?? 360 * 1.5,
+        maxWidth: maxWidth ?? AppConfig.appColumnWidth * 1.5,
       ),
       clipBehavior: Clip.hardEdge,
       shape: const RoundedRectangleBorder(
