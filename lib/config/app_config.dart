@@ -26,4 +26,6 @@ class AppConfig {
   static const Color onInverseSurface = Color(0xFFF4EFF4);
   static const Color outlineColor = Colors.black;
   static const Color outlineVariantColor = Color(0xFFCAC4D0);
+
+  static const double appColumnWidth = 360;
 }

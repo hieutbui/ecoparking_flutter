@@ -1,6 +1,7 @@
 import 'package:ecoparking_flutter/config/themes.dart';
 import 'package:ecoparking_flutter/pages/resource/image_paths.dart';
 import 'package:ecoparking_flutter/utils/bottom_sheet_utils.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/info_rectangle/info_rectangle.dart';
 import 'package:ecoparking_flutter/widgets/search_bar/search_bar.dart';
@@ -124,14 +125,14 @@ class TestPage extends StatelessWidget {
                 return AppSearchBar(
                   controller: controller,
                   onChanged: (String value) {
-                    print(value);
+                    debugPrint(value);
                   },
                   onTap: () {
                     controller.openView();
                   },
                   isShowFilter: true,
                   onFilterPressed: () {
-                    print('Filter pressed');
+                    debugPrint('Filter pressed');
                   },
                 );
               },
@@ -153,7 +154,7 @@ class TestPage extends StatelessWidget {
               type: ActionButtonType.positive,
               label: 'Show Bottom Sheet',
               width: 175,
-              onPressed: () => BottomSheetUtils.showBottomSheet(
+              onPressed: () => BottomSheetUtils.show(
                 context: context,
                 isDismissible: true,
                 isScrollControlled: true,
@@ -161,11 +162,48 @@ class TestPage extends StatelessWidget {
                 builder: (context) {
                   return Container(
                     color: Colors.amber,
-                    child: const Center(
-                      child: Text('Bottom Sheet'),
+                    child: Center(
+                      child: ActionButton(
+                        type: ActionButtonType.positive,
+                        label: 'Close',
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                   );
                 },
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text('Dialog'),
+            ActionButton(
+              type: ActionButtonType.positive,
+              label: 'Show Dialog',
+              width: 175,
+              onPressed: () => DialogUtils.show(
+                context: context,
+                actions: (context) {
+                  return <Widget>[
+                    ActionButton(
+                      type: ActionButtonType.negative,
+                      label: 'Close',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    ActionButton(
+                      type: ActionButtonType.positive,
+                      label: 'OK',
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ];
+                },
+                image: ImagePaths.icDialogSuccessful,
+                title: 'Dialog Title!',
+                description: 'Dialog Description',
               ),
             ),
           ],
