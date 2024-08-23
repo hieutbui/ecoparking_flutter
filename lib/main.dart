@@ -1,8 +1,10 @@
+import 'dart:typed_data';
 import 'package:ecoparking_flutter/config/themes.dart';
 import 'package:ecoparking_flutter/pages/resource/image_paths.dart';
 import 'package:ecoparking_flutter/utils/bottom_sheet_utils.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
+import 'package:ecoparking_flutter/widgets/avatar_button/avatar_button.dart';
 import 'package:ecoparking_flutter/widgets/info_rectangle/info_rectangle.dart';
 import 'package:ecoparking_flutter/widgets/search_bar/search_bar.dart';
 import 'package:ecoparking_flutter/widgets/selection_card/selection_card.dart';
@@ -205,6 +207,13 @@ class TestPage extends StatelessWidget {
                 title: 'Dialog Title!',
                 description: 'Dialog Description',
               ),
+            ),
+            const SizedBox(height: 16),
+            const Text('Avatar Button'),
+            AvatarButton(
+              onImageSelected: (Uint8List? image) {
+                debugPrint('Image selected: $image');
+              },
             ),
           ],
         ),
