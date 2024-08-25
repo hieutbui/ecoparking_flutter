@@ -2,7 +2,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:ecoparking_flutter/domain/models/account.dart';
 import 'package:ecoparking_flutter/widgets/dropdown_gender/dropdown_gender_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class DropdownGender extends StatefulWidget {
   final ValueChanged<Genders>? onSelectGender;
