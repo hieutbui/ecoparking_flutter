@@ -16,6 +16,7 @@ class PhoneInputRow extends StatelessWidget {
       controller: PhoneController(
         initialValue: const PhoneNumber(isoCode: IsoCode.VN, nsn: ''),
       ),
+      style: PhoneInputRowStyles.inputtedTextStyle,
       onChanged: onChanged,
       countrySelectorNavigator: const CountrySelectorNavigator.page(),
       validator: PhoneValidator.compose([
@@ -24,6 +25,7 @@ class PhoneInputRow extends StatelessWidget {
       ]),
       decoration: InputDecoration(
         hintText: 'Phone number',
+        hintStyle: PhoneInputRowStyles.hintStyle(context),
         border: const OutlineInputBorder(
           borderRadius: PhoneInputRowStyles.borderRadius,
           borderSide: BorderSide.none,
