@@ -23,6 +23,9 @@ class PhoneInputRow extends StatelessWidget {
         PhoneValidator.required(context, errorText: 'Phone number is required'),
         PhoneValidator.valid(context),
       ]),
+      countryButtonStyle: CountryButtonStyle(
+        textStyle: PhoneInputRowStyles.inputtedTextStyle,
+      ),
       decoration: InputDecoration(
         hintText: 'Phone number',
         hintStyle: PhoneInputRowStyles.hintStyle(context),
