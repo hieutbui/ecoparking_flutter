@@ -44,6 +44,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   file_picker: ^8.1.2
+  phone_form_field: ^9.2.5
 
 dev_dependencies:
   flutter_test:
