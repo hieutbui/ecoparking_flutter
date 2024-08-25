@@ -45,6 +45,7 @@ dependencies:
     sdk: flutter
   file_picker: ^8.1.2
   phone_form_field: ^9.2.5
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:

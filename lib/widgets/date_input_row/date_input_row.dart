@@ -27,9 +27,11 @@ class _DateInputRowState extends State<DateInputRow> {
         border: DateInputRowStyles.inputBorder,
         filled: true,
         fillColor: Theme.of(context).colorScheme.tertiaryContainer,
-        suffixIcon: const Icon(
+        suffixIcon: Icon(
           Icons.calendar_today_rounded,
-          color: Colors.black,
+          color: _controller.text.isNotEmpty
+              ? Colors.black
+              : Theme.of(context).colorScheme.onTertiaryContainer,
           size: DateInputRowStyles.suffixIconSize,
         ),
       ),

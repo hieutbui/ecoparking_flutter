@@ -6,6 +6,7 @@ import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/avatar_button/avatar_button.dart';
 import 'package:ecoparking_flutter/widgets/date_input_row/date_input_row.dart';
+import 'package:ecoparking_flutter/widgets/dropdown_gender/dropdown_gender.dart';
 import 'package:ecoparking_flutter/widgets/info_rectangle/info_rectangle.dart';
 import 'package:ecoparking_flutter/widgets/phone_input_row/phone_input_row.dart';
 import 'package:ecoparking_flutter/widgets/search_bar/search_bar.dart';
@@ -247,6 +248,13 @@ class TestPage extends StatelessWidget {
                   debugPrint(dateTime.toString());
                 },
               ),
+              const SizedBox(height: 16),
+              const Text('Dropdown gender'),
+              DropdownGender(
+                onSelectGender: (gender) {
+                  debugPrint(gender.toString());
+                },
+              )
             ],
           ),
         ),

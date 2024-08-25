@@ -86,8 +86,11 @@ class _TextInputRowState extends State<TextInputRow> {
           hintStyle: TextInputRowStyles.hintTextStyle(context),
           prefixIcon: Icon(
             widget.prefixIcon,
-            color:
-                _isFocus ? Theme.of(context).colorScheme.primary : Colors.black,
+            color: _isFocus
+                ? Theme.of(context).colorScheme.primary
+                : widget.controller.text.isNotEmpty
+                    ? Colors.black
+                    : Theme.of(context).colorScheme.onTertiaryContainer,
           ),
           suffixIcon: widget.isShowObscure
               ? IconButton(
@@ -98,14 +101,18 @@ class _TextInputRowState extends State<TextInputRow> {
                         : Icons.visibility_rounded,
                     color: _isFocus
                         ? Theme.of(context).colorScheme.primary
-                        : Colors.black,
+                        : widget.controller.text.isNotEmpty
+                            ? Colors.black
+                            : Theme.of(context).colorScheme.onTertiaryContainer,
                   ),
                 )
               : Icon(
                   widget.suffixIcon,
                   color: _isFocus
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.black,
+                      : widget.controller.text.isNotEmpty
+                          ? Colors.black
+                          : Theme.of(context).colorScheme.onTertiaryContainer,
                 ),
           fillColor: Theme.of(context).colorScheme.tertiaryContainer,
           filled: true,
