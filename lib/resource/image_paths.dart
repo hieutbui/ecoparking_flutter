@@ -1,4 +1,4 @@
-import 'package:ecoparking_flutter/pages/resource/assets_paths.dart';
+import 'package:ecoparking_flutter/resource/assets_paths.dart';
 
 class ImagePaths {
   static String get imgToyotaLandCruiser =>

@@ -1,4 +1,4 @@
-import 'package:ecoparking_flutter/pages/resource/image_paths.dart';
+import 'package:ecoparking_flutter/resource/image_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -1,4 +1,4 @@
-import 'package:ecoparking_flutter/pages/resource/image_paths.dart';
+import 'package:ecoparking_flutter/resource/image_paths.dart';
 import 'package:ecoparking_flutter/widgets/avatar_button/avatar_button_styles.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
