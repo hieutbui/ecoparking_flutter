@@ -1,9 +1,12 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/pages/booking/booking.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/profile/profile.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
+import 'package:ecoparking_flutter/utils/responsive.dart';
 import 'package:ecoparking_flutter/widgets/app_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +16,8 @@ class AppRoutes {
       GlobalKey<NavigatorState>(debugLabel: 'Root Navigator');
   static GlobalKey<NavigatorState> get _shellNavigatorKey =>
       GlobalKey<NavigatorState>(debugLabel: 'Shell Navigator');
+
+  static final _responsive = getIt.get<ResponsiveUtils>();
 
   static List<NavigationDestination> destinations(BuildContext context) =>
       <NavigationDestination>[
@@ -82,19 +87,31 @@ class AppRoutes {
         routes: <RouteBase>[
           GoRoute(
             path: AppPaths.home.path,
-            builder: (context, state) => const HomePage(),
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              const HomePage(),
+            ),
           ),
           GoRoute(
             path: AppPaths.saved.path,
-            builder: (context, state) => const SavedPage(),
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              const SavedPage(),
+            ),
           ),
           GoRoute(
             path: AppPaths.booking.path,
-            builder: (context, state) => const BookingPage(),
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              const BookingPage(),
+            ),
           ),
           GoRoute(
             path: AppPaths.profile.path,
-            builder: (context, state) => const ProfilePage(),
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              const ProfilePage(),
+            ),
           )
         ],
       ),
@@ -112,11 +129,17 @@ class AppRoutes {
       CustomTransitionPage(
         name: name,
         child: child,
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            !_responsive.isMobile(context)
+                ? FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  )
+                : CupertinoPageTransition(
+                    primaryRouteAnimation: animation,
+                    secondaryRouteAnimation: secondaryAnimation,
+                    linearTransition: false,
+                    child: child,
+                  ),
       );
 }
