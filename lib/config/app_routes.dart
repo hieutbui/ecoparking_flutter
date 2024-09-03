@@ -22,7 +22,7 @@ class AppRoutes {
   static List<NavigationDestination> destinations(BuildContext context) =>
       <NavigationDestination>[
         NavigationDestination(
-          label: 'Home',
+          label: AppPaths.home.label,
           icon: const Icon(
             Icons.home_filled,
             color: Color(0xFFCACACA),
@@ -33,7 +33,7 @@ class AppRoutes {
           ),
         ),
         NavigationDestination(
-          label: 'Saved',
+          label: AppPaths.saved.label,
           icon: const Icon(
             Icons.bookmark_outline,
             color: Color(0xFFCACACA),
@@ -44,7 +44,7 @@ class AppRoutes {
           ),
         ),
         NavigationDestination(
-          label: 'Booking',
+          label: AppPaths.booking.label,
           icon: const Icon(
             Icons.article_outlined,
             color: Color(0xFFCACACA),
@@ -55,7 +55,7 @@ class AppRoutes {
           ),
         ),
         NavigationDestination(
-          label: 'Profile',
+          label: AppPaths.profile.label,
           icon: const Icon(
             Icons.person_outline,
             color: Color(0xFFCACACA),
