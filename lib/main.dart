@@ -1,11 +1,13 @@
 import 'package:ecoparking_flutter/config/app_routes.dart';
 import 'package:ecoparking_flutter/config/themes.dart';
+import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/widgets/theme_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  GetItInitializer().setUp();
   runApp(const EcoParkingApp());
 }
 
