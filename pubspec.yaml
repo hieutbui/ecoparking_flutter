@@ -51,6 +51,9 @@ dependencies:
   universal_html: ^2.2.4
   get_it: ^7.7.0
   flutter_map: ^7.0.2
+  flutter_dotenv: ^5.1.0
+  latlong2: ^0.9.1
+  flutter_map_cancellable_tile_provider: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +82,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

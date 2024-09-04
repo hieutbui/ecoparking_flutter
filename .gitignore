@@ -48,3 +48,6 @@ app.*.map.json
 
 # devtool
 devtools_options.yaml
+
+# environment file
+*.env
