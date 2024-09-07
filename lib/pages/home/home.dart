@@ -1,4 +1,5 @@
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
+import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
@@ -10,7 +11,7 @@ class HomePage extends StatefulWidget {
   HomeController createState() => HomeController();
 }
 
-class HomeController extends State<HomePage> {
+class HomeController extends State<HomePage> with ControllerLoggy {
   final center = ValueNotifier<LatLng?>(null);
 
   @override
@@ -48,9 +49,24 @@ class HomeController extends State<HomePage> {
     }
 
     locationData = await location.getLocation();
-    print('Location: ${locationData.latitude}, ${locationData.longitude}');
 
     center.value = LatLng(locationData.latitude!, locationData.longitude!);
+  }
+
+  void onSearchPressed() {
+    loggy.warning('Search button pressed');
+  }
+
+  void onNotificationPressed() {
+    loggy.info('Notification button pressed');
+  }
+
+  void onHomePressed() {
+    loggy.info('Home button pressed');
+  }
+
+  void onCurrentLocationPressed() {
+    loggy.info('Current location button pressed');
   }
 
   @override
