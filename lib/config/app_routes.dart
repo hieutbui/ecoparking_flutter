@@ -142,4 +142,18 @@ class AppRoutes {
                     child: child,
                   ),
       );
+
+  static Map<String, int> navBarPathToIndex = {
+    AppPaths.home.path: 0,
+    AppPaths.saved.path: 1,
+    AppPaths.booking.path: 2,
+    AppPaths.profile.path: 3,
+  };
+
+  static Map<int, String> navBarIndexToPath = {
+    0: AppPaths.home.path,
+    1: AppPaths.saved.path,
+    2: AppPaths.booking.path,
+    3: AppPaths.profile.path,
+  };
 }
