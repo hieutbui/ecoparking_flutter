@@ -33,15 +33,17 @@ class HomePageView extends StatelessWidget {
                   tileProvider: CancellableNetworkTileProvider(),
                   urlTemplate: EnvLoader.mapURLTemplate,
                 ),
-                MarkerLayer(markers: [
-                  Marker(
-                    point: center,
-                    child: const Icon(
-                      Icons.location_on,
-                      color: Colors.red,
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: center,
+                      child: const Icon(
+                        Icons.location_on,
+                        color: Colors.red,
+                      ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
               ],
             ),
             Positioned(
