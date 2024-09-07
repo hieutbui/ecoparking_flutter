@@ -53,16 +53,12 @@ class HomePageView extends StatelessWidget {
                 children: [
                   RoundedButton(
                     icon: Icons.search,
-                    onPressed: () {
-                      debugPrint('Search button pressed');
-                    },
+                    onPressed: controller.onSearchPressed,
                   ),
                   const SizedBox(width: HomeViewStyles.topButtonSpacing),
                   RoundedButton(
                     icon: Icons.notifications_none_rounded,
-                    onPressed: () {
-                      debugPrint('Notification button pressed');
-                    },
+                    onPressed: controller.onNotificationPressed,
                   ),
                 ],
               ),
@@ -75,9 +71,7 @@ class HomePageView extends StatelessWidget {
                 children: [
                   RoundedButton(
                     icon: Icons.home,
-                    onPressed: () {
-                      debugPrint('Home button pressed');
-                    },
+                    onPressed: controller.onHomePressed,
                   ),
                   const SizedBox(height: HomeViewStyles.bottomButtonSpacing),
                   Container(
@@ -85,9 +79,7 @@ class HomePageView extends StatelessWidget {
                         HomeViewStyles.getFloatingButtonDecoration(context),
                     child: FloatingActionButton(
                       shape: HomeViewStyles.floatingButtonShape,
-                      onPressed: () {
-                        debugPrint('Floating action button pressed');
-                      },
+                      onPressed: controller.onCurrentLocationPressed,
                       backgroundColor: Colors.transparent,
                       hoverColor: Colors.transparent,
                       foregroundColor: Colors.transparent,
