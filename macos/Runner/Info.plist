@@ -28,5 +28,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow the app to access your location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow the app to access your location</string>
 </dict>
 </plist>
