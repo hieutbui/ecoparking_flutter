@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'shift_price.g.dart';
@@ -14,15 +15,36 @@ enum ShiftType {
   other,
 }
 
+TimeOfDay _timeOfDayFromString(String time) {
+  final parts = time.split(':');
+  final hour = int.parse(parts[0]);
+  final minute = int.parse(parts[1]);
+  return TimeOfDay(hour: hour, minute: minute);
+}
+
+String _timeOfDayToString(TimeOfDay time) {
+  final hour = time.hour.toString().padLeft(2, '0');
+  final minute = time.minute.toString().padLeft(2, '0');
+  return '$hour:$minute';
+}
+
 @JsonSerializable()
 class ShiftPrice with EquatableMixin {
   final String id;
   @JsonKey(name: 'shift_type')
   final ShiftType shiftType;
-  @JsonKey(name: 'start_time')
-  final DateTime startTime;
-  @JsonKey(name: 'end_time')
-  final DateTime endTime;
+  @JsonKey(
+    name: 'start_time',
+    fromJson: _timeOfDayFromString,
+    toJson: _timeOfDayToString,
+  )
+  final TimeOfDay startTime;
+  @JsonKey(
+    name: 'end_time',
+    fromJson: _timeOfDayFromString,
+    toJson: _timeOfDayToString,
+  )
+  final TimeOfDay endTime;
   final double price;
 
   ShiftPrice({

@@ -1,3 +1,9 @@
+import 'dart:async';
+import 'package:ecoparking_flutter/app_state/failure.dart';
+import 'package:ecoparking_flutter/app_state/success.dart';
+import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
+import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +18,14 @@ class HomePage extends StatefulWidget {
 }
 
 class HomeController extends State<HomePage> with ControllerLoggy {
-  final center = ValueNotifier<LatLng?>(null);
+  final CurrentLocationInteractor _currentLocationInteractor =
+      getIt.get<CurrentLocationInteractor>();
+
+  final currentLocationNotifier = ValueNotifier<GetCurrentLocationState>(
+    const GetCurrentLocationInitial(),
+  );
+
+  StreamSubscription? _currentLocationSubscription;
 
   @override
   void initState() {
@@ -23,34 +36,41 @@ class HomeController extends State<HomePage> with ControllerLoggy {
   @override
   void dispose() {
     super.dispose();
+    currentLocationNotifier.dispose();
+    _currentLocationSubscription?.cancel();
   }
 
-  Future<void> _getCurrentLocation() async {
-    Location location = Location();
+  void _getCurrentLocation() async {
+    _currentLocationSubscription = _currentLocationInteractor.execute().listen(
+      (event) {
+        event.fold(
+          (failure) => _handleGetCurrentLocationFailure(failure),
+          (success) => _handleGetCurrentLocationSuccess(success),
+        );
+      },
+    );
+  }
 
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
-
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
+  void _handleGetCurrentLocationFailure(Failure failure) {
+    loggy.error('handleGetCurrentLocationFailure(): failure: $failure');
+    if (failure is GetCurrentLocationFailure) {
+      currentLocationNotifier.value = failure;
+    } else {
+      currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
     }
+  }
 
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
+  void _handleGetCurrentLocationSuccess(Success success) {
+    loggy.info('handleGetCurrentLocationSuccess(): success');
+    if (success is GetCurrentLocationSuccess) {
+      currentLocationNotifier.value = success;
+    } else {
+      currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
     }
+  }
 
-    locationData = await location.getLocation();
-
-    center.value = LatLng(locationData.latitude!, locationData.longitude!);
+  LatLng convertLocationDataToLatLng(LocationData locationData) {
+    return LatLng(locationData.latitude!, locationData.longitude!);
   }
 
   void onSearchPressed() {
@@ -67,6 +87,7 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   void onCurrentLocationPressed() {
     loggy.info('Current location button pressed');
+    _getCurrentLocation();
   }
 
   @override

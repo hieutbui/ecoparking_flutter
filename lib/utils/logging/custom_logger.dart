@@ -5,3 +5,15 @@ mixin ControllerLoggy implements LoggyType {
   Loggy<ControllerLoggy> get loggy =>
       Loggy<ControllerLoggy>('Controller Loggy - $runtimeType');
 }
+
+mixin GetItLoggy implements LoggyType {
+  @override
+  Loggy<GetItLoggy> get loggy =>
+      Loggy<GetItLoggy>('GetIt Loggy - $runtimeType');
+}
+
+mixin InteractorLoggy implements LoggyType {
+  @override
+  Loggy<InteractorLoggy> get loggy =>
+      Loggy<InteractorLoggy>('Interactor Loggy - $runtimeType');
+}

@@ -17,7 +17,7 @@ class Parking with EquatableMixin {
   @JsonKey(name: 'available_slot')
   final int availableSlot;
   @JsonKey(name: 'price_per_hour')
-  final ShiftPrice? pricePerHour;
+  final List<ShiftPrice>? pricePerHour;
   @JsonKey(name: 'price_per_day')
   final double? pricePerDay;
   @JsonKey(name: 'price_per_month')

@@ -1,4 +1,5 @@
 import 'package:ecoparking_flutter/config/env_loader.dart';
+import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
 import 'package:ecoparking_flutter/pages/home/widgets/rounded_button/rounded_button.dart';
@@ -17,83 +18,89 @@ class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: controller.center,
-      builder: (context, center, child) {
-        if (center == null) return child!;
+      valueListenable: controller.currentLocationNotifier,
+      builder: (context, notifier, child) {
+        if (notifier is GetCurrentLocationInitial) return child!;
 
-        return Stack(
-          children: [
-            FlutterMap(
-              options: MapOptions(
-                initialCenter: center,
-                initialZoom: HomeViewStyles.initialZoom,
-              ),
-              children: [
-                TileLayer(
-                  tileProvider: CancellableNetworkTileProvider(),
-                  urlTemplate: EnvLoader.mapURLTemplate,
+        if (notifier is GetCurrentLocationSuccess) {
+          final center =
+              controller.convertLocationDataToLatLng(notifier.currentLocation);
+          return Stack(
+            children: [
+              FlutterMap(
+                options: MapOptions(
+                  initialCenter: center,
+                  initialZoom: HomeViewStyles.initialZoom,
                 ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: center,
-                      child: const Icon(
-                        Icons.location_on,
-                        color: Colors.red,
+                children: [
+                  TileLayer(
+                    tileProvider: CancellableNetworkTileProvider(),
+                    urlTemplate: EnvLoader.mapURLTemplate,
+                  ),
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: center,
+                        child: const Icon(
+                          Icons.location_on,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Positioned(
+                top: HomeViewStyles.topButtonRowPosition.top,
+                right: HomeViewStyles.topButtonRowPosition.right,
+                child: Row(
+                  children: [
+                    RoundedButton(
+                      icon: Icons.search,
+                      onPressed: controller.onSearchPressed,
+                    ),
+                    const SizedBox(width: HomeViewStyles.topButtonSpacing),
+                    RoundedButton(
+                      icon: Icons.notifications_none_rounded,
+                      onPressed: controller.onNotificationPressed,
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: HomeViewStyles.bottomButtonColumnPosition.bottom,
+                right: HomeViewStyles.bottomButtonColumnPosition.right,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RoundedButton(
+                      icon: Icons.home,
+                      onPressed: controller.onHomePressed,
+                    ),
+                    const SizedBox(height: HomeViewStyles.bottomButtonSpacing),
+                    Container(
+                      decoration:
+                          HomeViewStyles.getFloatingButtonDecoration(context),
+                      child: FloatingActionButton(
+                        shape: HomeViewStyles.floatingButtonShape,
+                        onPressed: controller.onCurrentLocationPressed,
+                        backgroundColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        foregroundColor: Colors.transparent,
+                        child: const Icon(
+                          Icons.my_location,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
-            Positioned(
-              top: HomeViewStyles.topButtonRowPosition.top,
-              right: HomeViewStyles.topButtonRowPosition.right,
-              child: Row(
-                children: [
-                  RoundedButton(
-                    icon: Icons.search,
-                    onPressed: controller.onSearchPressed,
-                  ),
-                  const SizedBox(width: HomeViewStyles.topButtonSpacing),
-                  RoundedButton(
-                    icon: Icons.notifications_none_rounded,
-                    onPressed: controller.onNotificationPressed,
-                  ),
-                ],
               ),
-            ),
-            Positioned(
-              bottom: HomeViewStyles.bottomButtonColumnPosition.bottom,
-              right: HomeViewStyles.bottomButtonColumnPosition.right,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  RoundedButton(
-                    icon: Icons.home,
-                    onPressed: controller.onHomePressed,
-                  ),
-                  const SizedBox(height: HomeViewStyles.bottomButtonSpacing),
-                  Container(
-                    decoration:
-                        HomeViewStyles.getFloatingButtonDecoration(context),
-                    child: FloatingActionButton(
-                      shape: HomeViewStyles.floatingButtonShape,
-                      onPressed: controller.onCurrentLocationPressed,
-                      backgroundColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      foregroundColor: Colors.transparent,
-                      child: const Icon(
-                        Icons.my_location,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
+            ],
+          );
+        }
+
+        return child!;
       },
       child: const Scaffold(
         body: Center(
