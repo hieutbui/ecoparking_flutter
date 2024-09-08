@@ -2,7 +2,6 @@ import 'package:ecoparking_flutter/config/app_routes.dart';
 import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/config/themes.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
-import 'package:ecoparking_flutter/utils/logging/custom_printer.dart';
 import 'package:ecoparking_flutter/widgets/theme_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,7 +13,9 @@ Future<void> main() async {
   GetItInitializer().setUp();
   await dotenv.load(fileName: EnvLoader.envFileName);
   Loggy.initLoggy(
-    logPrinter: CustomPrinter(),
+    logPrinter: const PrettyPrinter(
+      showColors: true,
+    ),
   );
 
   runApp(const EcoParkingApp());
