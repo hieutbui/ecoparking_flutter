@@ -16,8 +16,4 @@ class ImagePaths {
   static String _getIconPath(String iconName) {
     return AssetsPaths.icons + iconName;
   }
-
-  static String _getAssetPath(String assetName) {
-    return AssetsPaths.assets + assetName;
-  }
 }
