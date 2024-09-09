@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
+import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
 import 'package:ecoparking_flutter/pages/home/widgets/rounded_button/rounded_button.dart';
@@ -47,6 +48,21 @@ class HomePageView extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: controller.parkingNotifier,
+                    builder: (context, notifier, child) {
+                      if (notifier is GetParkingsSuccess) {
+                        return MarkerLayer(
+                          markers: controller.convertParkingsToMarkers(
+                            context,
+                            notifier.parkings,
+                          ),
+                        );
+                      }
+                      return child!;
+                    },
+                    child: const SizedBox.shrink(),
                   ),
                 ],
               ),
