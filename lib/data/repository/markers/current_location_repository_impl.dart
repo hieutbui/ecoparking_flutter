@@ -8,7 +8,7 @@ class CurrentLocationRepositoryImpl implements CurrentLocationRepository {
       getIt.get<CurrentLocationDataSource>();
 
   @override
-  Future<LocationData?> fetchCurrentLocation() async {
+  Future<LocationData?> fetchCurrentLocation() {
     return currentLocationDataSource.fetchCurrentLocation();
   }
 }

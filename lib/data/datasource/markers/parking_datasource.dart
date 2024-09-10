@@ -1,5 +1,5 @@
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 
-abstract class ParkingRepository {
+abstract class ParkingDataSource {
   Future<List<Parking>?> fetchParkings();
 }

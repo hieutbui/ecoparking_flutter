@@ -1,8 +1,13 @@
 import 'package:ecoparking_flutter/data/datasource/markers/current_location_datasource.dart';
+import 'package:ecoparking_flutter/data/datasource/markers/parking_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/markers/current_location_datasource_impl.dart';
+import 'package:ecoparking_flutter/data/datasource_impl/markers/parking_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/current_location_repository_impl.dart';
+import 'package:ecoparking_flutter/data/repository/markers/parking_repository_impl.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/current_location_repository.dart';
+import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/responsive.dart';
 import 'package:get_it/get_it.dart';
@@ -47,12 +52,18 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<CurrentLocationDataSource>(
       () => CurrentLocationDataSourceImpl(),
     );
+    getIt.registerLazySingleton<ParkingDataSource>(
+      () => ParkingsDataSourceImpl(),
+    );
     loggy.info('bindingDataSourceImpl(): Setup successfully');
   }
 
   void bindingRepositories() {
     getIt.registerLazySingleton<CurrentLocationRepository>(
       () => CurrentLocationRepositoryImpl(),
+    );
+    getIt.registerLazySingleton<ParkingRepository>(
+      () => ParkingRepositoryImpl(),
     );
 
     loggy.info('bindingRepositories(): Setup successfully');
@@ -62,6 +73,10 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<CurrentLocationInteractor>(
       () => CurrentLocationInteractor(),
     );
+    getIt.registerLazySingleton<ParkingInteractor>(
+      () => ParkingInteractor(),
+    );
+
     loggy.info('bindingInteractor(): Setup successfully');
   }
 
