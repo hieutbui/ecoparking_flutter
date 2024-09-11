@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
@@ -12,6 +13,7 @@ import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
@@ -122,20 +124,23 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     return parkings.map((parking) {
       return Marker(
         point: LatLng(parking.latitude, parking.longitude),
-        child: Container(
-          width: HomeViewStyles.parkingMarkerOuterSize,
-          height: HomeViewStyles.parkingMarkerOuterSize,
-          decoration: HomeViewStyles.getParkingOuterMarkerDecoration(context),
-          child: Center(
-            child: Container(
-              width: HomeViewStyles.parkingMarkerInnerSize,
-              height: HomeViewStyles.parkingMarkerInnerSize,
-              decoration:
-                  HomeViewStyles.getParkingInnerMarkerDecoration(context),
-              child: Icon(
-                Icons.local_parking,
-                color: Theme.of(context).colorScheme.onErrorContainer,
-                size: HomeViewStyles.parkingMarkerIconSize,
+        child: GestureDetector(
+          onTap: () => onParkingMarkerPressed(context, parking),
+          child: Container(
+            width: HomeViewStyles.parkingMarkerOuterSize,
+            height: HomeViewStyles.parkingMarkerOuterSize,
+            decoration: HomeViewStyles.getParkingOuterMarkerDecoration(context),
+            child: Center(
+              child: Container(
+                width: HomeViewStyles.parkingMarkerInnerSize,
+                height: HomeViewStyles.parkingMarkerInnerSize,
+                decoration:
+                    HomeViewStyles.getParkingInnerMarkerDecoration(context),
+                child: Icon(
+                  Icons.local_parking,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                  size: HomeViewStyles.parkingMarkerIconSize,
+                ),
               ),
             ),
           ),
@@ -159,6 +164,11 @@ class HomeController extends State<HomePage> with ControllerLoggy {
   void onCurrentLocationPressed() {
     loggy.info('Current location button pressed');
     _getCurrentLocation();
+  }
+
+  void onParkingMarkerPressed(BuildContext context, Parking parking) {
+    loggy.info('Parking marker pressed', parking);
+    GoRouter.of(context).go(AppPaths.parkingDetails.path, extra: parking);
   }
 
   @override

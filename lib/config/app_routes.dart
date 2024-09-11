@@ -1,7 +1,9 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/pages/booking/booking.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
+import 'package:ecoparking_flutter/pages/parking_details/parking_details.dart';
 import 'package:ecoparking_flutter/pages/profile/profile.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
 import 'package:ecoparking_flutter/utils/responsive.dart';
@@ -90,6 +92,7 @@ class AppRoutes {
             pageBuilder: (context, state) => defaultPageBuilder(
               context,
               const HomePage(),
+              name: AppPaths.home.label,
             ),
           ),
           GoRoute(
@@ -97,6 +100,7 @@ class AppRoutes {
             pageBuilder: (context, state) => defaultPageBuilder(
               context,
               const SavedPage(),
+              name: AppPaths.saved.label,
             ),
           ),
           GoRoute(
@@ -104,6 +108,7 @@ class AppRoutes {
             pageBuilder: (context, state) => defaultPageBuilder(
               context,
               const BookingPage(),
+              name: AppPaths.booking.label,
             ),
           ),
           GoRoute(
@@ -111,8 +116,21 @@ class AppRoutes {
             pageBuilder: (context, state) => defaultPageBuilder(
               context,
               const ProfilePage(),
+              name: AppPaths.profile.label,
             ),
-          )
+          ),
+          GoRoute(
+            path: AppPaths.parkingDetails.path,
+            pageBuilder: (context, state) {
+              final Parking parking = state.extra as Parking;
+
+              return defaultPageBuilder(
+                context,
+                ParkingDetails(parking: parking),
+                name: AppPaths.parkingDetails.label,
+              );
+            },
+          ),
         ],
       ),
     ],
