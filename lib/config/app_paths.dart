@@ -2,7 +2,8 @@ enum AppPaths {
   home,
   saved,
   booking,
-  profile;
+  profile,
+  parkingDetails;
 
   String get path {
     switch (this) {
@@ -14,6 +15,8 @@ enum AppPaths {
         return '/booking';
       case AppPaths.profile:
         return '/profile';
+      case AppPaths.parkingDetails:
+        return '/parking-details';
       default:
         return '/home';
     }
@@ -29,6 +32,8 @@ enum AppPaths {
         return 'Booking';
       case AppPaths.profile:
         return 'Profile';
+      case AppPaths.parkingDetails:
+        return 'Parking Details';
       default:
         return 'Home';
     }
