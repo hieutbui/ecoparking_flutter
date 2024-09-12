@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/config/app_routes.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +33,10 @@ class AppLayout extends StatelessWidget {
   void _onDestinationSelected(BuildContext context, int index) {
     final String? path = AppRoutes.navBarIndexToPath[index];
 
-    GoRouter.of(context).go(path ?? AppPaths.home.path);
+    NavigationUtils.navigateTo(
+      context: context,
+      path: path ?? AppPaths.home.path,
+    );
   }
 
   @override

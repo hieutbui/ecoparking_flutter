@@ -11,9 +11,9 @@ import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
@@ -168,7 +168,11 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   void onParkingMarkerPressed(BuildContext context, Parking parking) {
     loggy.info('Parking marker pressed', parking);
-    GoRouter.of(context).go(AppPaths.parkingDetails.path, extra: parking);
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.parkingDetails.path,
+      params: parking,
+    );
   }
 
   @override
