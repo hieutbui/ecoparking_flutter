@@ -130,6 +130,8 @@ class AppRoutes {
                 name: AppPaths.parkingDetails.label,
               );
             },
+            redirect: (context, state) =>
+                state.extra == null ? AppPaths.home.path : null,
           ),
         ],
       ),
