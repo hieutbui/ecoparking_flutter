@@ -27,6 +27,7 @@ class BottomSheetUtils {
           topRight: Radius.circular(50),
         ),
       ),
+      backgroundColor: Colors.white,
       builder: builder,
     );
   }

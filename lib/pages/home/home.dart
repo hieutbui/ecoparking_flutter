@@ -10,8 +10,10 @@ import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dar
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
+import 'package:ecoparking_flutter/utils/bottom_sheet_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
+import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -168,10 +170,103 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   void onParkingMarkerPressed(BuildContext context, Parking parking) {
     loggy.info('Parking marker pressed', parking);
-    NavigationUtils.navigateTo(
+    BottomSheetUtils.show(
       context: context,
-      path: AppPaths.parkingDetails.path,
-      params: parking,
+      isDismissible: true,
+      isScrollControlled: true,
+      showDragHandle: true,
+      //TODO: Move this to another file
+      builder: (context) {
+        return Container(
+          color: Colors.white,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    'Details',
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall!
+                        .copyWith(color: Colors.black),
+                  ),
+                  const SizedBox(height: 12),
+                  Divider(
+                    color: Theme.of(context).colorScheme.tertiary,
+                    height: 1.0,
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            //TODO: Add parking image
+                            Text(
+                              parking.parkingName,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineLarge!
+                                  .copyWith(color: Colors.black),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                            Text(
+                              parking.address,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(color: const Color(0xFFA1A1A1)),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => {},
+                        icon: const Icon(Icons.bookmark_border),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ActionButton(
+                        type: ActionButtonType.negative,
+                        label: 'Details',
+                        isShowArrow: true,
+                        onPressed: () => {
+                          Navigator.of(context).pop(),
+                          NavigationUtils.navigateTo(
+                            context: context,
+                            path: AppPaths.parkingDetails.path,
+                            params: parking,
+                          )
+                        },
+                        width: 200,
+                      ),
+                      ActionButton(
+                        type: ActionButtonType.positive,
+                        label: 'Book Now',
+                        isShowArrow: false,
+                        onPressed: () => {
+                          Navigator.of(context).pop(),
+                        },
+                        width: 200,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
