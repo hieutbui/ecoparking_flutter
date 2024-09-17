@@ -9,6 +9,7 @@ class Parking with EquatableMixin {
   final String id;
   @JsonKey(name: 'parking_name')
   final String parkingName;
+  final String image;
   final String address;
   final double latitude;
   final double longitude;
@@ -17,7 +18,7 @@ class Parking with EquatableMixin {
   @JsonKey(name: 'available_slot')
   final int availableSlot;
   @JsonKey(name: 'price_per_hour')
-  final List<ShiftPrice>? pricePerHour;
+  final List<ShiftPrice> pricePerHour;
   @JsonKey(name: 'price_per_day')
   final double? pricePerDay;
   @JsonKey(name: 'price_per_month')
@@ -28,12 +29,13 @@ class Parking with EquatableMixin {
   Parking({
     required this.id,
     required this.parkingName,
+    required this.image,
     required this.address,
     required this.latitude,
     required this.longitude,
     required this.totalSlot,
     required this.availableSlot,
-    this.pricePerHour,
+    required this.pricePerHour,
     this.pricePerDay,
     this.pricePerMonth,
     this.pricePerYear,
@@ -48,6 +50,7 @@ class Parking with EquatableMixin {
   List<Object?> get props => [
         id,
         parkingName,
+        image,
         address,
         latitude,
         longitude,

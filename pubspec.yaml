@@ -59,6 +59,7 @@ dependencies:
   location: ^6.0.2
   loggy: ^2.0.3
   dartz: ^0.10.1
+  getwidget: ^4.0.0
 
 dev_dependencies:
   flutter_test:

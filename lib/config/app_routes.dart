@@ -84,6 +84,9 @@ class AppRoutes {
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
+          if (state.uri.path == AppPaths.parkingDetails.path) {
+            return child;
+          }
           return AppLayout(child: child);
         },
         routes: <RouteBase>[

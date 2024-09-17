@@ -20,6 +20,7 @@ class BottomSheetUtils {
         maxHeight: maxHeight ?? MediaQuery.sizeOf(context).height * 0.5,
         maxWidth: maxWidth ?? AppConfig.appColumnWidth * 1.5,
       ),
+      useRootNavigator: true,
       clipBehavior: Clip.hardEdge,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
