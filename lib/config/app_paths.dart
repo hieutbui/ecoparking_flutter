@@ -16,7 +16,7 @@ enum AppPaths {
       case AppPaths.profile:
         return '/profile';
       case AppPaths.parkingDetails:
-        return '/parking-details';
+        return '/home/parking-details';
       default:
         return '/home';
     }

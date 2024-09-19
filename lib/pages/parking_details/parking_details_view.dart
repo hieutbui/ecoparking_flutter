@@ -1,4 +1,4 @@
-import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details_view_styles.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
@@ -28,10 +28,7 @@ class ParkingDetailsView extends StatelessWidget {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => NavigationUtils.navigateTo(
-            context: context,
-            path: AppPaths.home.path,
-          ),
+          onPressed: () => NavigationUtils.goBack(context),
         ),
       ),
       body: Padding(
@@ -48,17 +45,21 @@ class ParkingDetailsView extends StatelessWidget {
                       height: ParkingDetailsViewStyles.imageHeight,
                       borderRadius: ParkingDetailsViewStyles.imageBorderRadius,
                       shape: BoxShape.rectangle,
-                      image: NetworkImage(controller.widget.parking.image,
-                          scale: 1),
+                      image: NetworkImage(
+                        controller.parking.image,
+                        scale: 1,
+                      ),
                     ),
                     const SizedBox(
-                        height: ParkingDetailsViewStyles.normalSpacing),
+                      height: ParkingDetailsViewStyles.normalSpacing,
+                    ),
                     Divider(
                       color: Theme.of(context).colorScheme.tertiary,
                       height: 1.0,
                     ),
                     const SizedBox(
-                        height: ParkingDetailsViewStyles.normalSpacing),
+                      height: ParkingDetailsViewStyles.normalSpacing,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -67,7 +68,7 @@ class ParkingDetailsView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                controller.widget.parking.parkingName,
+                                controller.parking.parkingName,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineLarge!
@@ -76,7 +77,7 @@ class ParkingDetailsView extends StatelessWidget {
                                 overflow: TextOverflow.visible,
                               ),
                               Text(
-                                controller.widget.parking.address,
+                                controller.parking.address,
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
@@ -88,23 +89,25 @@ class ParkingDetailsView extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: () => {},
+                          onPressed: controller.onPressedBookMark,
                           icon: const Icon(Icons.bookmark_border),
                         )
                       ],
                     ),
                     const SizedBox(
-                        height: ParkingDetailsViewStyles.wideSpacing),
+                      height: ParkingDetailsViewStyles.wideSpacing,
+                    ),
                     //TODO: Add details about distance
                     InfoRectangle(
                       type: InfoRectangleType.hollow,
                       label:
-                          '${controller.widget.parking.availableSlot} / ${controller.widget.parking.totalSlot} Available',
+                          '${controller.parking.availableSlot} / ${controller.parking.totalSlot} Available',
                       icon: Icons.directions_car,
                       padding: ParkingDetailsViewStyles.infoRectanglePadding,
                     ),
                     const SizedBox(
-                        height: ParkingDetailsViewStyles.wideSpacing),
+                      height: ParkingDetailsViewStyles.wideSpacing,
+                    ),
                     Text(
                       'Parking Fee',
                       style: Theme.of(context)
@@ -114,7 +117,8 @@ class ParkingDetailsView extends StatelessWidget {
                     ),
                     ...controller.buildShiftPrices(),
                     const SizedBox(
-                        height: ParkingDetailsViewStyles.wideSpacing),
+                      height: ParkingDetailsViewStyles.wideSpacing,
+                    ),
                     Text(
                       'Long term Fee',
                       style: Theme.of(context)
@@ -123,18 +127,28 @@ class ParkingDetailsView extends StatelessWidget {
                           .copyWith(color: Colors.black),
                     ),
                     GFListTile(
-                      titleText: 'Monthly',
-                      subTitleText:
-                          controller.widget.parking.pricePerMonth.toString(),
+                      titleText: 'Daily',
+                      subTitleText: controller.parking.pricePerDay.toString(),
                       icon: const Icon(Icons.money_outlined),
-                      onTap: () {},
+                      onTap: () => controller.onPressedLongTermPrice(
+                        ParkingFeeTypes.daily,
+                      ),
+                    ),
+                    GFListTile(
+                      titleText: 'Monthly',
+                      subTitleText: controller.parking.pricePerMonth.toString(),
+                      icon: const Icon(Icons.money_outlined),
+                      onTap: () => controller.onPressedLongTermPrice(
+                        ParkingFeeTypes.monthly,
+                      ),
                     ),
                     GFListTile(
                       titleText: 'Annually',
-                      subTitleText:
-                          controller.widget.parking.pricePerYear.toString(),
+                      subTitleText: controller.parking.pricePerYear.toString(),
                       icon: const Icon(Icons.money_outlined),
-                      onTap: () {},
+                      onTap: () => controller.onPressedLongTermPrice(
+                        ParkingFeeTypes.annually,
+                      ),
                     ),
                   ],
                 ),
@@ -149,19 +163,14 @@ class ParkingDetailsView extends StatelessWidget {
                     type: ActionButtonType.negative,
                     label: 'Cancel',
                     isShowArrow: false,
-                    onPressed: () => {
-                      NavigationUtils.navigateTo(
-                        context: context,
-                        path: AppPaths.home.path,
-                      )
-                    },
+                    onPressed: () => NavigationUtils.goBack(context),
                     width: ParkingDetailsViewStyles.actionButtonWidth,
                   ),
                   ActionButton(
                     type: ActionButtonType.positive,
                     label: 'Book Now',
                     isShowArrow: false,
-                    onPressed: () => {},
+                    onPressed: controller.onPressedBookNow,
                     width: ParkingDetailsViewStyles.actionButtonWidth,
                   ),
                 ],

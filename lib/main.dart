@@ -30,7 +30,7 @@ class EcoParkingApp extends StatelessWidget {
       builder: (context, themeMode, primaryColor) {
         return MaterialApp.router(
           routerConfig: AppRoutes.router,
-          title: 'Flutter Demo',
+          title: 'WcoParking',
           themeMode: themeMode,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
