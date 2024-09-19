@@ -97,6 +97,25 @@ class AppRoutes {
               const HomePage(),
               name: AppPaths.home.label,
             ),
+            routes: <RouteBase>[
+              GoRoute(
+                path: _getSubScreenPath(
+                  mainPath: AppPaths.home.path,
+                  subPath: AppPaths.parkingDetails.path,
+                ),
+                pageBuilder: (context, state) {
+                  final Parking parking = state.extra as Parking;
+
+                  return defaultPageBuilder(
+                    context,
+                    ParkingDetails(parking: parking),
+                    name: AppPaths.parkingDetails.label,
+                  );
+                },
+                redirect: (context, state) =>
+                    state.extra == null ? AppPaths.home.path : null,
+              ),
+            ],
           ),
           GoRoute(
             path: AppPaths.saved.path,
@@ -122,26 +141,12 @@ class AppRoutes {
               name: AppPaths.profile.label,
             ),
           ),
-          GoRoute(
-            path: AppPaths.parkingDetails.path,
-            pageBuilder: (context, state) {
-              final Parking parking = state.extra as Parking;
-
-              return defaultPageBuilder(
-                context,
-                ParkingDetails(parking: parking),
-                name: AppPaths.parkingDetails.label,
-              );
-            },
-            redirect: (context, state) =>
-                state.extra == null ? AppPaths.home.path : null,
-          ),
         ],
       ),
     ],
-    // onException: (context, state, router) {
-    //   return router.go('/error');
-    // },
+    onException: (context, state, router) {
+      return router.go(AppPaths.home.path);
+    },
   );
 
   static Page defaultPageBuilder(
@@ -179,4 +184,11 @@ class AppRoutes {
     2: AppPaths.booking.path,
     3: AppPaths.profile.path,
   };
+
+  static String _getSubScreenPath({
+    required String mainPath,
+    required String subPath,
+  }) {
+    return subPath.substring(mainPath.length + 1);
+  }
 }

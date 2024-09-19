@@ -90,9 +90,7 @@ class ParkingBottomSheetBuilder {
                     type: ActionButtonType.positive,
                     label: 'Book Now',
                     isShowArrow: false,
-                    onPressed: () => {
-                      Navigator.of(context).pop(),
-                    },
+                    onPressed: () => Navigator.of(context).pop(),
                     width: 200,
                   ),
                 ],
