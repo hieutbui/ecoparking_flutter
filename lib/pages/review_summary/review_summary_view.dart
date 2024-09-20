@@ -1,12 +1,12 @@
-import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
+import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 
-class BookParkingDetailsView extends StatelessWidget {
-  final BookParkingDetailsController controller;
+class ReviewSummaryView extends StatelessWidget {
+  final ReviewSummaryController controller;
 
-  const BookParkingDetailsView({
+  const ReviewSummaryView({
     super.key,
     required this.controller,
   });
@@ -14,12 +14,12 @@ class BookParkingDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Book Parking Details',
+      title: 'Review Summary',
       body: Center(
         child: ActionButton(
           type: ActionButtonType.positive,
-          label: 'Open Select Vehicle',
-          onPressed: controller.onPressedSelectVehicle,
+          label: 'Open',
+          onPressed: controller.onPressedReviewSummary,
         ),
       ),
     );

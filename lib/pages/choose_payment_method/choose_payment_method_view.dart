@@ -1,12 +1,12 @@
-import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
+import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 
-class BookParkingDetailsView extends StatelessWidget {
-  final BookParkingDetailsController controller;
+class ChoosePaymentMethodView extends StatelessWidget {
+  final ChoosePaymentMethodController controller;
 
-  const BookParkingDetailsView({
+  const ChoosePaymentMethodView({
     super.key,
     required this.controller,
   });
@@ -14,12 +14,12 @@ class BookParkingDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Book Parking Details',
+      title: 'Payment',
       body: Center(
         child: ActionButton(
           type: ActionButtonType.positive,
           label: 'Open Select Vehicle',
-          onPressed: controller.onPressedSelectVehicle,
+          onPressed: controller.onPressedSelectPaymentMethod,
         ),
       ),
     );
