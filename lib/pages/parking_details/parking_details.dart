@@ -68,7 +68,7 @@ class ParkingDetailsController extends State<ParkingDetails>
 
     showDialog(
       context: context,
-      builder: (BuildContext context) => Dialog.fullscreen(
+      builder: (BuildContext context) => const Dialog.fullscreen(
         child: BookParkingDetails(),
       ),
     );

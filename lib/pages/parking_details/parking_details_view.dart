@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/pages/parking_details/parking_details.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details_view_styles.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
+import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:ecoparking_flutter/widgets/info_rectangle/info_rectangle.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/image/gf_image_overlay.dart';
@@ -18,19 +19,8 @@ class ParkingDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Parking Details',
-          style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                color: Colors.black,
-              ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => NavigationUtils.goBack(context),
-        ),
-      ),
+    return AppScaffold(
+      title: 'Parking Details',
       body: Padding(
         padding: ParkingDetailsViewStyles.padding,
         child: Column(
