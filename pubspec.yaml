@@ -60,6 +60,7 @@ dependencies:
   loggy: ^2.0.3
   dartz: ^0.10.1
   getwidget: ^4.0.0
+  syncfusion_flutter_datepicker: ^27.1.48
 
 dev_dependencies:
   flutter_test:
