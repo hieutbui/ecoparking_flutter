@@ -1,0 +1,4 @@
+enum SelectionHourTypes {
+  start,
+  end,
+}
