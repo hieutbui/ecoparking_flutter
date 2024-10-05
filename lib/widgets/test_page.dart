@@ -176,7 +176,7 @@ class TestPage extends StatelessWidget {
                       ),
                     ];
                   },
-                  image: ImagePaths.icDialogSuccessful,
+                  svgImage: ImagePaths.imgDialogSuccessful,
                   title: 'Dialog Title!',
                   description: 'Dialog Description',
                 ),

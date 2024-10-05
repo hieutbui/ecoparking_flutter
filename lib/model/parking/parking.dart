@@ -11,6 +11,7 @@ class Parking with EquatableMixin {
   final String parkingName;
   final String image;
   final String address;
+  final String phone;
   final double latitude;
   final double longitude;
   @JsonKey(name: 'total_slot')
@@ -31,6 +32,7 @@ class Parking with EquatableMixin {
     required this.parkingName,
     required this.image,
     required this.address,
+    required this.phone,
     required this.latitude,
     required this.longitude,
     required this.totalSlot,

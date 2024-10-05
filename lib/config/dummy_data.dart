@@ -10,6 +10,7 @@ class DummyData {
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       address:
           '33 Ngách 143/74 Phố Nguyễn Chính, Thịnh Liệt, Hoàng Mai, Hà Nội, Việt Nam',
+      phone: '0987654321',
       latitude: 20.976443052910625,
       longitude: 105.85115051042895,
       totalSlot: 15,
@@ -47,6 +48,7 @@ class DummyData {
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       address:
           'P304, Tòa nhà N 6, Khu chung cư, Đồng Tàu, Hoàng Mai, Hà Nội, Việt Nam',
+      phone: '0987654321',
       latitude: 20.971450581582122,
       longitude: 105.84827587004936,
       totalSlot: 15,
@@ -83,6 +85,7 @@ class DummyData {
       parkingName: 'Nhận Trông Xe Ngày Đêm',
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       address: '121 P. Kim Đồng, Giáp Bát, Hoàng Mai, Hà Nội, Việt Nam',
+      phone: '0987654321',
       latitude: 20.97972534096629,
       longitude: 105.8424822985898,
       totalSlot: 15,

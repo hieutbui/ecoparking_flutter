@@ -1,9 +1,11 @@
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
-import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details_view_styles.dart';
-import 'package:ecoparking_flutter/pages/book_parking_details/widgets/time_picker_button.dart';
+import 'package:ecoparking_flutter/pages/book_parking_details/widgets/daily_view.dart';
+import 'package:ecoparking_flutter/pages/book_parking_details/widgets/hourly_view.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:getwidget/components/appbar/gf_appbar.dart';
+import 'package:getwidget/components/tabs/gf_segment_tabs.dart';
+import 'package:getwidget/components/tabs/gf_tabbar_view.dart';
 
 class BookParkingDetailsView extends StatelessWidget {
   final BookParkingDetailsController controller;
@@ -17,66 +19,40 @@ class BookParkingDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Book Parking Details',
-      body: Padding(
-        padding: BookParkingDetailsViewStyles.padding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: Scaffold(
+        appBar: GFAppBar(
+          bottomOpacity: 0.0,
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          title: GFSegmentTabs(
+            width: MediaQuery.of(context).size.width - 150,
+            length: controller.tabLength,
+            tabBarColor: Colors.transparent,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.black,
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary,
+              width: 1,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: const BorderRadius.all(Radius.circular(5)),
+            ),
+            tabs: const <Widget>[
+              Text('Hourly'),
+              Text('Daily'),
+            ],
+            tabController: controller.tabController,
+            labelPadding: EdgeInsets.zero,
+          ),
+        ),
+        body: GFTabBarView(
+          controller: controller.tabController,
           children: <Widget>[
-            Padding(
-              padding: BookParkingDetailsViewStyles.paddingText,
-              child: Text(
-                'Select Date',
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-              ),
-            ),
-            Container(
-              decoration:
-                  BookParkingDetailsViewStyles.calendarContainerDecoration,
-              padding: BookParkingDetailsViewStyles.calendarContainerPadding,
-              //TODO: Implement picker for range of dates
-              child: SfDateRangePicker(
-                backgroundColor:
-                    BookParkingDetailsViewStyles.calendarBackgroundColor,
-                headerStyle: const DateRangePickerHeaderStyle(
-                  backgroundColor:
-                      BookParkingDetailsViewStyles.calendarBackgroundColor,
-                ),
-                initialSelectedDate: DateTime.now(),
-                minDate: DateTime.now(),
-                selectionMode: DateRangePickerSelectionMode.single,
-                onSelectionChanged: controller.onDateChanged,
-                todayHighlightColor: Theme.of(context).colorScheme.primary,
-                selectionColor: Theme.of(context).colorScheme.primary,
-                showNavigationArrow: true,
-                monthViewSettings: const DateRangePickerMonthViewSettings(
-                  firstDayOfWeek: 1,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height:
-                  BookParkingDetailsViewStyles.calendarContainerBottomSpacing,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                TimePickerButton(
-                  title: 'Start Hour',
-                  selectedTime: controller.startHour,
-                  onPressed: controller.onPressStartTimeButton,
-                ),
-                TimePickerButton(
-                  title: 'End Hour',
-                  selectedTime: controller.endHour,
-                  onPressed: controller.onPressEndTimeButton,
-                ),
-              ],
-            )
-            //TODO: Implement auto calculate price
-            //TODO: Implement button to book parking
+            HourlyView(controller: controller),
+            DailyView(controller: controller),
           ],
         ),
       ),
