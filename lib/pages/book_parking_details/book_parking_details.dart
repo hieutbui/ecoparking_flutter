@@ -210,8 +210,8 @@ class BookParkingDetailsController extends State<BookParkingDetails>
     );
   }
 
-  void onPressedSelectVehicle() {
-    loggy.info('Select Vehicle tapped');
+  void onPressedContinue() {
+    loggy.info('Continue tapped');
 
     showDialog(
       context: context,
