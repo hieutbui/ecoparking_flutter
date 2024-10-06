@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/model/account/vehicle.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,24 @@ class DummyData {
           price: 40000.0,
         ),
       ],
+    ),
+  ];
+
+  static List<Vehicle> vehicles = [
+    Vehicle(
+      id: '1',
+      name: 'Toyota Vios',
+      licensePlate: '30A-12345',
+    ),
+    Vehicle(
+      id: '2',
+      name: 'Toyota Camry',
+      licensePlate: '30A-12346',
+    ),
+    Vehicle(
+      id: '3',
+      name: 'Toyota Innova',
+      licensePlate: '30A-12347',
     ),
   ];
 }

@@ -173,7 +173,7 @@ class HourlyView extends StatelessWidget {
               ActionButton(
                 type: ActionButtonType.positive,
                 label: 'Continue',
-                onPressed: () {},
+                onPressed: controller.onPressedContinue,
               )
             ],
           ),
