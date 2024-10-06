@@ -1,6 +1,5 @@
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details_view_styles.dart';
-import 'package:ecoparking_flutter/pages/book_parking_details/model/calculated_fee.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/selection_hour_types.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/widgets/calculated_price.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/widgets/hour_selection_button.dart';
