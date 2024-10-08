@@ -1,8 +1,10 @@
+import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details_view.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/calculated_fee.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/selection_hour_types.dart';
+import 'package:ecoparking_flutter/pages/select_vehicle/models/price_arguments.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +12,12 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class BookParkingDetails extends StatefulWidget {
   final ParkingFeeTypes parkingFeeType;
-  final List<ShiftPrice> shiftPrices;
-  final double? pricePerDay;
+  final Parking parking;
 
   const BookParkingDetails({
     super.key,
     required this.parkingFeeType,
-    required this.shiftPrices,
-    this.pricePerDay,
+    required this.parking,
   });
 
   @override
@@ -54,16 +54,11 @@ class BookParkingDetailsController extends State<BookParkingDetails>
   ];
 
   List<TimeOfDay> get selectableHours => selectableHour;
-
-  late final TabController tabController;
-
-  final calculatedPrice = ValueNotifier<CalculatedFee?>(null);
-  final startHour = ValueNotifier<TimeOfDay?>(null);
-  final endHour = ValueNotifier<TimeOfDay?>(null);
-
+  Parking get parking => widget.parking;
+  List<ShiftPrice> get shiftPrices => widget.parking.pricePerHour;
+  double get pricePerDay => widget.parking.pricePerDay ?? 0.0;
   int get tabLength => 2;
   ParkingFeeTypes get parkingFeeType => widget.parkingFeeType;
-  List<ShiftPrice> get shiftPrices => widget.shiftPrices;
   ShiftPrice get morningShift => shiftPrices.firstWhere(
         (shiftPrice) => shiftPrice.shiftType == ShiftType.morning,
       );
@@ -73,7 +68,12 @@ class BookParkingDetailsController extends State<BookParkingDetails>
   ShiftPrice get nightShift => shiftPrices.firstWhere(
         (shiftPrice) => shiftPrice.shiftType == ShiftType.night,
       );
-  double get pricePerDay => widget.pricePerDay ?? 0.0;
+
+  late final TabController tabController;
+
+  final calculatedPrice = ValueNotifier<CalculatedFee?>(null);
+  final startHour = ValueNotifier<TimeOfDay?>(null);
+  final endHour = ValueNotifier<TimeOfDay?>(null);
 
   DateTime? selectedDate;
   PickerDateRange selectedDateRange = const PickerDateRange(null, null);
@@ -213,10 +213,37 @@ class BookParkingDetailsController extends State<BookParkingDetails>
   void onPressedContinue() {
     loggy.info('Continue tapped');
 
+    PriceArguments priceArgs;
+
+    if (startHour.value == null ||
+        endHour.value == null ||
+        calculatedPrice.value == null ||
+        selectedDate == null ||
+        calculatedPrice.value?.total == 0) {
+      //TODO: Show alert message
+      return;
+    }
+
+    if (tabController.index == 0) {
+      priceArgs = HourlyPriceArguments(
+        calculatedFee: calculatedPrice.value!,
+        startHour: startHour.value!,
+        endHour: endHour.value!,
+      );
+    } else {
+      priceArgs = PriceArguments(
+        calculatedFee: calculatedPrice.value!,
+        parkingFeeType: ParkingFeeTypes.daily,
+      );
+    }
+
     showDialog(
       context: context,
-      builder: (BuildContext context) => const Dialog.fullscreen(
-        child: SelectVehicle(),
+      builder: (BuildContext context) => Dialog.fullscreen(
+        child: SelectVehicle(
+          parking: parking,
+          calculatedPrice: priceArgs,
+        ),
       ),
     );
   }
