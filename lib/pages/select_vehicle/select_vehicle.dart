@@ -1,10 +1,19 @@
+import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/pages/pick_spot/pick_spot.dart';
+import 'package:ecoparking_flutter/pages/select_vehicle/models/price_arguments.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:flutter/material.dart';
 
 class SelectVehicle extends StatefulWidget {
-  const SelectVehicle({super.key});
+  final Parking parking;
+  final PriceArguments calculatedPrice;
+
+  const SelectVehicle({
+    super.key,
+    required this.parking,
+    required this.calculatedPrice,
+  });
 
   @override
   SelectVehicleController createState() => SelectVehicleController();

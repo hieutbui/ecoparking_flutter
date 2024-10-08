@@ -76,8 +76,7 @@ class ParkingDetailsController extends State<ParkingDetails>
           builder: (BuildContext context) => Dialog.fullscreen(
             child: BookParkingDetails(
               parkingFeeType: type,
-              shiftPrices: parking.pricePerHour,
-              pricePerDay: parking.pricePerDay,
+              parking: parking,
             ),
           ),
         );
