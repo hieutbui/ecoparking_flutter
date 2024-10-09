@@ -10,6 +10,10 @@ class ActionButton extends StatelessWidget {
   final double width;
   final double height;
   final EdgeInsetsGeometry? padding;
+  final Color? backgroundColor;
+  final Color? hollowBorderColor;
+  final BorderRadiusGeometry? borderRadius;
+  final Color? labelColor;
 
   const ActionButton({
     super.key,
@@ -21,6 +25,10 @@ class ActionButton extends StatelessWidget {
     this.width = AppButtonStyles.defaultButtonWidth,
     this.height = AppButtonStyles.defaultButtonHeight,
     this.padding,
+    this.backgroundColor,
+    this.hollowBorderColor,
+    this.borderRadius,
+    this.labelColor,
   });
 
   @override
@@ -29,7 +37,13 @@ class ActionButton extends StatelessWidget {
       width: width,
       height: height,
       padding: padding,
-      decoration: AppButtonStyles.getButtonDecoration(context, type),
+      decoration: AppButtonStyles.getButtonDecoration(
+        context,
+        type,
+        backgroundColor: backgroundColor,
+        hollowBorderColor: hollowBorderColor,
+        borderRadius: borderRadius,
+      ),
       child: InkWell(
         hoverColor: Colors.transparent,
         focusColor: Colors.transparent,
@@ -45,14 +59,22 @@ class ActionButton extends StatelessWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: AppButtonStyles.getLabelColor(context, type),
+                      color: AppButtonStyles.getLabelColor(
+                        context,
+                        type,
+                        labelColor: labelColor,
+                      ),
                     ),
               ),
               if (isShowArrow) ...[
                 const SizedBox(width: 14),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: AppButtonStyles.getLabelColor(context, type),
+                  color: AppButtonStyles.getLabelColor(
+                    context,
+                    type,
+                    labelColor: labelColor,
+                  ),
                   size: arrowSize,
                 ),
               ]

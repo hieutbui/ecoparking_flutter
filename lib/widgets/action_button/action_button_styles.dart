@@ -11,27 +11,31 @@ class AppButtonStyles {
 
   static BoxDecoration getButtonDecoration(
     BuildContext context,
-    ActionButtonType type,
-  ) {
+    ActionButtonType type, {
+    Color? backgroundColor,
+    Color? hollowBorderColor,
+    BorderRadiusGeometry? borderRadius,
+  }) {
     switch (type) {
       case ActionButtonType.positive:
         return BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-          borderRadius: defaultButtonBorderRadius,
+          color: backgroundColor ?? Theme.of(context).colorScheme.primary,
+          borderRadius: borderRadius ?? defaultButtonBorderRadius,
         );
       case ActionButtonType.negative:
         return BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          borderRadius: defaultButtonBorderRadius,
+          color:
+              backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
+          borderRadius: borderRadius ?? defaultButtonBorderRadius,
         );
       case ActionButtonType.hollow:
         return BoxDecoration(
-          color: Colors.transparent,
+          color: backgroundColor ?? Colors.transparent,
           border: Border.all(
-            color: Theme.of(context).colorScheme.primary,
+            color: hollowBorderColor ?? Theme.of(context).colorScheme.primary,
             width: 2,
           ),
-          borderRadius: defaultButtonBorderRadius,
+          borderRadius: borderRadius ?? defaultButtonBorderRadius,
         );
       default:
         return const BoxDecoration();
@@ -40,8 +44,11 @@ class AppButtonStyles {
 
   static Color getLabelColor(
     BuildContext context,
-    ActionButtonType type,
-  ) {
+    ActionButtonType type, {
+    Color? labelColor,
+  }) {
+    if (labelColor != null) return labelColor;
+
     switch (type) {
       case ActionButtonType.positive:
         return Theme.of(context).colorScheme.onPrimary;

@@ -17,6 +17,7 @@ class SelectionCard extends StatelessWidget {
   final double? trailingWidth;
   final double? trailingHeight;
   final double? selectCircleSize;
+  final void Function()? onTap;
 
   const SelectionCard({
     super.key,
@@ -33,11 +34,17 @@ class SelectionCard extends StatelessWidget {
     this.trailingWidth,
     this.trailingHeight,
     this.selectCircleSize,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: isSelected ? null : onTap,
+      focusColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
       child: Container(
         width: width,
         height: height,

@@ -96,7 +96,7 @@ class ParkingDetailsController extends State<ParkingDetails>
               ),
             ];
           },
-          image: ImagePaths.imageOnlinePayment,
+          image: ImagePaths.imgOnlinePayment,
           title: 'Long Term Fee',
           customDescription: RichText(
             textAlign: TextAlign.center,
