@@ -136,5 +136,20 @@ class DummyData {
       name: 'Toyota Innova',
       licensePlate: '30A-12347',
     ),
+    Vehicle(
+      id: '4',
+      name: 'Toyota Fortuner',
+      licensePlate: '30A-12348',
+    ),
+    Vehicle(
+      id: '5',
+      name: 'Toyota Land Cruiser',
+      licensePlate: '30A-12349',
+    ),
+    Vehicle(
+      id: '6',
+      name: 'Toyota Hilux',
+      licensePlate: '30A-12350',
+    ),
   ];
 }
