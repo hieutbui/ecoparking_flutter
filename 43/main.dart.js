@@ -112786,7 +112786,7 @@ B.hz=new A.tR(2,"night")
 B.a4L=new A.tR(3,"other")
 B.a11=new A.ds([B.hx,"morning",B.hy,"afternoon",B.hz,"night",B.a4L,"other"],A.ay("ds<tR,j>"))
 B.a1A={MAPBOX_URL_TEMPLATE:0}
-B.a12=new A.a8(B.a1A,["https://api.mapbox.com/styles/v1/hieubt201/cm2c9dn5x00sw01pe86e1cpc8/wmts?access_token=pk.eyJ1IjoiaGlldWJ0MjAxIiwiYSI6ImNsaTE3YWw4YjBnY3ozZW8wYWEzZm95bmIifQ.2KoSqvFj7nEeXIlDm24MvQ"],t.w)
+B.a12=new A.a8(B.a1A,["https://api.mapbox.com/styles/v1/hieubt201/clj52qaep000m01r2ajat0xk5/wmts?access_token=pk.eyJ1IjoiaGlldWJ0MjAxIiwiYSI6ImNsaTE3YWw4YjBnY3ozZW8wYWEzZm95bmIifQ.2KoSqvFj7nEeXIlDm24MvQ"],t.w)
 B.a1y={alias:0,allScroll:1,basic:2,cell:3,click:4,contextMenu:5,copy:6,forbidden:7,grab:8,grabbing:9,help:10,move:11,none:12,noDrop:13,precise:14,progress:15,text:16,resizeColumn:17,resizeDown:18,resizeDownLeft:19,resizeDownRight:20,resizeLeft:21,resizeLeftRight:22,resizeRight:23,resizeRow:24,resizeUp:25,resizeUpDown:26,resizeUpLeft:27,resizeUpRight:28,resizeUpLeftDownRight:29,resizeUpRightDownLeft:30,verticalText:31,wait:32,zoomIn:33,zoomOut:34}
 B.a13=new A.a8(B.a1y,["alias","all-scroll","default","cell","pointer","context-menu","copy","not-allowed","grab","grabbing","help","move","none","no-drop","crosshair","progress","text","col-resize","s-resize","sw-resize","se-resize","w-resize","ew-resize","e-resize","row-resize","n-resize","ns-resize","nw-resize","ne-resize","nwse-resize","nesw-resize","vertical-text","wait","zoom-in","zoom-out"],t.w)
 B.CF=new A.v(16)
