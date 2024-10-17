@@ -35,7 +35,11 @@ class HomePageView extends StatelessWidget {
                 ),
                 children: [
                   TileLayer(
-                    tileProvider: CancellableNetworkTileProvider(),
+                    tileProvider: CancellableNetworkTileProvider(
+                      headers: {
+                        "Access-Control-Allow-Origin": "*",
+                      },
+                    ),
                     urlTemplate: EnvLoader.mapURLTemplate,
                   ),
                   MarkerLayer(
