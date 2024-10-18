@@ -46,7 +46,7 @@ jobs:
           flutter clean
           flutter pub get
           flutter pub run build_runner build --delete-conflicting-outputs
-          flutter build web --release --verbose --source-maps --dart-define=MAPBOX_URL_TEMPLATE=${{ secrets.MAPBOX_URL_TEMPLATE }} --base-href="/${GITHUB_REPOSITORY##*/}/$FOLDER/"
+          flutter build web --release --verbose --source-maps --dart-define=MAPBOX_URL_TEMPLATE=${{ secrets.MAPBOX_URL_TEMPLATE }} --dart-define=MAPBOX_ACCESS_TOKEN=${{ secrets.MAPBOX_ACCESS_TOKEN }} --base-href="/${GITHUB_REPOSITORY##*/}/$FOLDER/"
       
       - name: Configure environments
         id: configure

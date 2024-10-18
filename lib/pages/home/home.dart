@@ -13,7 +13,6 @@ import 'package:ecoparking_flutter/pages/home/widgets/parking_bottom_sheet_build
 import 'package:ecoparking_flutter/utils/bottom_sheet_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
@@ -117,37 +116,37 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     return LatLng(locationData.latitude!, locationData.longitude!);
   }
 
-  List<Marker> convertParkingsToMarkers(
-    BuildContext context,
-    List<Parking> parkings,
-  ) {
-    return parkings.map((parking) {
-      return Marker(
-        point: LatLng(parking.latitude, parking.longitude),
-        child: GestureDetector(
-          onTap: () => onParkingMarkerPressed(context, parking),
-          child: Container(
-            width: HomeViewStyles.parkingMarkerOuterSize,
-            height: HomeViewStyles.parkingMarkerOuterSize,
-            decoration: HomeViewStyles.getParkingOuterMarkerDecoration(context),
-            child: Center(
-              child: Container(
-                width: HomeViewStyles.parkingMarkerInnerSize,
-                height: HomeViewStyles.parkingMarkerInnerSize,
-                decoration:
-                    HomeViewStyles.getParkingInnerMarkerDecoration(context),
-                child: Icon(
-                  Icons.local_parking,
-                  color: Theme.of(context).colorScheme.onErrorContainer,
-                  size: HomeViewStyles.parkingMarkerIconSize,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-    }).toList();
-  }
+  // List<Marker> convertParkingsToMarkers(
+  //   BuildContext context,
+  //   List<Parking> parkings,
+  // ) {
+  //   return parkings.map((parking) {
+  //     return Marker(
+  //       point: LatLng(parking.latitude, parking.longitude),
+  //       child: GestureDetector(
+  //         onTap: () => onParkingMarkerPressed(context, parking),
+  //         child: Container(
+  //           width: HomeViewStyles.parkingMarkerOuterSize,
+  //           height: HomeViewStyles.parkingMarkerOuterSize,
+  //           decoration: HomeViewStyles.getParkingOuterMarkerDecoration(context),
+  //           child: Center(
+  //             child: Container(
+  //               width: HomeViewStyles.parkingMarkerInnerSize,
+  //               height: HomeViewStyles.parkingMarkerInnerSize,
+  //               decoration:
+  //                   HomeViewStyles.getParkingInnerMarkerDecoration(context),
+  //               child: Icon(
+  //                 Icons.local_parking,
+  //                 color: Theme.of(context).colorScheme.onErrorContainer,
+  //                 size: HomeViewStyles.parkingMarkerIconSize,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   }).toList();
+  // }
 
   void onSearchPressed() {
     loggy.warning('Search button pressed');
