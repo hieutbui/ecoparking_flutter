@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/config/themes.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/widgets/theme_builder.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,7 +12,11 @@ import 'package:loggy/loggy.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GetItInitializer().setUp();
-  await dotenv.load(fileName: EnvLoader.envFileName);
+  if (kReleaseMode) {
+    await dotenv.load(mergeWith: EnvLoader.compileTimeEnv);
+  } else {
+    await dotenv.load(fileName: EnvLoader.envFileName);
+  }
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(
       showColors: true,

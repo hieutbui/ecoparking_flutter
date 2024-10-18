@@ -50,7 +50,6 @@ dependencies:
   go_router: ^14.2.7
   universal_html: ^2.2.4
   get_it: ^7.7.0
-  flutter_map: ^7.0.2
   flutter_dotenv: ^5.1.0
   latlong2: ^0.9.1
   flutter_map_cancellable_tile_provider: ^3.0.0
@@ -61,6 +60,7 @@ dependencies:
   dartz: ^0.10.1
   getwidget: ^4.0.0
   syncfusion_flutter_datepicker: ^27.1.48
+  mapbox_gl: ^0.16.0
 
 dev_dependencies:
   flutter_test:

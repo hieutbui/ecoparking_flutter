@@ -1,12 +1,10 @@
 import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
-import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
 import 'package:ecoparking_flutter/pages/home/widgets/rounded_button/rounded_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 class HomePageView extends StatelessWidget {
   final HomeController controller;
@@ -28,43 +26,51 @@ class HomePageView extends StatelessWidget {
               controller.convertLocationDataToLatLng(notifier.currentLocation);
           return Stack(
             children: [
-              FlutterMap(
-                options: MapOptions(
-                  initialCenter: center,
-                  initialZoom: HomeViewStyles.initialZoom,
+              // FlutterMap(
+              //   options: MapOptions(
+              //     initialCenter: center,
+              //     initialZoom: HomeViewStyles.initialZoom,
+              //   ),
+              //   children: [
+              //     TileLayer(
+              //       tileProvider: CancellableNetworkTileProvider(),
+              //       urlTemplate: EnvLoader.mapURLTemplate,
+              //     ),
+              //     MarkerLayer(
+              //       markers: [
+              //         Marker(
+              //           point: center,
+              //           child: const Icon(
+              //             Icons.location_on,
+              //             color: Colors.red,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //     ValueListenableBuilder(
+              //       valueListenable: controller.parkingNotifier,
+              //       builder: (context, notifier, child) {
+              //         if (notifier is GetParkingsSuccess) {
+              //           return MarkerLayer(
+              //             markers: controller.convertParkingsToMarkers(
+              //               context,
+              //               notifier.parkings,
+              //             ),
+              //           );
+              //         }
+              //         return child!;
+              //       },
+              //       child: const SizedBox.shrink(),
+              //     ),
+              //   ],
+              // ),
+              MapboxMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(center.latitude, center.longitude),
+                  zoom: HomeViewStyles.initialZoom,
                 ),
-                children: [
-                  TileLayer(
-                    tileProvider: CancellableNetworkTileProvider(),
-                    urlTemplate: EnvLoader.mapURLTemplate,
-                  ),
-                  MarkerLayer(
-                    markers: [
-                      Marker(
-                        point: center,
-                        child: const Icon(
-                          Icons.location_on,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                  ValueListenableBuilder(
-                    valueListenable: controller.parkingNotifier,
-                    builder: (context, notifier, child) {
-                      if (notifier is GetParkingsSuccess) {
-                        return MarkerLayer(
-                          markers: controller.convertParkingsToMarkers(
-                            context,
-                            notifier.parkings,
-                          ),
-                        );
-                      }
-                      return child!;
-                    },
-                    child: const SizedBox.shrink(),
-                  ),
-                ],
+                styleString: EnvLoader.mapURLTemplate,
+                accessToken: EnvLoader.mapAccessToken,
               ),
               Positioned(
                 top: HomeViewStyles.topButtonRowPosition.top,
