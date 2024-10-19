@@ -3,6 +3,8 @@ import 'package:universal_html/html.dart' as html;
 import 'package:flutter/foundation.dart';
 
 abstract class PlatformInfos {
+  static bool get isRelease => kReleaseMode;
+
   static bool get isWeb => kIsWeb;
 
   static bool get isLinux => !kIsWeb && Platform.isLinux;

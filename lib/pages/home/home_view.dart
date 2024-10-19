@@ -37,6 +37,7 @@ class HomePageView extends StatelessWidget {
                   TileLayer(
                     tileProvider: CancellableNetworkTileProvider(),
                     urlTemplate: EnvLoader.mapURLTemplate,
+                    userAgentPackageName: 'com.example.ecoparking_flutter',
                   ),
                   MarkerLayer(
                     markers: [
