@@ -78,7 +78,7 @@ class SelectVehicleView extends StatelessWidget {
                   child: ActionButton(
                     type: ActionButtonType.positive,
                     label: 'Continue',
-                    onPressed: () {},
+                    onPressed: controller.onPressedContinue,
                   ),
                 ),
               ],

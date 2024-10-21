@@ -5,7 +5,7 @@ import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/state/vehicles/get_user_vehicles_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
-import 'package:ecoparking_flutter/pages/pick_spot/pick_spot.dart';
+import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/models/price_arguments.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
@@ -88,13 +88,13 @@ class SelectVehicleController extends State<SelectVehicle>
     selectedVehicleId.value = vehicleId;
   }
 
-  void onPressedSelectVehicle() {
+  void onPressedContinue() {
     loggy.info('Select Vehicle tapped');
 
     showDialog(
       context: context,
       builder: (BuildContext context) => const Dialog.fullscreen(
-        child: PickSpot(),
+        child: ChoosePaymentMethod(),
       ),
     );
   }
