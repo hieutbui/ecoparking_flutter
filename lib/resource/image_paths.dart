@@ -8,6 +8,7 @@ class ImagePaths {
       _getImagePath('img_dialog_successful.svg');
   static String get imgOnlinePayment => _getImagePath('img_online_payment.png');
   static String get imgCarModel => _getImagePath('img_car_model.png');
+  static String get imgVNPay => _getImagePath('img_vnpay.png');
 
   static String get icFilter => _getIconPath('ic_filter.svg');
   static String get icPerson => _getIconPath('ic_person.svg');
