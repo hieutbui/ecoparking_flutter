@@ -10,6 +10,8 @@ import 'package:ecoparking_flutter/data/repository/user_vehicles/user_vehicles_r
 import 'package:ecoparking_flutter/domain/repository/markers/current_location_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/user_vehicles/user_vehicles_repository.dart';
+import 'package:ecoparking_flutter/domain/services/booking_service.dart';
+import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
@@ -34,6 +36,7 @@ class GetItInitializer with GetItLoggy {
     bindingDataSourceImpl();
     bindingRepositories();
     bindingInteractor();
+    bindingServices();
     bindingController();
 
     loggy.info('setUp(): Setup successfully');
@@ -90,6 +93,13 @@ class GetItInitializer with GetItLoggy {
       () => UserVehiclesInteractor(),
     );
     loggy.info('bindingInteractor(): Setup successfully');
+  }
+
+  void bindingServices() {
+    loggy.info('bindingServices(): Setup successfully');
+
+    getIt.registerSingleton<ParkingService>(ParkingService());
+    getIt.registerSingleton<BookingService>(BookingService());
   }
 
   void bindingController() {

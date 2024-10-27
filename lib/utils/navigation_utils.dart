@@ -5,10 +5,11 @@ import 'package:go_router/go_router.dart';
 class NavigationUtils {
   static void navigateTo({
     required BuildContext context,
-    required String path,
+    required AppPaths path,
     Object? params,
   }) {
-    GoRouter.of(context).go(path, extra: params);
+    debugPrint('navigateTo(): path: ${path.navigationPath}, params: $params');
+    GoRouter.of(context).go(path.navigationPath, extra: params);
   }
 
   static void goBack(BuildContext context) {

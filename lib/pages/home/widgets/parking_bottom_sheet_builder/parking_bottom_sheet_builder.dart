@@ -1,6 +1,5 @@
-import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
-import 'package:ecoparking_flutter/utils/navigation_utils.dart';
+import 'package:ecoparking_flutter/pages/home/model/parking_bottom_sheet_action.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/image/gf_image_overlay.dart';
@@ -77,12 +76,9 @@ class ParkingBottomSheetBuilder {
                     label: 'Details',
                     isShowArrow: true,
                     onPressed: () => {
-                      Navigator.of(context).pop(),
-                      NavigationUtils.navigateTo(
-                        context: context,
-                        path: AppPaths.parkingDetails.path,
-                        params: parking,
-                      )
+                      Navigator.of(context).pop(
+                        ParkingBottomSheetAction.details,
+                      ),
                     },
                     width: 200,
                   ),
@@ -90,7 +86,9 @@ class ParkingBottomSheetBuilder {
                     type: ActionButtonType.positive,
                     label: 'Book Now',
                     isShowArrow: false,
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => Navigator.of(context).pop(
+                      ParkingBottomSheetAction.bookNow,
+                    ),
                     width: 200,
                   ),
                 ],

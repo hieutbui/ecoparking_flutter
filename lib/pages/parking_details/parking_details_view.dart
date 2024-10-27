@@ -35,10 +35,12 @@ class ParkingDetailsView extends StatelessWidget {
                       height: ParkingDetailsViewStyles.imageHeight,
                       borderRadius: ParkingDetailsViewStyles.imageBorderRadius,
                       shape: BoxShape.rectangle,
-                      image: NetworkImage(
-                        controller.parking.image,
-                        scale: 1,
-                      ),
+                      image: controller.parking != null
+                          ? NetworkImage(
+                              controller.parking!.image,
+                              scale: 1,
+                            )
+                          : null,
                     ),
                     const SizedBox(
                       height: ParkingDetailsViewStyles.normalSpacing,
@@ -58,7 +60,7 @@ class ParkingDetailsView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                controller.parking.parkingName,
+                                controller.parking?.parkingName ?? '',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineLarge!
@@ -67,7 +69,7 @@ class ParkingDetailsView extends StatelessWidget {
                                 overflow: TextOverflow.visible,
                               ),
                               Text(
-                                controller.parking.address,
+                                controller.parking?.address ?? '',
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
@@ -91,7 +93,7 @@ class ParkingDetailsView extends StatelessWidget {
                     InfoRectangle(
                       type: InfoRectangleType.hollow,
                       label:
-                          '${controller.parking.availableSlot} / ${controller.parking.totalSlot} Available',
+                          '${controller.parking?.availableSlot} / ${controller.parking?.totalSlot} Available',
                       icon: Icons.directions_car,
                       padding: ParkingDetailsViewStyles.infoRectanglePadding,
                     ),
@@ -105,7 +107,7 @@ class ParkingDetailsView extends StatelessWidget {
                           .headlineLarge!
                           .copyWith(color: Colors.black),
                     ),
-                    ...controller.buildShiftPrices(),
+                    ...?controller.buildShiftPrices(),
                     const SizedBox(
                       height: ParkingDetailsViewStyles.wideSpacing,
                     ),
@@ -118,7 +120,7 @@ class ParkingDetailsView extends StatelessWidget {
                     ),
                     GFListTile(
                       titleText: 'Daily',
-                      subTitleText: controller.parking.pricePerDay.toString(),
+                      subTitleText: controller.parking?.pricePerDay.toString(),
                       icon: const Icon(Icons.money_outlined),
                       onTap: () => controller.onPressedLongTermPrice(
                         ParkingFeeTypes.daily,
@@ -126,7 +128,8 @@ class ParkingDetailsView extends StatelessWidget {
                     ),
                     GFListTile(
                       titleText: 'Monthly',
-                      subTitleText: controller.parking.pricePerMonth.toString(),
+                      subTitleText:
+                          controller.parking?.pricePerMonth.toString(),
                       icon: const Icon(Icons.money_outlined),
                       onTap: () => controller.onPressedLongTermPrice(
                         ParkingFeeTypes.monthly,
@@ -134,7 +137,7 @@ class ParkingDetailsView extends StatelessWidget {
                     ),
                     GFListTile(
                       titleText: 'Annually',
-                      subTitleText: controller.parking.pricePerYear.toString(),
+                      subTitleText: controller.parking?.pricePerYear.toString(),
                       icon: const Icon(Icons.money_outlined),
                       onTap: () => controller.onPressedLongTermPrice(
                         ParkingFeeTypes.annually,
