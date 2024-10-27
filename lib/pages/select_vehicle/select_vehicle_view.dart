@@ -75,6 +75,7 @@ class SelectVehicleView extends StatelessWidget {
                 ),
                 Container(
                   padding: SelectVehicleViewStyles.paddingBottom,
+                  decoration: SelectVehicleViewStyles.bottomContainerDecoration,
                   child: ActionButton(
                     type: ActionButtonType.positive,
                     label: 'Continue',

@@ -62,12 +62,16 @@ class ParkingDetailsController extends State<ParkingDetails>
     loggy.info('Shift price tapped: $shift');
 
     _showBookParkingDetails(ParkingFeeTypes.hourly);
+
+    return;
   }
 
   void onPressedLongTermPrice(ParkingFeeTypes type) {
     loggy.info('Long term price tapped: $type');
 
     _showBookParkingDetails(type);
+
+    return;
   }
 
   void _showBookParkingDetails(ParkingFeeTypes type) {
@@ -78,7 +82,6 @@ class ParkingDetailsController extends State<ParkingDetails>
           bookingService.setParking(parking!);
         }
         bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
-        bookingService.setParkingFeeType(ParkingFeeTypes.daily);
         NavigationUtils.navigateTo(
           context: context,
           path: AppPaths.bookingDetails,
@@ -133,10 +136,28 @@ class ParkingDetailsController extends State<ParkingDetails>
         );
         break;
     }
+
+    return;
   }
 
   void onPressedBookNow() {
     loggy.info('Book now tapped');
+
+    if (parking != null) {
+      bookingService.setParking(parking!);
+    }
+    bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.bookingDetails,
+    );
+    return;
+  }
+
+  void onPressedCancel() {
+    loggy.info('Cancelled tapped');
+    NavigationUtils.goBack(context);
+    return;
   }
 
   @override

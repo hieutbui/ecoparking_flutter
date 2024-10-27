@@ -1,4 +1,5 @@
 import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method.dart';
+import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method_styles.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:ecoparking_flutter/widgets/selection_card/selection_card.dart';
@@ -20,9 +21,7 @@ class ChoosePaymentMethodView extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: ChoosePaymentMethodStyles.padding,
               child: ListView.separated(
                 itemCount: controller.paymentMethods.length + 1,
                 itemBuilder: (context, index) {
@@ -61,16 +60,14 @@ class ChoosePaymentMethodView extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) => const SizedBox(
-                  height: 22,
+                  height: ChoosePaymentMethodStyles.listSeparatorHeight,
                 ),
               ),
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
+            padding: ChoosePaymentMethodStyles.bottomContainerPadding,
+            decoration: ChoosePaymentMethodStyles.bottomContainerDecoration,
             child: ActionButton(
               type: ActionButtonType.positive,
               label: 'Continue',

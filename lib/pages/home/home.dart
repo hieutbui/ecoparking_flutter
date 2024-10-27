@@ -199,7 +199,6 @@ class HomeController extends State<HomePage> with ControllerLoggy {
       NavigationUtils.navigateTo(
         context: context,
         path: AppPaths.parkingDetails,
-        params: parking,
       );
       return;
     } else if (action == ParkingBottomSheetAction.bookNow) {

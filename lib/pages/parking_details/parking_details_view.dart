@@ -147,8 +147,9 @@ class ParkingDetailsView extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: ParkingDetailsViewStyles.actionButtonPadding,
+            Container(
+              padding: ParkingDetailsViewStyles.bottomContainerPadding,
+              decoration: ParkingDetailsViewStyles.bottomContainerDecoration,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -156,7 +157,7 @@ class ParkingDetailsView extends StatelessWidget {
                     type: ActionButtonType.negative,
                     label: 'Cancel',
                     isShowArrow: false,
-                    onPressed: () => NavigationUtils.goBack(context),
+                    onPressed: controller.onPressedCancel,
                     width: ParkingDetailsViewStyles.actionButtonWidth,
                   ),
                   ActionButton(
