@@ -2,7 +2,6 @@ import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/model/payment/e_wallet.dart';
 import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method_view.dart';
-import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
