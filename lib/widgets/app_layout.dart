@@ -31,11 +31,11 @@ class AppLayout extends StatelessWidget {
   }
 
   void _onDestinationSelected(BuildContext context, int index) {
-    final String? path = AppRoutes.navBarIndexToPath[index];
+    final AppPaths? path = AppRoutes.navBarIndexToPath[index];
 
     NavigationUtils.navigateTo(
       context: context,
-      path: path ?? AppPaths.home.path,
+      path: path ?? AppPaths.home,
     );
   }
 

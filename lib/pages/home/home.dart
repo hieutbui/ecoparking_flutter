@@ -1,17 +1,23 @@
 import 'dart:async';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/booking_service.dart';
+import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
+import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
+import 'package:ecoparking_flutter/pages/home/model/parking_bottom_sheet_action.dart';
 import 'package:ecoparking_flutter/pages/home/widgets/parking_bottom_sheet_builder/parking_bottom_sheet_builder.dart';
 import 'package:ecoparking_flutter/utils/bottom_sheet_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -28,6 +34,8 @@ class HomeController extends State<HomePage> with ControllerLoggy {
   final CurrentLocationInteractor _currentLocationInteractor =
       getIt.get<CurrentLocationInteractor>();
   final ParkingInteractor _parkingInteractor = getIt.get<ParkingInteractor>();
+  final ParkingService parkingService = getIt.get<ParkingService>();
+  final BookingService bookingService = getIt.get<BookingService>();
 
   final currentLocationNotifier = ValueNotifier<GetCurrentLocationState>(
     const GetCurrentLocationInitial(),
@@ -166,9 +174,11 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     _getCurrentLocation();
   }
 
-  void onParkingMarkerPressed(BuildContext context, Parking parking) {
+  void onParkingMarkerPressed(BuildContext context, Parking parking) async {
     loggy.info('Parking marker pressed', parking);
-    BottomSheetUtils.show(
+
+    final ParkingBottomSheetAction? action =
+        await BottomSheetUtils.show<ParkingBottomSheetAction>(
       context: context,
       isDismissible: true,
       isScrollControlled: true,
@@ -176,6 +186,33 @@ class HomeController extends State<HomePage> with ControllerLoggy {
       maxHeight: MediaQuery.sizeOf(context).height * 0.65,
       builder: (context) => ParkingBottomSheetBuilder.build(context, parking),
     );
+
+    if (!context.mounted) return;
+
+    if (action == null) return;
+
+    if (action == ParkingBottomSheetAction.details) {
+      loggy.info('Parking details pressed');
+
+      parkingService.selectParking(parking);
+
+      NavigationUtils.navigateTo(
+        context: context,
+        path: AppPaths.parkingDetails,
+        params: parking,
+      );
+      return;
+    } else if (action == ParkingBottomSheetAction.bookNow) {
+      loggy.info('Book now pressed');
+
+      bookingService.setParking(parking);
+      bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+
+      NavigationUtils.navigateTo(
+        context: context,
+        path: AppPaths.bookingDetails,
+      );
+    }
   }
 
   @override

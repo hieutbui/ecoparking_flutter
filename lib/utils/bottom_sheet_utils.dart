@@ -2,7 +2,7 @@ import 'package:ecoparking_flutter/config/app_config.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetUtils {
-  static void show({
+  static Future<T?> show<T>({
     required BuildContext context,
     required Widget Function(BuildContext) builder,
     bool isDismissible = true,
@@ -11,7 +11,7 @@ class BottomSheetUtils {
     double? maxHeight,
     double? maxWidth,
   }) async {
-    await showModalBottomSheet(
+    return showModalBottomSheet(
       context: context,
       showDragHandle: showDragHandle,
       isDismissible: isDismissible,

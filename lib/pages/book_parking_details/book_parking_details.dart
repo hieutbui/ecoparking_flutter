@@ -1,3 +1,6 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details_view.dart';
@@ -5,20 +8,13 @@ import 'package:ecoparking_flutter/pages/book_parking_details/model/calculated_f
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/selection_hour_types.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/models/price_arguments.dart';
-import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class BookParkingDetails extends StatefulWidget {
-  final ParkingFeeTypes parkingFeeType;
-  final Parking parking;
-
-  const BookParkingDetails({
-    super.key,
-    required this.parkingFeeType,
-    required this.parking,
-  });
+  const BookParkingDetails({super.key});
 
   @override
   BookParkingDetailsController createState() => BookParkingDetailsController();
@@ -53,19 +49,21 @@ class BookParkingDetailsController extends State<BookParkingDetails>
     TimeOfDay(hour: 23, minute: 0),
   ];
 
+  final BookingService bookingService = getIt.get<BookingService>();
+
   List<TimeOfDay> get selectableHours => selectableHour;
-  Parking get parking => widget.parking;
-  List<ShiftPrice> get shiftPrices => widget.parking.pricePerHour;
-  double get pricePerDay => widget.parking.pricePerDay ?? 0.0;
+  Parking? get parking => bookingService.parking;
+  List<ShiftPrice>? get shiftPrices => parking?.pricePerHour;
+  double get pricePerDay => parking?.pricePerDay ?? 0.0;
   int get tabLength => 2;
-  ParkingFeeTypes get parkingFeeType => widget.parkingFeeType;
-  ShiftPrice get morningShift => shiftPrices.firstWhere(
+  ParkingFeeTypes? get parkingFeeType => bookingService.parkingFeeType;
+  ShiftPrice? get morningShift => shiftPrices?.firstWhere(
         (shiftPrice) => shiftPrice.shiftType == ShiftType.morning,
       );
-  ShiftPrice get afternoonShift => shiftPrices.firstWhere(
+  ShiftPrice? get afternoonShift => shiftPrices?.firstWhere(
         (shiftPrice) => shiftPrice.shiftType == ShiftType.afternoon,
       );
-  ShiftPrice get nightShift => shiftPrices.firstWhere(
+  ShiftPrice? get nightShift => shiftPrices?.firstWhere(
         (shiftPrice) => shiftPrice.shiftType == ShiftType.night,
       );
 
@@ -82,7 +80,7 @@ class BookParkingDetailsController extends State<BookParkingDetails>
   void initState() {
     super.initState();
     tabController = TabController(
-      initialIndex: parkingFeeType.tabIndex,
+      initialIndex: parkingFeeType?.tabIndex ?? 0,
       length: tabLength,
       vsync: this,
     );
@@ -133,20 +131,30 @@ class BookParkingDetailsController extends State<BookParkingDetails>
     TimeOfDay? start = startTime ?? startHour.value;
     TimeOfDay? end = endTime ?? endHour.value;
 
-    if (start == null || end == null) {
+    if (start == null ||
+        end == null ||
+        morningShift == null ||
+        afternoonShift == null ||
+        nightShift == null) {
+      debugPrint('here');
       return HourlyFee(total: totalPrice, hours: 0);
     }
 
     TimeOfDay currentTime = start;
+    int morningShiftStart = morningShift!.startTime.hour;
+    int morningShiftEnd = morningShift!.endTime.hour;
+    int afternoonShiftStart = afternoonShift!.startTime.hour;
+    int afternoonShiftEnd = afternoonShift!.endTime.hour;
+
     while (currentTime.hour < end.hour) {
-      if (currentTime.hour >= morningShift.startTime.hour &&
-          currentTime.hour < morningShift.endTime.hour) {
-        totalPrice += morningShift.price;
-      } else if (currentTime.hour >= afternoonShift.startTime.hour &&
-          currentTime.hour < afternoonShift.endTime.hour) {
-        totalPrice += afternoonShift.price;
+      if (currentTime.hour >= morningShiftStart &&
+          currentTime.hour < morningShiftEnd) {
+        totalPrice += morningShift!.price;
+      } else if (currentTime.hour >= afternoonShiftStart &&
+          currentTime.hour < afternoonShiftEnd) {
+        totalPrice += afternoonShift!.price;
       } else {
-        totalPrice += nightShift.price;
+        totalPrice += nightShift!.price;
       }
 
       // Move to the next hour
@@ -215,11 +223,29 @@ class BookParkingDetailsController extends State<BookParkingDetails>
 
     PriceArguments priceArgs;
 
+    if (parkingFeeType == ParkingFeeTypes.hourly &&
+        (selectedDate == null ||
+            startHour.value == null ||
+            endHour.value == null)) {
+      //TODO: Show alert message
+      return;
+    }
+
+    if (parkingFeeType == ParkingFeeTypes.daily &&
+        (selectedDateRange.startDate == null ||
+            selectedDateRange.endDate == null ||
+            startHour.value == null ||
+            endHour.value == null)) {
+      //TODO: Show alert message
+      return;
+    }
+
     if (startHour.value == null ||
         endHour.value == null ||
         calculatedPrice.value == null ||
-        selectedDate == null ||
         calculatedPrice.value?.total == 0) {
+      debugPrint(
+          'Invalid input ${startHour.value} ${endHour.value} ${calculatedPrice.value} $selectedDate ${calculatedPrice.value?.total}');
       //TODO: Show alert message
       return;
     }
@@ -237,14 +263,11 @@ class BookParkingDetailsController extends State<BookParkingDetails>
       );
     }
 
-    showDialog(
+    bookingService.setCalculatedPrice(priceArgs);
+
+    NavigationUtils.navigateTo(
       context: context,
-      builder: (BuildContext context) => Dialog.fullscreen(
-        child: SelectVehicle(
-          parking: parking,
-          calculatedPrice: priceArgs,
-        ),
-      ),
+      path: AppPaths.selectVehicle,
     );
   }
 
@@ -254,6 +277,7 @@ class BookParkingDetailsController extends State<BookParkingDetails>
       selectedDate = args.value;
     });
     _calculatePrice();
+    debugPrint('Calculated price: $calculatedPrice');
     _resetNotifier();
   }
 

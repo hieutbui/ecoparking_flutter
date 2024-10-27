@@ -1,21 +1,22 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/booking_service.dart';
+import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
-import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details_view.dart';
 import 'package:ecoparking_flutter/resource/image_paths.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
 
 class ParkingDetails extends StatefulWidget {
-  final Parking parking;
-
   const ParkingDetails({
     super.key,
-    required this.parking,
   });
 
   @override
@@ -24,7 +25,10 @@ class ParkingDetails extends StatefulWidget {
 
 class ParkingDetailsController extends State<ParkingDetails>
     with ControllerLoggy {
-  Parking get parking => widget.parking;
+  final ParkingService parkingService = getIt.get<ParkingService>();
+  final BookingService bookingService = getIt.get<BookingService>();
+
+  Parking? get parking => parkingService.selectedParking;
 
   @override
   void initState() {
@@ -36,8 +40,8 @@ class ParkingDetailsController extends State<ParkingDetails>
     super.dispose();
   }
 
-  List<Widget> buildShiftPrices() {
-    return parking.pricePerHour
+  List<Widget>? buildShiftPrices() {
+    return parking?.pricePerHour
         .map(
           (shiftPrice) => GFListTile(
             titleText:
@@ -70,15 +74,23 @@ class ParkingDetailsController extends State<ParkingDetails>
     loggy.info('navigate to book parking details: $type');
     switch (type) {
       case ParkingFeeTypes.hourly:
-      case ParkingFeeTypes.daily:
-        showDialog(
+        if (parking != null) {
+          bookingService.setParking(parking!);
+        }
+        bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+        bookingService.setParkingFeeType(ParkingFeeTypes.daily);
+        NavigationUtils.navigateTo(
           context: context,
-          builder: (BuildContext context) => Dialog.fullscreen(
-            child: BookParkingDetails(
-              parkingFeeType: type,
-              parking: parking,
-            ),
-          ),
+          path: AppPaths.bookingDetails,
+        );
+      case ParkingFeeTypes.daily:
+        if (parking != null) {
+          bookingService.setParking(parking!);
+        }
+        bookingService.setParkingFeeType(ParkingFeeTypes.daily);
+        NavigationUtils.navigateTo(
+          context: context,
+          path: AppPaths.bookingDetails,
         );
         break;
       case ParkingFeeTypes.monthly:
@@ -110,7 +122,7 @@ class ParkingDetailsController extends State<ParkingDetails>
                 ),
                 //TODO: Format phone number
                 TextSpan(
-                  text: parking.phone,
+                  text: parking?.phone,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
