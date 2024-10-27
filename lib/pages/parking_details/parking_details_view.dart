@@ -1,7 +1,6 @@
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details_view_styles.dart';
-import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:ecoparking_flutter/widgets/info_rectangle/info_rectangle.dart';
