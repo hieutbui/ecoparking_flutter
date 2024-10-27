@@ -165,7 +165,7 @@ class HourlyView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               CalculatedPrice(
                 calculatedPrice: controller.calculatedPrice,
               ),

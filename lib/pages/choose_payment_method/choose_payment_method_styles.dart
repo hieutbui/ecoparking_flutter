@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ParkingDetailsViewStyles {
-  static const double imageHeight = 150.0;
-  static const double normalSpacing = 12.0;
-  static const double wideSpacing = 30.0;
-  static const double actionButtonWidth = 200.0;
-
-  static const BorderRadiusGeometry imageBorderRadius =
-      BorderRadius.all(Radius.circular(20.0));
+class ChoosePaymentMethodStyles {
+  static const double spacing = 16.0;
+  static const double listSeparatorHeight = 22.0;
 
   static const EdgeInsetsGeometry padding =
-      EdgeInsets.symmetric(horizontal: 22.0);
-  static const EdgeInsetsGeometry infoRectanglePadding =
-      EdgeInsets.symmetric(vertical: 8, horizontal: 16);
+      EdgeInsets.symmetric(horizontal: spacing);
   static const EdgeInsetsGeometry bottomContainerPadding = EdgeInsets.only(
     top: 8.0,
-    left: 16.0,
-    right: 16.0,
-    bottom: 16.0,
+    left: spacing,
+    right: spacing,
+    bottom: spacing,
   );
 
   static List<BoxShadow> get bottomContainerShadow => [
