@@ -20,13 +20,13 @@ class ParkingDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Parking Details',
-      body: Padding(
-        padding: ParkingDetailsViewStyles.padding,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Padding(
+                padding: ParkingDetailsViewStyles.padding,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -146,31 +146,31 @@ class ParkingDetailsView extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              padding: ParkingDetailsViewStyles.bottomContainerPadding,
-              decoration: ParkingDetailsViewStyles.bottomContainerDecoration,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ActionButton(
-                    type: ActionButtonType.negative,
-                    label: 'Cancel',
-                    isShowArrow: false,
-                    onPressed: controller.onPressedCancel,
-                    width: ParkingDetailsViewStyles.actionButtonWidth,
-                  ),
-                  ActionButton(
-                    type: ActionButtonType.positive,
-                    label: 'Book Now',
-                    isShowArrow: false,
-                    onPressed: controller.onPressedBookNow,
-                    width: ParkingDetailsViewStyles.actionButtonWidth,
-                  ),
-                ],
-              ),
+          ),
+          Container(
+            padding: ParkingDetailsViewStyles.bottomContainerPadding,
+            decoration: ParkingDetailsViewStyles.bottomContainerDecoration,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                ActionButton(
+                  type: ActionButtonType.negative,
+                  label: 'Cancel',
+                  isShowArrow: false,
+                  onPressed: controller.onPressedCancel,
+                  width: ParkingDetailsViewStyles.actionButtonWidth,
+                ),
+                ActionButton(
+                  type: ActionButtonType.positive,
+                  label: 'Book Now',
+                  isShowArrow: false,
+                  onPressed: controller.onPressedBookNow,
+                  width: ParkingDetailsViewStyles.actionButtonWidth,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
