@@ -3,7 +3,7 @@ import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
-import 'package:ecoparking_flutter/pages/booking/booking.dart';
+import 'package:ecoparking_flutter/pages/my_tickets/my_tickets.dart';
 import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details.dart';
@@ -194,7 +194,7 @@ class AppRoutes {
             path: AppPaths.booking.path,
             pageBuilder: (context, state) => defaultPageBuilder(
               context,
-              const BookingPage(),
+              const MyTicketsPage(),
               name: AppPaths.booking.label,
             ),
           ),
