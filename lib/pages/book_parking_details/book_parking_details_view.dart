@@ -34,6 +34,7 @@ class BookParkingDetailsView extends StatelessWidget {
               color: Theme.of(context).colorScheme.primary,
               width: 1,
             ),
+            indicatorWeight: 5,
             borderRadius: const BorderRadius.all(Radius.circular(5)),
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
