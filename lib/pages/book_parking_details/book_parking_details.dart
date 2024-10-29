@@ -136,7 +136,6 @@ class BookParkingDetailsController extends State<BookParkingDetails>
         morningShift == null ||
         afternoonShift == null ||
         nightShift == null) {
-      debugPrint('here');
       return HourlyFee(total: totalPrice, hours: 0);
     }
 
@@ -244,8 +243,6 @@ class BookParkingDetailsController extends State<BookParkingDetails>
         endHour.value == null ||
         calculatedPrice.value == null ||
         calculatedPrice.value?.total == 0) {
-      debugPrint(
-          'Invalid input ${startHour.value} ${endHour.value} ${calculatedPrice.value} $selectedDate ${calculatedPrice.value?.total}');
       //TODO: Show alert message
       return;
     }
@@ -277,7 +274,6 @@ class BookParkingDetailsController extends State<BookParkingDetails>
       selectedDate = args.value;
     });
     _calculatePrice();
-    debugPrint('Calculated price: $calculatedPrice');
     _resetNotifier();
   }
 
