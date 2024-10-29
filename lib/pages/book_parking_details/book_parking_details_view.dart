@@ -34,7 +34,7 @@ class BookParkingDetailsView extends StatelessWidget {
               color: Theme.of(context).colorScheme.primary,
               width: 1,
             ),
-            indicatorWeight: 5,
+            indicatorPadding: EdgeInsets.zero,
             borderRadius: const BorderRadius.all(Radius.circular(5)),
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
@@ -42,8 +42,8 @@ class BookParkingDetailsView extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
             tabs: const <Widget>[
-              Text('Hourly'),
-              Text('Daily'),
+              Tab(child: Text('Hourly')),
+              Tab(child: Text('Daily')),
             ],
             tabController: controller.tabController,
             labelPadding: EdgeInsets.zero,
