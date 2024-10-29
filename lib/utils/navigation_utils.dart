@@ -8,7 +8,6 @@ class NavigationUtils {
     required AppPaths path,
     Object? params,
   }) {
-    debugPrint('navigateTo(): path: ${path.navigationPath}, params: $params');
     GoRouter.of(context).go(path.navigationPath, extra: params);
   }
 

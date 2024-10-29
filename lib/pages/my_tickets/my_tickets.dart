@@ -1,4 +1,5 @@
 import 'package:ecoparking_flutter/pages/my_tickets/my_tickets_view.dart';
+import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:flutter/material.dart';
 
 class MyTicketsPage extends StatefulWidget {
@@ -8,10 +9,20 @@ class MyTicketsPage extends StatefulWidget {
   MyTicketsController createState() => MyTicketsController();
 }
 
-class MyTicketsController extends State<MyTicketsPage> {
+class MyTicketsController extends State<MyTicketsPage>
+    with ControllerLoggy, TickerProviderStateMixin {
+  int get tabLength => 3;
+
+  late final TabController tabController;
+
   @override
   void initState() {
     super.initState();
+    tabController = TabController(
+      initialIndex: 0,
+      length: tabLength,
+      vsync: this,
+    );
   }
 
   @override
