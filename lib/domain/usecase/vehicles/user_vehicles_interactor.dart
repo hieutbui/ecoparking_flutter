@@ -16,7 +16,7 @@ class UserVehiclesInteractor with InteractorLoggy {
 
       final vehicles = await _userVehiclesRepository.fetchUserVehicles();
 
-      if (vehicles == null) {
+      if (vehicles == null || vehicles.isEmpty) {
         loggy.error('execute(): vehicles is null');
         yield const Left(GetUserVehiclesIsEmpty());
       } else {
