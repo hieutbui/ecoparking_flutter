@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/model/ticket/ticket_status.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,9 +17,14 @@ class Ticket with EquatableMixin {
   @JsonKey(name: 'license_plate')
   final String licensePlate;
   @JsonKey(name: 'start_time')
-  final String startTime;
+  final DateTime startTime;
   @JsonKey(name: 'end_time')
-  final String endTime;
+  final DateTime endTime;
+  final int days;
+  final int hours;
+  final double total;
+  @JsonKey(name: 'status')
+  final TicketStatus status;
 
   Ticket({
     required this.parkingName,
@@ -29,6 +35,10 @@ class Ticket with EquatableMixin {
     required this.licensePlate,
     required this.startTime,
     required this.endTime,
+    required this.days,
+    required this.hours,
+    required this.total,
+    required this.status,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
@@ -45,5 +55,9 @@ class Ticket with EquatableMixin {
         licensePlate,
         startTime,
         endTime,
+        days,
+        hours,
+        total,
+        status,
       ];
 }

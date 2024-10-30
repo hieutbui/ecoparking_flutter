@@ -15,7 +15,7 @@ class ParkingInteractor with InteractorLoggy {
 
       final parkings = await _parkingRepository.fetchParkings();
 
-      if (parkings == null) {
+      if (parkings == null || parkings.isEmpty) {
         loggy.error('execute(): parkings is null');
         yield const Right(GetParkingsIsEmpty());
       } else {
