@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/state/tickets/get_user_tickets_state.dart';
@@ -48,9 +49,9 @@ class MyTicketsController extends State<MyTicketsPage>
       length: tabLength,
       vsync: this,
     );
-    _getTicketsForPage(currentPage);
-
     tabController.addListener(_onTabIndexChangedListener);
+
+    _getTicketsForPage(currentPage);
   }
 
   @override
@@ -121,7 +122,7 @@ class MyTicketsController extends State<MyTicketsPage>
     loggy.info('_handleGetOnGoingTicketsSuccess(): $success');
     if (success is GetUserTicketsSuccess) {
       onGoingTicketsNotifier.value = success;
-    } else {
+    } else if (success is GetUserTicketsIsEmpty) {
       onGoingTicketsNotifier.value = const GetUserTicketsIsEmpty();
     }
 
@@ -132,7 +133,7 @@ class MyTicketsController extends State<MyTicketsPage>
     loggy.info('_handleGetCompletedTicketsSuccess(): $success');
     if (success is GetUserTicketsSuccess) {
       completedTicketsNotifier.value = success;
-    } else {
+    } else if (success is GetUserTicketsIsEmpty) {
       completedTicketsNotifier.value = const GetUserTicketsIsEmpty();
     }
 
@@ -143,41 +144,35 @@ class MyTicketsController extends State<MyTicketsPage>
     loggy.info('_handleGetCancelledTicketsSuccess(): $success');
     if (success is GetUserTicketsSuccess) {
       cancelledTicketsNotifier.value = success;
-    } else {
+    } else if (success is GetUserTicketsIsEmpty) {
       cancelledTicketsNotifier.value = const GetUserTicketsIsEmpty();
     }
 
     return;
   }
 
-  void _handleGetOnGoingTicketsFailure(dynamic failure) {
+  void _handleGetOnGoingTicketsFailure(Failure failure) {
     loggy.error('_handleGetOnGoingTicketsFailure(): $failure');
     if (failure is GetUserTicketsFailure) {
       onGoingTicketsNotifier.value = failure;
-    } else {
-      onGoingTicketsNotifier.value = const GetUserTicketsIsEmpty();
     }
 
     return;
   }
 
-  void _handleGetCompletedTicketsFailure(dynamic failure) {
+  void _handleGetCompletedTicketsFailure(Failure failure) {
     loggy.error('_handleGetCompletedTicketsFailure(): $failure');
     if (failure is GetUserTicketsFailure) {
       completedTicketsNotifier.value = failure;
-    } else {
-      completedTicketsNotifier.value = const GetUserTicketsIsEmpty();
     }
 
     return;
   }
 
-  void _handleGetCancelledTicketsFailure(dynamic failure) {
+  void _handleGetCancelledTicketsFailure(Failure failure) {
     loggy.error('_handleGetCancelledTicketsFailure(): $failure');
     if (failure is GetUserTicketsFailure) {
       cancelledTicketsNotifier.value = failure;
-    } else {
-      cancelledTicketsNotifier.value = const GetUserTicketsIsEmpty();
     }
 
     return;
@@ -202,6 +197,14 @@ class MyTicketsController extends State<MyTicketsPage>
     loggy.info('_onTabIndexChangedListener(): ${tabController.index}');
     currentPage = TicketPages.values[tabController.index];
     _getTicketsForPage(currentPage);
+  }
+
+  void cancelBooking() {
+    loggy.info('cancelBooking()');
+  }
+
+  void viewTicket() {
+    loggy.info('viewTicket()');
   }
 
   @override

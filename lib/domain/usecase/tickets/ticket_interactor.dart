@@ -32,6 +32,8 @@ class TicketInteractor with InteractorLoggy {
           break;
       }
 
+      print('execute(): tickets: $tickets');
+
       if (tickets == null || tickets.isEmpty) {
         loggy.error('execute(): tickets is null');
         yield const Right(GetUserTicketsIsEmpty());
