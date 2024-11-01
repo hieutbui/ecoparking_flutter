@@ -1,7 +1,6 @@
+import 'package:ecoparking_flutter/pages/my_tickets/model/ticket_pages.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/my_tickets.dart';
-import 'package:ecoparking_flutter/pages/my_tickets/widgets/cancelled_view.dart';
-import 'package:ecoparking_flutter/pages/my_tickets/widgets/completed_view.dart';
-import 'package:ecoparking_flutter/pages/my_tickets/widgets/on_going_view.dart';
+import 'package:ecoparking_flutter/pages/my_tickets/widgets/list_ticket.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/appbar/gf_appbar.dart';
@@ -54,9 +53,24 @@ class MyTicketsView extends StatelessWidget {
         body: GFTabBarView(
           controller: controller.tabController,
           children: <Widget>[
-            OnGoingView(controller: controller),
-            CompletedView(controller: controller),
-            CancelledView(controller: controller),
+            ListTicket(
+              ticketsNotifier: controller.onGoingTicketsNotifier,
+              page: TicketPages.onGoing,
+              onCancelBooking: controller.cancelBooking,
+              onViewTicket: controller.viewTicket,
+            ),
+            ListTicket(
+              ticketsNotifier: controller.completedTicketsNotifier,
+              page: TicketPages.completed,
+              onCancelBooking: controller.cancelBooking,
+              onViewTicket: controller.viewTicket,
+            ),
+            ListTicket(
+              ticketsNotifier: controller.cancelledTicketsNotifier,
+              page: TicketPages.cancelled,
+              onCancelBooking: controller.cancelBooking,
+              onViewTicket: controller.viewTicket,
+            ),
           ],
         ),
       ),
