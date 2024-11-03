@@ -46,32 +46,35 @@ class ListTicket extends StatelessWidget {
         }
 
         if (getUserTicketState is GetUserTicketsSuccess) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35.0),
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: getUserTicketState.tickets.length,
-              itemBuilder: (context, index) {
-                final ticket = getUserTicketState.tickets[index];
-            
-                return Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF9F9F9),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: TicketCard(
-                    ticket: ticket,
-                    page: page,
-                    onCancelBooking: onCancelBooking,
-                    onViewTicket: onViewTicket,
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 8.0,
-                );
-              },
+          return SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35.0),
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: getUserTicketState.tickets.length,
+                itemBuilder: (context, index) {
+                  final ticket = getUserTicketState.tickets[index];
+
+                  return Container(
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF9F9F9),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: TicketCard(
+                      ticket: ticket,
+                      page: page,
+                      onCancelBooking: onCancelBooking,
+                      onViewTicket: onViewTicket,
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 8.0,
+                  );
+                },
+              ),
             ),
           );
         }

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class AppScaffold extends StatelessWidget {
   final String title;
   final Widget body;
+  final bool? showBackButton;
 
   const AppScaffold({
     super.key,
     required this.title,
     required this.body,
+    this.showBackButton = true,
   });
 
   @override
@@ -20,10 +22,12 @@ class AppScaffold extends StatelessWidget {
                 color: Colors.black,
               ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: (showBackButton ?? false)
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            : null,
       ),
       body: body,
     );
