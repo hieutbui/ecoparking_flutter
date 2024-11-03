@@ -4,12 +4,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:getwidget/getwidget.dart';
 
 class AvatarButton extends StatefulWidget {
+  final String userAvatar;
   final Function(Uint8List?)? onImageSelected;
 
   const AvatarButton({
     super.key,
+    required this.userAvatar,
     this.onImageSelected,
   });
 
@@ -48,16 +51,22 @@ class _AvatarButtonState extends State<AvatarButton> {
             child: Container(
               decoration: AvatarButtonStyles.getDecoration(
                 context: context,
-                imageDate: _imageData,
+                imageData: _imageData,
               ),
               child: _imageData == null
                   ? Padding(
                       padding: AvatarButtonStyles.iconPersonPadding,
-                      child: SvgPicture.asset(
-                        ImagePaths.icPerson,
-                        width: AvatarButtonStyles.iconPersonWidth,
-                        height: AvatarButtonStyles.iconPersonHeight,
-                      ),
+                      child: widget.userAvatar.isEmpty
+                          ? SvgPicture.asset(
+                              ImagePaths.icPerson,
+                              width: AvatarButtonStyles.iconPersonWidth,
+                              height: AvatarButtonStyles.iconPersonHeight,
+                            )
+                          : GFAvatar(
+                              backgroundImage: NetworkImage(widget.userAvatar),
+                              size: AvatarButtonStyles.avatarSize,
+                              shape: GFAvatarShape.standard,
+                            ),
                     )
                   : null,
             ),

@@ -14,12 +14,12 @@ class AvatarButtonStyles {
 
   static Decoration getDecoration({
     required BuildContext context,
-    Uint8List? imageDate,
+    Uint8List? imageData,
   }) {
     return BoxDecoration(
       color: Theme.of(context).colorScheme.tertiary,
       shape: BoxShape.circle,
-      image: getDecorationImage(imageDate),
+      image: getDecorationImage(imageData),
     );
   }
 

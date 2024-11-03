@@ -21,7 +21,6 @@ class SavedPageView extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: controller.userFavoriteParkingsNotifier,
         builder: (context, userFavoriteParkings, child) {
-          print('userFavoriteParkings: $userFavoriteParkings');
           if (userFavoriteParkings is GetUserFavoriteParkingsInitial) {
             return const Center(
               child: CircularProgressIndicator(),
