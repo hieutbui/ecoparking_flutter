@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'favorite_parkings.g.dart';
+part 'favorite_parking.g.dart';
 
 @JsonSerializable()
-class FavoriteParkings with EquatableMixin {
+class FavoriteParking with EquatableMixin {
   final String image;
   @JsonKey(name: 'parking_name')
   final String parkingName;
   final String address;
 
-  FavoriteParkings({
+  FavoriteParking({
     required this.image,
     required this.parkingName,
     required this.address,
