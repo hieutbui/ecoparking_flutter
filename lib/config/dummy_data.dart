@@ -1,4 +1,4 @@
-import 'package:ecoparking_flutter/model/account/favorite_parkings.dart';
+import 'package:ecoparking_flutter/model/account/favorite_parking.dart';
 import 'package:ecoparking_flutter/model/account/vehicle.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
@@ -232,20 +232,20 @@ class DummyData {
       .where((ticket) => ticket.status == TicketStatus.cancelled)
       .toList();
 
-  static List<FavoriteParkings> favoriteParkings = [
-    FavoriteParkings(
+  static List<FavoriteParking> favoriteParkings = [
+    FavoriteParking(
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       parkingName: 'Bãi đỗ xe Ô tô đình Giáp Tứ',
       address:
           '33 Ngách 143/74 Phố Nguyễn Chính, Thịnh Liệt, Hoàng Mai, Hà Nội, Việt Nam',
     ),
-    FavoriteParkings(
+    FavoriteParking(
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       parkingName: 'Bãi gửi xe Thịnh Liệt',
       address:
           'P304, Tòa nhà N 6, Khu chung cư, Đồng Tàu, Hoàng Mai, Hà Nội, Việt Nam',
     ),
-    FavoriteParkings(
+    FavoriteParking(
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       parkingName: 'Nhận Trông Xe Ngày Đêm',
       address: '121 P. Kim Đồng, Giáp Bát, Hoàng Mai, Hà Nội, Việt Nam',
