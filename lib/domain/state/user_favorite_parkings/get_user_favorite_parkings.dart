@@ -1,7 +1,7 @@
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/initial.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
-import 'package:ecoparking_flutter/model/account/favorite_parkings.dart';
+import 'package:ecoparking_flutter/model/account/favorite_parking.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class GetUserFavoriteParkingsState with EquatableMixin {
@@ -21,7 +21,7 @@ class GetUserFavoriteParkingsInitial extends Initial
 
 class GetUserFavoriteParkingsSuccess extends Success
     implements GetUserFavoriteParkingsState {
-  final List<FavoriteParkings> favoriteParkings;
+  final List<FavoriteParking> favoriteParkings;
 
   const GetUserFavoriteParkingsSuccess({required this.favoriteParkings});
 
