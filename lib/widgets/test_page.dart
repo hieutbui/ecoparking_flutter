@@ -187,6 +187,7 @@ class TestPage extends StatelessWidget {
                 onImageSelected: (Uint8List? image) {
                   debugPrint('Image selected: $image');
                 },
+                userAvatar: '',
               ),
               const SizedBox(height: 16),
               const Text('Text Input Row'),
