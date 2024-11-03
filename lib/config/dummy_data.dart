@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/model/account/account.dart';
 import 'package:ecoparking_flutter/model/account/favorite_parking.dart';
 import 'package:ecoparking_flutter/model/account/vehicle.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
@@ -233,22 +234,38 @@ class DummyData {
       .toList();
 
   static List<FavoriteParking> favoriteParkings = [
-    FavoriteParking(
+    const FavoriteParking(
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       parkingName: 'Bãi đỗ xe Ô tô đình Giáp Tứ',
       address:
           '33 Ngách 143/74 Phố Nguyễn Chính, Thịnh Liệt, Hoàng Mai, Hà Nội, Việt Nam',
     ),
-    FavoriteParking(
+    const FavoriteParking(
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       parkingName: 'Bãi gửi xe Thịnh Liệt',
       address:
           'P304, Tòa nhà N 6, Khu chung cư, Đồng Tàu, Hoàng Mai, Hà Nội, Việt Nam',
     ),
-    FavoriteParking(
+    const FavoriteParking(
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       parkingName: 'Nhận Trông Xe Ngày Đêm',
       address: '121 P. Kim Đồng, Giáp Bát, Hoàng Mai, Hà Nội, Việt Nam',
     ),
   ];
+
+  static Account user = Account(
+    id: '1',
+    userId: '1',
+    type: AccountType.user,
+    email: 'dummy.user@domain.com',
+    password: 'passworddummy',
+    avatar: 'https://i.ibb.co/YPY91GP/dummy-customer.jpg',
+    phone: '0987654321',
+    userName: 'Dummy User',
+    fullName: 'Anabia R. Mccoy',
+    gender: Genders.male,
+    dob: DateTime(1990, 1, 1),
+    createdAt: DateTime(2021, 10, 1),
+    updatedAt: DateTime(2021, 10, 1),
+  );
 }
