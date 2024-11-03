@@ -1,24 +1,29 @@
 import 'package:ecoparking_flutter/data/datasource/markers/current_location_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/markers/parking_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/tickets/ticket_datasource.dart';
+import 'package:ecoparking_flutter/data/datasource/user_favorite_parkings/user_favorite_parkings_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/user_vehicles/user_vehicles_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/markers/current_location_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/markers/parking_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/tickets/ticket_datasource_impl.dart';
+import 'package:ecoparking_flutter/data/datasource_impl/user_favorite_parkings/user_favorite_parkings_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_vehicles/user_vehicles_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/current_location_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/parking_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/tickets/ticket_repository_impl.dart';
+import 'package:ecoparking_flutter/data/repository/user_favorite_parkings/user_favorite_parkings_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/user_vehicles/user_vehicles_repository_impl.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/current_location_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/tickets/ticket_repository.dart';
+import 'package:ecoparking_flutter/domain/repository/user_favorite_parkings/user_favorite_parkings_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/user_vehicles/user_vehicles_repository.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/responsive.dart';
@@ -74,6 +79,9 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<TicketDataSource>(
       () => TicketDataSourceImpl(),
     );
+    getIt.registerLazySingleton<UserFavoriteParkingsDatasource>(
+      () => UserFavoriteParkingsDatasourceImpl(),
+    );
     loggy.info('bindingDataSourceImpl(): Setup successfully');
   }
 
@@ -90,6 +98,9 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<TicketRepository>(
       () => TicketRepositoryImpl(),
     );
+    getIt.registerLazySingleton<UserFavoriteParkingsRepository>(
+      () => UserFavoriteParkingsRepositoryImpl(),
+    );
     loggy.info('bindingRepositories(): Setup successfully');
   }
 
@@ -105,6 +116,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<TicketInteractor>(
       () => TicketInteractor(),
+    );
+    getIt.registerLazySingleton<UserFavoriteParkingsInteractor>(
+      () => UserFavoriteParkingsInteractor(),
     );
     loggy.info('bindingInteractor(): Setup successfully');
   }
