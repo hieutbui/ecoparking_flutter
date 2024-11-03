@@ -20,47 +20,51 @@ class ChoosePaymentMethodView extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: Padding(
-              padding: ChoosePaymentMethodStyles.padding,
-              child: ListView.separated(
-                itemCount: controller.paymentMethods.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == controller.paymentMethods.length) {
-                    return ActionButton(
-                      type: ActionButtonType.positive,
-                      label: 'Add New Payment Method',
-                      backgroundColor: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.1),
-                      labelColor: Theme.of(context).colorScheme.primary,
-                      onPressed: () {},
-                    );
-                  }
-
-                  final paymentMethod = controller.paymentMethods[index];
-
-                  return ValueListenableBuilder(
-                    valueListenable: controller.selectedPaymentMethod,
-                    builder: (context, selectedPaymentMethod, child) {
-                      return SelectionCard(
-                        title: paymentMethod.getName(),
-                        trailingImage: paymentMethod.getImagePath(),
-                        isShowSelectCircle: true,
-                        titleColor: Theme.of(context).colorScheme.onSurface,
-                        subtitleColor: Theme.of(context)
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Padding(
+                padding: ChoosePaymentMethodStyles.padding,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: controller.paymentMethods.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == controller.paymentMethods.length) {
+                      return ActionButton(
+                        type: ActionButtonType.positive,
+                        label: 'Add New Payment Method',
+                        backgroundColor: Theme.of(context)
                             .colorScheme
-                            .onSurface
-                            .withOpacity(0.5),
-                        isSelected: selectedPaymentMethod == paymentMethod,
-                        onTap: () =>
-                            controller.selectPaymentMethod(paymentMethod),
+                            .primary
+                            .withOpacity(0.1),
+                        labelColor: Theme.of(context).colorScheme.primary,
+                        onPressed: () {},
                       );
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: ChoosePaymentMethodStyles.listSeparatorHeight,
+                    }
+
+                    final paymentMethod = controller.paymentMethods[index];
+
+                    return ValueListenableBuilder(
+                      valueListenable: controller.selectedPaymentMethod,
+                      builder: (context, selectedPaymentMethod, child) {
+                        return SelectionCard(
+                          title: paymentMethod.getName(),
+                          trailingImage: paymentMethod.getImagePath(),
+                          isShowSelectCircle: true,
+                          titleColor: Theme.of(context).colorScheme.onSurface,
+                          subtitleColor: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.5),
+                          isSelected: selectedPaymentMethod == paymentMethod,
+                          onTap: () =>
+                              controller.selectPaymentMethod(paymentMethod),
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: ChoosePaymentMethodStyles.listSeparatorHeight,
+                  ),
                 ),
               ),
             ),
