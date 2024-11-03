@@ -26,6 +26,7 @@ class TicketCard extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
@@ -38,6 +39,7 @@ class TicketCard extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     ticket.parkingName,
@@ -49,6 +51,8 @@ class TicketCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   RichText(
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
                     text: TextSpan(children: <InlineSpan>[
                       TextSpan(
                         text: ticket.total.toString(),
@@ -92,6 +96,7 @@ class TicketCard extends StatelessWidget {
               )
             ],
           ),
+          const SizedBox(height: 10.0),
           Text(
             ticket.address,
             style: Theme.of(context)
@@ -101,15 +106,22 @@ class TicketCard extends StatelessWidget {
             softWrap: true,
             overflow: TextOverflow.ellipsis,
           ),
-          const Divider(
-            height: 1,
-            color: Color(0xFFCACACA),
-          ),
-          renderButtonsRow(
-            page,
-            onCancelBooking: onCancelBooking,
-            onViewTicket: onViewTicket,
-          ),
+          const SizedBox(height: 10.0),
+          if (ticket.status != TicketStatus.cancelled) ...[
+            const Divider(
+              height: 1,
+              color: Color(0xFFCACACA),
+            ),
+            const SizedBox(height: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: renderButtonsRow(
+                page,
+                onCancelBooking: onCancelBooking,
+                onViewTicket: onViewTicket,
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -172,16 +184,24 @@ class TicketCard extends StatelessWidget {
       case TicketPages.onGoing:
         return Row(
           children: <Widget>[
-            ActionButton(
-              type: ActionButtonType.hollow,
-              label: 'Cancel Booking',
-              onPressed: onCancelBooking,
+            Expanded(
+              child: ActionButton(
+                type: ActionButtonType.hollow,
+                label: 'Cancel Booking',
+                onPressed: onCancelBooking,
+                height: 36,
+                // padding: const EdgeInsets.symmetric(vertical: 8.0),
+              ),
             ),
             const SizedBox(width: 10),
-            ActionButton(
-              type: ActionButtonType.positive,
-              label: 'View Ticket',
-              onPressed: onViewTicket,
+            Expanded(
+              child: ActionButton(
+                type: ActionButtonType.positive,
+                label: 'View Ticket',
+                onPressed: onViewTicket,
+                height: 36,
+                // padding: const EdgeInsets.symmetric(vertical: 8.0),
+              ),
             ),
           ],
         );
@@ -190,6 +210,8 @@ class TicketCard extends StatelessWidget {
           type: ActionButtonType.positive,
           label: 'View Ticket',
           onPressed: onViewTicket,
+          height: 36,
+          // padding: const EdgeInsets.symmetric(vertical: 8.0),
         );
       default:
         return const SizedBox();
