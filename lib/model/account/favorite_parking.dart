@@ -10,7 +10,12 @@ class FavoriteParking with EquatableMixin {
   final String parkingName;
   final String address;
 
-  FavoriteParking({
+  factory FavoriteParking.fromJson(Map<String, dynamic> json) =>
+      _$FavoriteParkingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FavoriteParkingToJson(this);
+
+  const FavoriteParking({
     required this.image,
     required this.parkingName,
     required this.address,
