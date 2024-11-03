@@ -50,36 +50,33 @@ class ActionButton extends StatelessWidget {
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: AppButtonStyles.getLabelColor(
-                        context,
-                        type,
-                        labelColor: labelColor,
-                      ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: AppButtonStyles.getLabelColor(
+                      context,
+                      type,
+                      labelColor: labelColor,
                     ),
-              ),
-              if (isShowArrow) ...[
-                const SizedBox(width: 14),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: AppButtonStyles.getLabelColor(
-                    context,
-                    type,
-                    labelColor: labelColor,
                   ),
-                  size: arrowSize,
+            ),
+            if (isShowArrow) ...[
+              const SizedBox(width: 14),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: AppButtonStyles.getLabelColor(
+                  context,
+                  type,
+                  labelColor: labelColor,
                 ),
-              ]
-            ],
-          ),
+                size: arrowSize,
+              ),
+            ]
+          ],
         ),
       ),
     );
