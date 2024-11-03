@@ -1,3 +1,9 @@
+## v0.0.4 - 03/11/2024
+### Added
+- Add static UI for favorite parkings screen
+## Fixed
+- Mixing scrollable screens
+
 ## v0.0.3 - 03/11/2024
 ### Added
 - Add static UI for tickets management screen
