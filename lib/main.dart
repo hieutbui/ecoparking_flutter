@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:loggy/loggy.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,10 @@ Future<void> main() async {
     logPrinter: const PrettyPrinter(
       showColors: true,
     ),
+  );
+  await Supabase.initialize(
+    url: EnvLoader.supabaseProjectUrl,
+    anonKey: EnvLoader.supabaseAnonKey,
   );
 
   runApp(const EcoParkingApp());
