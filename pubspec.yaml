@@ -61,6 +61,7 @@ dependencies:
   dartz: ^0.10.1
   getwidget: ^4.0.0
   syncfusion_flutter_datepicker: ^27.1.48
+  supabase_flutter: ^2.8.0
 
 dev_dependencies:
   flutter_test:

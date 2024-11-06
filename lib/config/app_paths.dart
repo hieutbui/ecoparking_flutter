@@ -1,4 +1,6 @@
 enum AppPaths {
+  login,
+  register,
   home,
   saved,
   booking,
@@ -11,6 +13,10 @@ enum AppPaths {
 
   String get path {
     switch (this) {
+      case AppPaths.login:
+        return '/login';
+      case AppPaths.register:
+        return '/register';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -36,6 +42,10 @@ enum AppPaths {
 
   String get navigationPath {
     switch (this) {
+      case AppPaths.login:
+        return '/login';
+      case AppPaths.register:
+        return '/register';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -61,6 +71,10 @@ enum AppPaths {
 
   String get label {
     switch (this) {
+      case AppPaths.login:
+        return 'Login to your Account';
+      case AppPaths.register:
+        return 'Create Your Account';
       case AppPaths.home:
         return 'Home';
       case AppPaths.saved:

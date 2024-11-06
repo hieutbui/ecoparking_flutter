@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
+import 'package:ecoparking_flutter/pages/login/login.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/my_tickets.dart';
 import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
@@ -103,6 +104,22 @@ class AppRoutes {
           return AppLayout(child: child);
         },
         routes: <RouteBase>[
+          GoRoute(
+            path: AppPaths.login.path,
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              const LoginPage(),
+              name: AppPaths.login.label,
+            ),
+          ),
+          GoRoute(
+            path: AppPaths.register.path,
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              const LoginPage(),
+              name: AppPaths.register.label,
+            ),
+          ),
           GoRoute(
             path: AppPaths.home.path,
             pageBuilder: (context, state) => defaultPageBuilder(
@@ -251,6 +268,8 @@ class AppRoutes {
   };
 
   static List<String> get listFullScreenPages => [
+        AppPaths.login.path,
+        AppPaths.register.path,
         AppPaths.parkingDetails.navigationPath,
         AppPaths.bookingDetails.navigationPath,
         AppPaths.selectVehicle.navigationPath,
