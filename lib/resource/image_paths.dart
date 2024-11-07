@@ -12,6 +12,8 @@ class ImagePaths {
 
   static String get icFilter => _getIconPath('ic_filter.svg');
   static String get icPerson => _getIconPath('ic_person.svg');
+  static String get icLoginFB => _getIconPath('ic_login_fb.svg');
+  static String get icLoginGG => _getIconPath('ic_login_gg.svg');
 
   static String _getImagePath(String imageName) {
     return AssetsPaths.images + imageName;
