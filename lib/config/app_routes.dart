@@ -139,64 +139,55 @@ class AppRoutes {
                     _parkingService.selectedParking == null
                         ? AppPaths.home.path
                         : null,
+              ),
+              GoRoute(
+                path: AppPaths.bookingDetails.path,
+                pageBuilder: (context, state) => defaultPageBuilder(
+                  context,
+                  const BookParkingDetails(),
+                  name: AppPaths.bookingDetails.label,
+                ),
+                redirect: (context, state) {
+                  if (_bookingService.parking == null ||
+                      _bookingService.parkingFeeType == null) {
+                    return AppPaths.home.path;
+                  }
+
+                  return null;
+                },
+              ),
+              GoRoute(
+                path: AppPaths.selectVehicle.path,
+                pageBuilder: (context, state) => defaultPageBuilder(
+                  context,
+                  const SelectVehicle(),
+                  name: AppPaths.selectVehicle.label,
+                ),
+                redirect: (context, state) =>
+                    _bookingService.calculatedPrice == null
+                        ? AppPaths.home.path
+                        : null,
+              ),
+              GoRoute(
+                path: AppPaths.reviewSummary.path,
+                pageBuilder: (context, state) => defaultPageBuilder(
+                  context,
+                  const ReviewSummary(),
+                  name: AppPaths.reviewSummary.label,
+                ),
+                redirect: (context, state) =>
+                    _bookingService.vehicle == null ? AppPaths.home.path : null,
                 routes: <RouteBase>[
                   GoRoute(
-                    path: AppPaths.bookingDetails.path,
+                    path: AppPaths.paymentMethod.path,
                     pageBuilder: (context, state) => defaultPageBuilder(
                       context,
-                      const BookParkingDetails(),
-                      name: AppPaths.bookingDetails.label,
+                      const ChoosePaymentMethod(),
+                      name: AppPaths.paymentMethod.label,
                     ),
-                    redirect: (context, state) {
-                      if (_bookingService.parking == null ||
-                          _bookingService.parkingFeeType == null) {
-                        return AppPaths.home.path;
-                      }
-
-                      return null;
-                    },
-                    routes: <RouteBase>[
-                      GoRoute(
-                        path: AppPaths.selectVehicle.path,
-                        pageBuilder: (context, state) => defaultPageBuilder(
-                          context,
-                          const SelectVehicle(),
-                          name: AppPaths.selectVehicle.label,
-                        ),
-                        redirect: (context, state) =>
-                            _bookingService.calculatedPrice == null
-                                ? AppPaths.home.path
-                                : null,
-                        routes: <RouteBase>[
-                          GoRoute(
-                            path: AppPaths.reviewSummary.path,
-                            pageBuilder: (context, state) => defaultPageBuilder(
-                              context,
-                              const ReviewSummary(),
-                              name: AppPaths.reviewSummary.label,
-                            ),
-                            redirect: (context, state) =>
-                                _bookingService.vehicle == null
-                                    ? AppPaths.home.path
-                                    : null,
-                            routes: <RouteBase>[
-                              GoRoute(
-                                path: AppPaths.paymentMethod.path,
-                                pageBuilder: (context, state) =>
-                                    defaultPageBuilder(
-                                  context,
-                                  const ChoosePaymentMethod(),
-                                  name: AppPaths.paymentMethod.label,
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
                   )
                 ],
-              ),
+              )
             ],
           ),
           GoRoute(
