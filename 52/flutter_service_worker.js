@@ -4,9 +4,9 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
 const RESOURCES = {"flutter.js": "f393d3c16b631f36852323de8e583132",
-"main.dart.js": "4d41767ced355d4368aa81f76d7e2015",
+"main.dart.js": "42352d0fb0fa2b406ea95dfb78cb0f1c",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/AssetManifest.bin": "ba8d23ef8b8d1c92970c1f62a043ffa2",
+"assets/AssetManifest.bin": "324bd60989145f68e5e5a09f197d822b",
 "assets/fonts/MaterialIcons-Regular.otf": "637c5b6eecf1eb76ff27db4b752fe605",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "e986ebe42ef785b27164c36a9abc7818",
 "assets/packages/getwidget/icons/line.png": "da8d1b531d8189396d68dfcd8cb37a79",
@@ -273,12 +273,14 @@ const RESOURCES = {"flutter.js": "f393d3c16b631f36852323de8e583132",
 "assets/assets/images/img_toyota_land_cruiser.png": "83e9ec12dd3bbb1d75585b93c8326d16",
 "assets/assets/images/img_google.svg": "c857380e397647ea062071985d46a9bc",
 "assets/assets/images/img_car_model.png": "9ddf941accc5547aff53a036748136df",
+"assets/assets/icons/ic_login_fb.svg": "0808e3d71381fc6886970abf802521c8",
 "assets/assets/icons/ic_filter.svg": "c09465e13f5e18978fa3faab3ce6ac48",
 "assets/assets/icons/ic_person.svg": "30bab097ddcc27257ad49f308463f672",
+"assets/assets/icons/ic_login_gg.svg": "a5e5541e6e8b10f621035bb81282bf9f",
 "assets/NOTICES": "1a34c508f278c66b761aba6eb3336762",
 "assets/shaders/ink_sparkle.frag": "ecc85a2e95f5e9f53123dcaf8cb9b6ce",
-"assets/AssetManifest.json": "9918dd3794e31238978bb6583af78d2d",
-"assets/AssetManifest.bin.json": "9202fcc476bfb97b04cebf1aa2c20e71",
+"assets/AssetManifest.json": "a445f17a70cb7868554b2ef4755a15f8",
+"assets/AssetManifest.bin.json": "0aeaa59501fc2543117ac95f5601c9a9",
 "index.html": "fdf0f8a6359171c44315959f3eda210c",
 "/": "fdf0f8a6359171c44315959f3eda210c",
 "manifest.json": "0eb78c9ffb1d7528f03f9a1b84c93c4d",
@@ -298,7 +300,7 @@ const RESOURCES = {"flutter.js": "f393d3c16b631f36852323de8e583132",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "version.json": "b9a53de846de6d18823424a17a5995a1",
-"flutter_bootstrap.js": "8cc79a74bf026bd17f470c5d9a06d78a"};
+"flutter_bootstrap.js": "eca8c293e4ac3bd21baea50aea173471"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
