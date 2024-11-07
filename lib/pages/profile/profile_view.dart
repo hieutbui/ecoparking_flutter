@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 import 'package:ecoparking_flutter/pages/profile/profile.dart';
+import 'package:ecoparking_flutter/pages/profile/profile_view_styles.dart';
 import 'package:ecoparking_flutter/pages/profile/widgets/setting_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:ecoparking_flutter/widgets/avatar_button/avatar_button.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePageView extends StatelessWidget {
   final ProfileController controller;
@@ -34,24 +34,14 @@ class ProfilePageView extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 'name',
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.0,
-                  color: Colors.black,
-                ),
+                style: ProfileViewStyles.userNameStyle,
               ),
             ),
             Align(
               alignment: Alignment.center,
               child: Text(
                 'email',
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.0,
-                  color: Colors.black,
-                ),
+                style: ProfileViewStyles.userEmailStyle,
               ),
             ),
             ListView.separated(
@@ -61,7 +51,9 @@ class ProfilePageView extends StatelessWidget {
                 final setting = controller.settingOptions[index];
                 return SettingButton(arguments: setting);
               },
-              separatorBuilder: (context, index) => const SizedBox(height: 8.0),
+              separatorBuilder: (context, index) => const SizedBox(
+                height: ProfileViewStyles.settingButtonsSpacing,
+              ),
             )
           ],
         ),
