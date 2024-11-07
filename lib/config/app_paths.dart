@@ -57,13 +57,13 @@ enum AppPaths {
       case AppPaths.parkingDetails:
         return '/home/parking-details';
       case AppPaths.bookingDetails:
-        return '/home/parking-details/booking-details';
+        return '/home/booking-details';
       case AppPaths.selectVehicle:
-        return '/home/parking-details/booking-details/select-vehicle';
+        return '/home/select-vehicle';
       case AppPaths.reviewSummary:
-        return '/home/parking-details/booking-details/select-vehicle/review-summary';
+        return '/home/review-summary';
       case AppPaths.paymentMethod:
-        return '/home/parking-details/booking-details/select-vehicle/review-summary/payment-method';
+        return '/home/review-summary/payment-method';
       default:
         return '/home';
     }
