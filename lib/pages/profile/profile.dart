@@ -1,4 +1,8 @@
+import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
+import 'package:ecoparking_flutter/model/account/account.dart';
 import 'package:ecoparking_flutter/pages/profile/model/setting_button_arguments.dart';
+import 'package:ecoparking_flutter/pages/profile/profile_no_account_view.dart';
 import 'package:ecoparking_flutter/pages/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +14,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfileController extends State<ProfilePage> {
+  final AccountService _accountService = getIt.get<AccountService>();
+
+  Account? get account => _accountService.account;
+
   final List<SettingButtonArguments> settingOptions = [
     SettingButtonArguments(
       title: 'Edit Profile',
@@ -39,6 +47,16 @@ class ProfileController extends State<ProfilePage> {
     super.dispose();
   }
 
+  void onPressedContinueWithGoogle() {}
+
+  void onPressedContinueWithFacebook() {}
+
+  void onPressedSignInWithPassword() {}
+
+  void onPressedSignUp() {}
+
   @override
-  Widget build(BuildContext context) => ProfilePageView(controller: this);
+  Widget build(BuildContext context) => account == null
+      ? ProfileNoAccountView(controller: this)
+      : ProfilePageView(controller: this);
 }
