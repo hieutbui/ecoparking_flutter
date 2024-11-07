@@ -18,6 +18,7 @@ import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.
 import 'package:ecoparking_flutter/domain/repository/tickets/ticket_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/user_favorite_parkings/user_favorite_parkings_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/user_vehicles/user_vehicles_repository.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
@@ -124,10 +125,10 @@ class GetItInitializer with GetItLoggy {
   }
 
   void bindingServices() {
-    loggy.info('bindingServices(): Setup successfully');
-
     getIt.registerSingleton<ParkingService>(ParkingService());
     getIt.registerSingleton<BookingService>(BookingService());
+    getIt.registerSingleton<AccountService>(AccountService());
+    loggy.info('bindingServices(): Setup successfully');
   }
 
   void bindingController() {
