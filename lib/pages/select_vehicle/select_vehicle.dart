@@ -40,12 +40,19 @@ class SelectVehicleController extends State<SelectVehicle>
   @override
   void dispose() {
     super.dispose();
-    userVehiclesNotifier.value = const GetUserVehiclesInitial();
+    _userVehiclesSubscription?.cancel();
     selectedVehicleId.value = null;
     _userVehiclesSubscription = null;
     userVehiclesNotifier.dispose();
     selectedVehicleId.dispose();
-    _userVehiclesSubscription?.cancel();
+  }
+
+  void onBackButtonPressed(BuildContext scaffoldContext) {
+    loggy.info('Back button pressed');
+    NavigationUtils.replaceTo(
+      context: scaffoldContext,
+      path: AppPaths.bookingDetails,
+    );
   }
 
   _getUserVehicles() async {

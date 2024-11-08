@@ -57,10 +57,10 @@ class MyTicketsController extends State<MyTicketsPage>
   @override
   void dispose() {
     super.dispose();
-    tabController.dispose();
     tabController.removeListener(_onTabIndexChangedListener);
-    _disposeNotifiers();
     _cancelSubscriptions();
+    tabController.dispose();
+    _disposeNotifiers();
   }
 
   void _getTicketsForPage(TicketPages page) {
@@ -185,12 +185,12 @@ class MyTicketsController extends State<MyTicketsPage>
   }
 
   void _cancelSubscriptions() {
-    _onGoingTicketSubscription = null;
-    _completedTicketSubscription = null;
-    _cancelledTicketSubscription = null;
     _onGoingTicketSubscription?.cancel();
     _completedTicketSubscription?.cancel();
     _cancelledTicketSubscription?.cancel();
+    _onGoingTicketSubscription = null;
+    _completedTicketSubscription = null;
+    _cancelledTicketSubscription = null;
   }
 
   void _onTabIndexChangedListener() {

@@ -34,11 +34,10 @@ class SavedController extends State<SavedPage> with ControllerLoggy {
 
   @override
   void dispose() {
-    super.dispose();
-    userFavoriteParkingsNotifier.value = const GetUserFavoriteParkingsInitial();
+    _userFavoriteParkingsSubscription?.cancel();
     _userFavoriteParkingsSubscription = null;
     userFavoriteParkingsNotifier.dispose();
-    _userFavoriteParkingsSubscription?.cancel();
+    super.dispose();
   }
 
   void _getUserFavoriteParkings() async {
