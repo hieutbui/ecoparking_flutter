@@ -1,9 +1,11 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/model/account/account.dart';
 import 'package:ecoparking_flutter/pages/profile/model/setting_button_arguments.dart';
 import 'package:ecoparking_flutter/pages/profile/profile_no_account_view.dart';
 import 'package:ecoparking_flutter/pages/profile/profile_view.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -51,9 +53,13 @@ class ProfileController extends State<ProfilePage> {
 
   void onPressedContinueWithFacebook() {}
 
-  void onPressedSignInWithPassword() {}
+  void onPressedSignInWithPassword() {
+    NavigationUtils.navigateTo(context: context, path: AppPaths.login);
+  }
 
-  void onPressedSignUp() {}
+  void onPressedSignUp() {
+    NavigationUtils.navigateTo(context: context, path: AppPaths.register);
+  }
 
   @override
   Widget build(BuildContext context) => account == null
