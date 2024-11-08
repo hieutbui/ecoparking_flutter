@@ -29,9 +29,9 @@ class ChoosePaymentMethodController extends State<ChoosePaymentMethod>
 
   @override
   void dispose() {
-    super.dispose();
     selectedPaymentMethod.value = null;
     selectedPaymentMethod.dispose();
+    super.dispose();
   }
 
   void selectPaymentMethod(EWallet paymentMethod) {

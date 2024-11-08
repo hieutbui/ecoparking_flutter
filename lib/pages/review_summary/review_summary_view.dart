@@ -18,6 +18,7 @@ class ReviewSummaryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Review Summary',
+      onBackButtonPressed: controller.onBackButtonPressed,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
