@@ -1,15 +1,19 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppScaffold extends StatelessWidget {
   final String title;
   final Widget body;
   final bool? showBackButton;
+  final void Function(BuildContext)? onBackButtonPressed;
 
   const AppScaffold({
     super.key,
     required this.title,
     required this.body,
     this.showBackButton = true,
+    this.onBackButtonPressed,
   });
 
   @override
@@ -25,7 +29,9 @@ class AppScaffold extends StatelessWidget {
         leading: (showBackButton ?? false)
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => onBackButtonPressed != null
+                    ? onBackButtonPressed?.call(context)
+                    : Navigator.of(context).pop(),
               )
             : null,
       ),

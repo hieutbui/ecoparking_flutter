@@ -19,6 +19,7 @@ class BookParkingDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Book Parking Details',
+      onBackButtonPressed: controller.onBackButtonPressed,
       body: Scaffold(
         appBar: GFAppBar(
           bottomOpacity: 0.0,

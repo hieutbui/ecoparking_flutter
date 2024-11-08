@@ -19,6 +19,7 @@ class SelectVehicleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'Select Your Vehicle',
+      onBackButtonPressed: controller.onBackButtonPressed,
       body: ValueListenableBuilder(
         valueListenable: controller.userVehiclesNotifier,
         builder: (context, notifier, child) {
