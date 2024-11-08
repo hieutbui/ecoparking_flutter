@@ -56,11 +56,13 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   @override
   void dispose() {
-    super.dispose();
-    currentLocationNotifier.dispose();
-    parkingNotifier.dispose();
     _currentLocationSubscription?.cancel();
     _parkingSubscription?.cancel();
+    _currentLocationSubscription = null;
+    _parkingSubscription = null;
+    currentLocationNotifier.dispose();
+    parkingNotifier.dispose();
+    super.dispose();
   }
 
   void _getCurrentLocation() async {

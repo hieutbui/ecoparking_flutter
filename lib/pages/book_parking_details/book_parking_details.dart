@@ -90,10 +90,10 @@ class BookParkingDetailsController extends State<BookParkingDetails>
 
   @override
   void dispose() {
-    tabController.dispose();
     tabController.removeListener(_onTabIndexChangedListener);
     _resetNotifier();
     _disposeNotifier();
+    tabController.dispose();
     super.dispose();
   }
 
@@ -121,6 +121,14 @@ class BookParkingDetailsController extends State<BookParkingDetails>
     } else {
       calculatedPrice.value = _calculateDailyPriceWithTime();
     }
+  }
+
+  void onBackButtonPressed(BuildContext scaffoldContext) {
+    loggy.info('Back button pressed');
+    NavigationUtils.replaceTo(
+      context: scaffoldContext,
+      path: AppPaths.parkingDetails,
+    );
   }
 
   HourlyFee _calculateHourlyPrice({
