@@ -83,6 +83,14 @@ class ReviewSummaryController extends State<ReviewSummary>
     bookingService.removePaymentMethodListener(_paymentMethodListener);
   }
 
+  void onBackButtonPressed(BuildContext scaffoldContext) {
+    loggy.info('Back button pressed');
+    NavigationUtils.replaceTo(
+      context: scaffoldContext,
+      path: AppPaths.selectVehicle,
+    );
+  }
+
   void _paymentMethodListener() {
     bookingService.addPaymentMethodListener(
       () => paymentMethod.value = bookingService.paymentMethod,
