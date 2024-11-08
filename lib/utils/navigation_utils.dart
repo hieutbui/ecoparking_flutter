@@ -11,6 +11,14 @@ class NavigationUtils {
     GoRouter.of(context).go(path.navigationPath, extra: params);
   }
 
+  static void replaceTo({
+    required BuildContext context,
+    required AppPaths path,
+    Object? params,
+  }) {
+    GoRouter.of(context).replace(path.navigationPath, extra: params);
+  }
+
   static void goBack(BuildContext context) {
     if (GoRouter.of(context).canPop()) {
       GoRouter.of(context).pop();
