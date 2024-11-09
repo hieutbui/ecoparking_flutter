@@ -4,8 +4,7 @@ on:
 env:
   Flutter_Version: 3.24.2
 
-name: 
-  Deploy on Github pages
+name: Deploy on Github pages
 
 jobs:
   deploy-preview:
@@ -17,27 +16,27 @@ jobs:
       deployments: write
       pull-requests: write
       contents: write
-    
+
     environment:
       name: PR-${{ github.event.pull_request.number }}
       url: ${{ steps.configure.outputs.url }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.Flutter_Version }}
-          channel: "stable"
+          channel: 'stable'
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}"
-      
+
       - name: Create .env file
         run: |
           echo "" > .env
-      
+
       - name: Build Web version
         env:
           FOLDER: ${{ github.event.pull_request.number }}
@@ -46,15 +45,15 @@ jobs:
           flutter clean
           flutter pub get
           flutter pub run build_runner build --delete-conflicting-outputs
-          flutter build web --release --verbose --source-maps --dart-define=MAPBOX_URL_TEMPLATE=${{ secrets.MAPBOX_URL_TEMPLATE }} --base-href="/${GITHUB_REPOSITORY##*/}/$FOLDER/"
-      
+          flutter build web --release --verbose --source-maps --dart-define=MAPBOX_URL_TEMPLATE=${{ secrets.MAPBOX_URL_TEMPLATE }} --dart-define=SUPABASE_PROJECT_URL=${{ secrets.SUPABASE_PROJECT_URL }} --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} --base-href="/${GITHUB_REPOSITORY##*/}/$FOLDER/"
+
       - name: Configure environments
         id: configure
         env:
           FOLDER: ${{ github.event.pull_request.number }}
         run: |
           echo "URL=https://$GITHUB_REPOSITORY_OWNER.github.io/${GITHUB_REPOSITORY##*/}/$FOLDER" >> $GITHUB_OUTPUT
-      
+
       - name: Deploy on Github pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -62,7 +61,7 @@ jobs:
           publish_dir: build/web
           keep_files: true
           destination_dir: ${{ github.event.pull_request.number }}
-      
+
       - name: Find deployment comment
         uses: peter-evans/find-comment@v3
         id: fc
@@ -70,7 +69,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           issue-number: ${{ github.event.pull_request.number }}
           body-includes: 'This PR has been deployed to'
-      
+
       - name: Create or update deployment comment
         uses: peter-evans/create-or-update-comment@v4
         with:
@@ -79,7 +78,7 @@ jobs:
           body: |
             This PR has been deployed to ${{ steps.configure.outputs.URL }}
           edit-mode: replace
-      
+
       - name: Remove .env file
         run: |
           rm .env
