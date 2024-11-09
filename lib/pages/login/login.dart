@@ -58,7 +58,12 @@ class LoginController extends State<LoginPage> with ControllerLoggy {
 
   void onLoginWithFacebookPressed() {}
 
-  void onSignUpPressed() {}
+  void onSignUpPressed() {
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.register,
+    );
+  }
 
   @override
   Widget build(BuildContext context) => LoginView(controller: this);
