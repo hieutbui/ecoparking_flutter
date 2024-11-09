@@ -1,5 +1,7 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/register/register_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -10,6 +12,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class RegisterController extends State<RegisterPage> with ControllerLoggy {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -17,7 +22,45 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
 
   @override
   void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
+  }
+
+  void onBackButtonPressed(BuildContext scaffoldContext) {
+    loggy.info('onBackButtonPressed()');
+    NavigationUtils.replaceTo(
+      context: context,
+      path: AppPaths.login,
+    );
+  }
+
+  void loginPressed() {
+    loggy.info('loginPressed()');
+    NavigationUtils.replaceTo(
+      context: context,
+      path: AppPaths.login,
+    );
+  }
+
+  void onEmailChanged(String value) {
+    loggy.info('onEmailChanged(): $value');
+  }
+
+  void onPasswordChanged(String value) {
+    loggy.info('onPasswordChanged(): $value');
+  }
+
+  void onSignUpPressed() {
+    loggy.info('onSignUpPressed()');
+  }
+
+  void onLoginWithGooglePressed() {
+    loggy.info('onLoginWithGooglePressed()');
+  }
+
+  void onLoginWithFacebookPressed() {
+    loggy.info('onLoginWithFacebookPressed()');
   }
 
   @override

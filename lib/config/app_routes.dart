@@ -9,6 +9,7 @@ import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_me
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/parking_details/parking_details.dart';
 import 'package:ecoparking_flutter/pages/profile/profile.dart';
+import 'package:ecoparking_flutter/pages/register/register.dart';
 import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
@@ -116,7 +117,7 @@ class AppRoutes {
             path: AppPaths.register.path,
             pageBuilder: (context, state) => defaultPageBuilder(
               context,
-              const LoginPage(),
+              const RegisterPage(),
               name: AppPaths.register.label,
             ),
           ),
