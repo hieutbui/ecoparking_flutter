@@ -19,6 +19,8 @@ enum AppPaths {
         return '/login';
       case AppPaths.register:
         return '/register';
+      case AppPaths.createProfile:
+        return 'create-profile';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -39,8 +41,6 @@ enum AppPaths {
         return 'payment-method';
       case AppPaths.editProfile:
         return 'edit-profile';
-      case AppPaths.createProfile:
-        return 'create-profile';
       default:
         return '/home';
     }
@@ -53,7 +53,7 @@ enum AppPaths {
       case AppPaths.register:
         return '/register';
       case AppPaths.createProfile:
-        return 'register/create-profile';
+        return '/register/create-profile';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -85,6 +85,8 @@ enum AppPaths {
         return 'Login to your Account';
       case AppPaths.register:
         return 'Create Your Account';
+      case AppPaths.createProfile:
+        return 'Fill Your Profile';
       case AppPaths.home:
         return 'Home';
       case AppPaths.saved:
@@ -93,6 +95,8 @@ enum AppPaths {
         return 'Booking';
       case AppPaths.profile:
         return 'Profile';
+      case AppPaths.editProfile:
+        return 'Edit Profile';
       case AppPaths.parkingDetails:
         return 'Parking Details';
       case AppPaths.bookingDetails:
