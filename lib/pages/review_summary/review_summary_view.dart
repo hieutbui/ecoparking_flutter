@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/pages/review_summary/summary_view_styles.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
@@ -17,7 +18,7 @@ class ReviewSummaryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Review Summary',
+      title: AppPaths.reviewSummary.getTitle(),
       onBackButtonPressed: controller.onBackButtonPressed,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

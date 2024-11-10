@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/domain/state/vehicles/get_user_vehicles_state.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle_view_styles.dart';
@@ -18,7 +19,7 @@ class SelectVehicleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Select Your Vehicle',
+      title: AppPaths.selectVehicle.getTitle(),
       onBackButtonPressed: controller.onBackButtonPressed,
       body: ValueListenableBuilder(
         valueListenable: controller.userVehiclesNotifier,

@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/widgets/daily_view.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/widgets/hourly_view.dart';
@@ -18,7 +19,7 @@ class BookParkingDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Book Parking Details',
+      title: AppPaths.bookingDetails.getTitle(),
       onBackButtonPressed: controller.onBackButtonPressed,
       body: Scaffold(
         appBar: GFAppBar(

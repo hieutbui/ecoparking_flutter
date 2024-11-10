@@ -19,7 +19,7 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: AppPaths.register.label,
+      title: AppPaths.register.getTitle(),
       onBackButtonPressed: controller.onBackButtonPressed,
       body: Padding(
         padding: RegisterViewStyles.padding,
