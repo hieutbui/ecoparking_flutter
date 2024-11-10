@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
 class PhoneInputRow extends StatelessWidget {
+  final String? initialPhoneNumber;
   final void Function(PhoneNumber?)? onChanged;
 
   const PhoneInputRow({
     super.key,
+    this.initialPhoneNumber,
     this.onChanged,
   });
 
@@ -14,7 +16,10 @@ class PhoneInputRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return PhoneFormField(
       controller: PhoneController(
-        initialValue: const PhoneNumber(isoCode: IsoCode.VN, nsn: ''),
+        initialValue: PhoneNumber(
+          isoCode: IsoCode.VN,
+          nsn: initialPhoneNumber ?? '',
+        ),
       ),
       style: PhoneInputRowStyles.inputtedTextStyle,
       onChanged: onChanged,

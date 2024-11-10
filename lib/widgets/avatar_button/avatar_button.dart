@@ -40,53 +40,57 @@ class _AvatarButtonState extends State<AvatarButton> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _pickImage,
-      child: Stack(
-        alignment: AlignmentDirectional.bottomEnd,
-        children: <Widget>[
-          SizedBox(
-            height: AvatarButtonStyles.avatarSize,
-            width: AvatarButtonStyles.avatarSize,
-            child: Container(
-              decoration: AvatarButtonStyles.getDecoration(
-                context: context,
-                imageData: _imageData,
-              ),
-              child: _imageData == null
-                  ? Padding(
-                      padding: AvatarButtonStyles.iconPersonPadding,
-                      child: widget.userAvatar.isEmpty
-                          ? SvgPicture.asset(
-                              ImagePaths.icPerson,
-                              width: AvatarButtonStyles.iconPersonWidth,
-                              height: AvatarButtonStyles.iconPersonHeight,
-                            )
-                          : GFAvatar(
-                              backgroundImage: NetworkImage(widget.userAvatar),
-                              size: AvatarButtonStyles.avatarSize,
-                              shape: GFAvatarShape.standard,
-                            ),
-                    )
-                  : null,
-            ),
-          ),
-          Transform.translate(
-            offset: AvatarButtonStyles.editRectanglesOffset,
-            child: Container(
-              height: AvatarButtonStyles.editRectanglesSize,
-              width: AvatarButtonStyles.editRectanglesSize,
-              alignment: Alignment.center,
-              decoration:
-                  AvatarButtonStyles.getEditRectangleDecoration(context),
-              child: const Icon(
-                Icons.edit,
-                size: AvatarButtonStyles.iconEditSize,
-                color: Colors.white,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: _pickImage,
+        child: Stack(
+          alignment: AlignmentDirectional.bottomEnd,
+          children: <Widget>[
+            SizedBox(
+              height: AvatarButtonStyles.avatarSize,
+              width: AvatarButtonStyles.avatarSize,
+              child: Container(
+                decoration: AvatarButtonStyles.getDecoration(
+                  context: context,
+                  imageData: _imageData,
+                ),
+                child: _imageData == null
+                    ? Padding(
+                        padding: AvatarButtonStyles.iconPersonPadding,
+                        child: widget.userAvatar.isEmpty
+                            ? SvgPicture.asset(
+                                ImagePaths.icPerson,
+                                width: AvatarButtonStyles.iconPersonWidth,
+                                height: AvatarButtonStyles.iconPersonHeight,
+                              )
+                            : GFAvatar(
+                                backgroundImage:
+                                    NetworkImage(widget.userAvatar),
+                                size: AvatarButtonStyles.avatarSize,
+                                shape: GFAvatarShape.standard,
+                              ),
+                      )
+                    : null,
               ),
             ),
-          ),
-        ],
+            Transform.translate(
+              offset: AvatarButtonStyles.editRectanglesOffset,
+              child: Container(
+                height: AvatarButtonStyles.editRectanglesSize,
+                width: AvatarButtonStyles.editRectanglesSize,
+                alignment: Alignment.center,
+                decoration:
+                    AvatarButtonStyles.getEditRectangleDecoration(context),
+                child: const Icon(
+                  Icons.edit,
+                  size: AvatarButtonStyles.iconEditSize,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

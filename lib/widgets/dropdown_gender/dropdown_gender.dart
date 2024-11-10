@@ -4,10 +4,12 @@ import 'package:ecoparking_flutter/widgets/dropdown_gender/dropdown_gender_style
 import 'package:flutter/material.dart';
 
 class DropdownGender extends StatefulWidget {
+  final Genders? initialGender;
   final ValueChanged<Genders>? onSelectGender;
 
   const DropdownGender({
     super.key,
+    this.initialGender,
     this.onSelectGender,
   });
 
@@ -30,6 +32,10 @@ class _DropdownGenderState extends State<DropdownGender> {
         _isFocus = _focusNode.hasFocus;
       });
     });
+
+    if (widget.initialGender != null) {
+      _selectedGender = widget.initialGender;
+    }
   }
 
   @override
