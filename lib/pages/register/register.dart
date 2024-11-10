@@ -53,6 +53,10 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
 
   void onSignUpPressed() {
     loggy.info('onSignUpPressed()');
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.createProfile,
+    );
   }
 
   void onLoginWithGooglePressed() {

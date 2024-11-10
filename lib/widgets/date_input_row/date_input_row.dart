@@ -2,10 +2,12 @@ import 'package:ecoparking_flutter/widgets/date_input_row/date_input_row_styles.
 import 'package:flutter/material.dart';
 
 class DateInputRow extends StatefulWidget {
+  final String? initialDate;
   final void Function(DateTime?)? onDateSelected;
 
   const DateInputRow({
     super.key,
+    this.initialDate,
     this.onDateSelected,
   });
 
@@ -14,7 +16,19 @@ class DateInputRow extends StatefulWidget {
 }
 
 class _DateInputRowState extends State<DateInputRow> {
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialDate);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
