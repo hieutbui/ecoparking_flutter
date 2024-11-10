@@ -20,7 +20,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: AppPaths.login.label,
+      title: AppPaths.login.getTitle(),
       onBackButtonPressed: controller.onBackButtonPressed,
       body: Padding(
         padding: LoginViewStyles.padding,

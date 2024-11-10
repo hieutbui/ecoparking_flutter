@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/profile/profile.dart';
 import 'package:ecoparking_flutter/pages/profile/profile_view_styles.dart';
 import 'package:ecoparking_flutter/pages/profile/widgets/setting_button.dart';
@@ -17,7 +18,7 @@ class ProfilePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Profile',
+      title: AppPaths.profile.getTitle(profileType: ProfileType.hasAccount),
       showBackButton: false,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
