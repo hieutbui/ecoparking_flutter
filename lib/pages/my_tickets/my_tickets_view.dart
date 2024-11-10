@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/model/ticket_pages.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/my_tickets.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/widgets/list_ticket.dart';
@@ -18,7 +19,7 @@ class MyTicketsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'My Tickets',
+      title: AppPaths.booking.getTitle(),
       body: Scaffold(
         appBar: GFAppBar(
           bottomOpacity: 0.0,

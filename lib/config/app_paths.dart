@@ -9,7 +9,9 @@ enum AppPaths {
   bookingDetails,
   selectVehicle,
   reviewSummary,
-  paymentMethod;
+  paymentMethod,
+  editProfile,
+  createProfile;
 
   String get path {
     switch (this) {
@@ -35,6 +37,10 @@ enum AppPaths {
         return 'review-summary';
       case AppPaths.paymentMethod:
         return 'payment-method';
+      case AppPaths.editProfile:
+        return 'edit-profile';
+      case AppPaths.createProfile:
+        return 'create-profile';
       default:
         return '/home';
     }
@@ -46,6 +52,8 @@ enum AppPaths {
         return '/login';
       case AppPaths.register:
         return '/register';
+      case AppPaths.createProfile:
+        return 'register/create-profile';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -54,6 +62,8 @@ enum AppPaths {
         return '/booking';
       case AppPaths.profile:
         return '/profile';
+      case AppPaths.editProfile:
+        return '/profile/edit-profile';
       case AppPaths.parkingDetails:
         return '/home/parking-details';
       case AppPaths.bookingDetails:
@@ -95,6 +105,55 @@ enum AppPaths {
         return 'Select Payment Method';
       default:
         return 'Home';
+    }
+  }
+
+  String getTitle({ProfileType? profileType}) {
+    switch (this) {
+      case AppPaths.login:
+        return 'Login to your Account';
+      case AppPaths.register:
+        return 'Create Your Account';
+      case AppPaths.createProfile:
+        return 'Fill Your Profile';
+      case AppPaths.home:
+        return 'Home';
+      case AppPaths.saved:
+        return 'My Bookmark';
+      case AppPaths.booking:
+        return 'My Ticket';
+      case AppPaths.profile:
+        return profileType?.title ?? 'Profile';
+      case AppPaths.editProfile:
+        return 'Edit Profile';
+      case AppPaths.parkingDetails:
+        return 'Parking Details';
+      case AppPaths.bookingDetails:
+        return 'Booking Parking Details';
+      case AppPaths.selectVehicle:
+        return 'Select Your Vehicle';
+      case AppPaths.reviewSummary:
+        return 'Review Summary';
+      case AppPaths.paymentMethod:
+        return 'Payment';
+      default:
+        return 'Home';
+    }
+  }
+}
+
+enum ProfileType {
+  noAccount,
+  hasAccount;
+
+  String get title {
+    switch (this) {
+      case ProfileType.noAccount:
+        return 'Let’s you in';
+      case ProfileType.hasAccount:
+        return 'Profile';
+      default:
+        return 'Profile';
     }
   }
 }

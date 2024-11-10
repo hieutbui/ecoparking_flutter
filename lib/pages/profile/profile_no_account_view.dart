@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/profile/profile.dart';
 import 'package:ecoparking_flutter/pages/profile/profile_no_account_view_styles.dart';
 import 'package:ecoparking_flutter/pages/profile/widgets/social_login_button.dart';
@@ -17,7 +18,7 @@ class ProfileNoAccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Let’s you in',
+      title: AppPaths.profile.getTitle(profileType: ProfileType.noAccount),
       showBackButton: false,
       body: Padding(
         padding: ProfileNoAccountViewStyles.padding,

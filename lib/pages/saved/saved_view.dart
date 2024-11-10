@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/user_favorite_parkings/get_user_favorite_parkings.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
@@ -16,7 +17,7 @@ class SavedPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'My Bookmark',
+      title: AppPaths.saved.getTitle(),
       showBackButton: false,
       body: ValueListenableBuilder(
         valueListenable: controller.userFavoriteParkingsNotifier,

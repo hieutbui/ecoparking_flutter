@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method.dart';
 import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method_styles.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
@@ -16,7 +17,7 @@ class ChoosePaymentMethodView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Payment',
+      title: AppPaths.paymentMethod.getTitle(),
       body: Column(
         children: <Widget>[
           Expanded(
