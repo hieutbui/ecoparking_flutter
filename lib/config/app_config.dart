@@ -28,4 +28,6 @@ class AppConfig {
   static const Color outlineVariantColor = Color(0xFFCAC4D0);
 
   static const double appColumnWidth = 360;
+
+  static const String appTitle = 'EcoParking';
 }
