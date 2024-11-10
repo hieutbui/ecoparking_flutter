@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
@@ -16,24 +17,35 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                color: Colors.black,
-              ),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          if (onBackButtonPressed != null) {
+            onBackButtonPressed?.call(context);
+          } else {
+            NavigationUtils.goBack(context);
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            title,
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                  color: Colors.black,
+                ),
+          ),
+          leading: (showBackButton ?? false)
+              ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => onBackButtonPressed != null
+                      ? onBackButtonPressed?.call(context)
+                      : Navigator.of(context).pop(),
+                )
+              : null,
         ),
-        leading: (showBackButton ?? false)
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => onBackButtonPressed != null
-                    ? onBackButtonPressed?.call(context)
-                    : Navigator.of(context).pop(),
-              )
-            : null,
+        body: body,
       ),
-      body: body,
     );
   }
 }
