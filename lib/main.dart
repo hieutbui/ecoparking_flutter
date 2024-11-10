@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_config.dart';
 import 'package:ecoparking_flutter/config/app_routes.dart';
 import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/config/themes.dart';
@@ -40,7 +41,7 @@ class EcoParkingApp extends StatelessWidget {
       builder: (context, themeMode, primaryColor) {
         return MaterialApp.router(
           routerConfig: AppRoutes.router,
-          title: 'WcoParking',
+          title: AppConfig.appTitle,
           themeMode: themeMode,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
