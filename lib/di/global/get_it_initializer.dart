@@ -1,28 +1,34 @@
 import 'package:ecoparking_flutter/data/datasource/markers/current_location_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/markers/parking_datasource.dart';
+import 'package:ecoparking_flutter/data/datasource/register/register_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/tickets/ticket_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/user_favorite_parkings/user_favorite_parkings_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/user_vehicles/user_vehicles_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/markers/current_location_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/markers/parking_datasource_impl.dart';
+import 'package:ecoparking_flutter/data/datasource_impl/register/register_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/tickets/ticket_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_favorite_parkings/user_favorite_parkings_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_vehicles/user_vehicles_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/current_location_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/parking_repository_impl.dart';
+import 'package:ecoparking_flutter/data/repository/register/register_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/tickets/ticket_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/user_favorite_parkings/user_favorite_parkings_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/user_vehicles/user_vehicles_repository_impl.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/current_location_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.dart';
+import 'package:ecoparking_flutter/domain/repository/register/register_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/tickets/ticket_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/user_favorite_parkings/user_favorite_parkings_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/user_vehicles/user_vehicles_repository.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
+import 'package:ecoparking_flutter/domain/services/register_service.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
@@ -83,6 +89,9 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<UserFavoriteParkingsDatasource>(
       () => UserFavoriteParkingsDatasourceImpl(),
     );
+    getIt.registerLazySingleton<RegisterDataSource>(
+      () => RegisterDataSourceImpl(),
+    );
     loggy.info('bindingDataSourceImpl(): Setup successfully');
   }
 
@@ -101,6 +110,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<UserFavoriteParkingsRepository>(
       () => UserFavoriteParkingsRepositoryImpl(),
+    );
+    getIt.registerLazySingleton<RegisterRepository>(
+      () => RegisterRepositoryImpl(),
     );
     loggy.info('bindingRepositories(): Setup successfully');
   }
@@ -121,6 +133,9 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<UserFavoriteParkingsInteractor>(
       () => UserFavoriteParkingsInteractor(),
     );
+    getIt.registerLazySingleton<RegisterInteractor>(
+      () => RegisterInteractor(),
+    );
     loggy.info('bindingInteractor(): Setup successfully');
   }
 
@@ -128,6 +143,7 @@ class GetItInitializer with GetItLoggy {
     getIt.registerSingleton<ParkingService>(ParkingService());
     getIt.registerSingleton<BookingService>(BookingService());
     getIt.registerSingleton<AccountService>(AccountService());
+    getIt.registerSingleton<RegisterService>(RegisterService());
     loggy.info('bindingServices(): Setup successfully');
   }
 

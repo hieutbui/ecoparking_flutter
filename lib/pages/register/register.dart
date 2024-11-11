@@ -1,4 +1,11 @@
+import 'dart:async';
+import 'package:ecoparking_flutter/app_state/failure.dart';
+import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/register_service.dart';
+import 'package:ecoparking_flutter/domain/state/register/register_state.dart';
+import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
 import 'package:ecoparking_flutter/pages/register/register_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
@@ -12,8 +19,18 @@ class RegisterPage extends StatefulWidget {
 }
 
 class RegisterController extends State<RegisterPage> with ControllerLoggy {
+  final RegisterInteractor _registerInteractor =
+      getIt.get<RegisterInteractor>();
+  final RegisterService _registerService = getIt.get<RegisterService>();
+
+  final registerStateNotifier = ValueNotifier<RegisterState>(
+    const RegisterInitial(),
+  );
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  StreamSubscription? _registerSubscription;
 
   @override
   void initState() {
@@ -22,8 +39,12 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
 
   @override
   void dispose() {
+    _registerSubscription?.cancel();
+    emailController.text = '';
+    passwordController.text = '';
     emailController.dispose();
     passwordController.dispose();
+    registerStateNotifier.dispose();
     super.dispose();
   }
 
@@ -53,10 +74,49 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
 
   void onSignUpPressed() {
     loggy.info('onSignUpPressed()');
-    NavigationUtils.navigateTo(
-      context: context,
-      path: AppPaths.createProfile,
-    );
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      _registerSubscription = _registerInteractor
+          .execute(
+            emailController.text,
+            passwordController.text,
+          )
+          .listen(
+            (result) => result.fold(
+              _handleRegisterFailure,
+              _handleRegisterSuccess,
+            ),
+          );
+    } else {
+      loggy.error('onSignUpPressed(): Email or password is empty');
+    }
+  }
+
+  void _handleRegisterFailure(Failure failure) {
+    loggy.error('_handleRegisterFailure(): $failure');
+    if (failure is RegisterAuthFailure) {
+      registerStateNotifier.value = failure;
+    } else if (failure is RegisterOtherFailure) {
+      registerStateNotifier.value = failure;
+    } else {
+      registerStateNotifier.value = const RegisterEmptyAuth();
+    }
+  }
+
+  void _handleRegisterSuccess(Success success) {
+    loggy.info('_handleRegisterSuccess(): $success');
+    if (success is RegisterSuccess) {
+      registerStateNotifier.value = success;
+      final user = success.authResponse.user;
+      if (user != null) {
+        _registerService.setUser(user);
+        NavigationUtils.navigateTo(
+          context: context,
+          path: AppPaths.createProfile,
+        );
+      }
+    } else {
+      registerStateNotifier.value = const RegisterEmptyAuth();
+    }
   }
 
   void onLoginWithGooglePressed() {

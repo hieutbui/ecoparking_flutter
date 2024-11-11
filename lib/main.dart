@@ -27,6 +27,9 @@ Future<void> main() async {
   await Supabase.initialize(
     url: EnvLoader.supabaseProjectUrl,
     anonKey: EnvLoader.supabaseAnonKey,
+    authOptions: const FlutterAuthClientOptions(
+      authFlowType: AuthFlowType.pkce,
+    ),
   );
 
   runApp(const EcoParkingApp());
