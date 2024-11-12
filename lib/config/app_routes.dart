@@ -4,7 +4,6 @@ import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
 import 'package:ecoparking_flutter/pages/edit_profile/edit_profile.dart';
-import 'package:ecoparking_flutter/pages/edit_profile/model/edit_profile_purpose.dart';
 import 'package:ecoparking_flutter/pages/login/login.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/my_tickets.dart';
 import 'package:ecoparking_flutter/pages/choose_payment_method/choose_payment_method.dart';
@@ -205,9 +204,7 @@ class AppRoutes {
                 path: AppPaths.editProfile.path,
                 pageBuilder: (context, state) => defaultPageBuilder(
                   context,
-                  const EditProfile(
-                    purpose: EditProfilePurpose.edit,
-                  ),
+                  const EditProfile(),
                   name: AppPaths.editProfile.label,
                 ),
               )
@@ -228,18 +225,6 @@ class AppRoutes {
               const RegisterPage(),
               name: AppPaths.register.label,
             ),
-            routes: <RouteBase>[
-              GoRoute(
-                path: AppPaths.createProfile.path,
-                pageBuilder: (context, state) => defaultPageBuilder(
-                  context,
-                  const EditProfile(
-                    purpose: EditProfilePurpose.create,
-                  ),
-                  name: AppPaths.createProfile.label,
-                ),
-              ),
-            ],
           ),
         ],
       ),
@@ -288,7 +273,6 @@ class AppRoutes {
   static List<String> get listFullScreenPages => [
         AppPaths.login.path,
         AppPaths.register.path,
-        AppPaths.createProfile.path,
         AppPaths.parkingDetails.navigationPath,
         AppPaths.bookingDetails.navigationPath,
         AppPaths.selectVehicle.navigationPath,
