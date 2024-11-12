@@ -1,6 +1,6 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/edit_profile/edit_profile.dart';
 import 'package:ecoparking_flutter/pages/edit_profile/edit_profile_view_styles.dart';
-import 'package:ecoparking_flutter/pages/edit_profile/model/edit_profile_purpose.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:ecoparking_flutter/widgets/avatar_button/avatar_button.dart';
@@ -12,18 +12,16 @@ import 'package:flutter/material.dart';
 
 class EditProfileView extends StatelessWidget {
   final EditProfileController controller;
-  final EditProfilePurpose purpose;
 
   const EditProfileView({
     super.key,
     required this.controller,
-    required this.purpose,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: purpose.title,
+      title: AppPaths.editProfile.getTitle(),
       body: Padding(
         padding: EditProfileViewStyles.padding,
         child: SingleChildScrollView(
@@ -51,6 +49,17 @@ class EditProfileView extends StatelessWidget {
               const SizedBox(
                 height: EditProfileViewStyles.inputRowSpacing,
               ),
+              TextInputRow(
+                controller: controller.nickNameController,
+                hintText: 'Nick name',
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.name,
+                isShowObscure: false,
+                onChanged: controller.onNickNameChanged,
+              ),
+              const SizedBox(
+                height: EditProfileViewStyles.inputRowSpacing,
+              ),
               PhoneInputRow(
                 initialPhoneNumber: controller.phoneController.text,
                 onChanged: controller.onPhoneChanged,
@@ -66,7 +75,7 @@ class EditProfileView extends StatelessWidget {
                 height: EditProfileViewStyles.inputRowSpacing,
               ),
               DateInputRow(
-                initialDate: controller.dateController.text,
+                initialDate: controller.dateNotifier.value,
                 onDateSelected: controller.onDateChanged,
               ),
               const SizedBox(
@@ -74,9 +83,8 @@ class EditProfileView extends StatelessWidget {
               ),
               ActionButton(
                 type: ActionButtonType.positive,
-                label:
-                    purpose == EditProfilePurpose.edit ? 'Update' : 'Continue',
-                onPressed: controller.onContinuePressed,
+                label: 'Update',
+                onPressed: controller.onUpdatePressed,
               )
             ],
           ),

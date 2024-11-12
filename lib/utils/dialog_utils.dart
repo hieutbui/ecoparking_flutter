@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DialogUtils {
+  static final GlobalKey<ScaffoldState> dialogScaffoldKey =
+      GlobalKey<ScaffoldState>();
+
   static void show({
     required BuildContext context,
     required List<Widget> Function(BuildContext) actions,
@@ -35,6 +38,27 @@ class DialogUtils {
         customDescription: customDescription,
       ),
     );
+  }
+
+  static void showLoading({
+    required BuildContext context,
+    bool isDismissible = false,
+    bool useRootNavigator = true,
+  }) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: isDismissible,
+      useRootNavigator: useRootNavigator,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  static void hide(BuildContext context) {
+    if (Navigator.of(context, rootNavigator: true).canPop()) {
+      Navigator.of(context, rootNavigator: true).pop();
+    }
   }
 }
 
