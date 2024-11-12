@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/config/app_routes.dart';
 import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/config/themes.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:ecoparking_flutter/widgets/theme_builder.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,12 @@ class EcoParkingApp extends StatelessWidget {
             Locale('en', 'US'),
           ],
           theme: EcoParkingThemes.buildTheme(context),
+          builder: (context, child) {
+            return Scaffold(
+              key: DialogUtils.dialogScaffoldKey,
+              body: child,
+            );
+          },
         );
       },
     );

@@ -10,8 +10,7 @@ enum AppPaths {
   selectVehicle,
   reviewSummary,
   paymentMethod,
-  editProfile,
-  createProfile;
+  editProfile;
 
   String get path {
     switch (this) {
@@ -19,8 +18,6 @@ enum AppPaths {
         return '/login';
       case AppPaths.register:
         return '/register';
-      case AppPaths.createProfile:
-        return 'create-profile';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -52,8 +49,6 @@ enum AppPaths {
         return '/login';
       case AppPaths.register:
         return '/register';
-      case AppPaths.createProfile:
-        return '/register/create-profile';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -85,8 +80,6 @@ enum AppPaths {
         return 'Login to your Account';
       case AppPaths.register:
         return 'Create Your Account';
-      case AppPaths.createProfile:
-        return 'Fill Your Profile';
       case AppPaths.home:
         return 'Home';
       case AppPaths.saved:
@@ -118,8 +111,6 @@ enum AppPaths {
         return 'Login to your Account';
       case AppPaths.register:
         return 'Create Your Account';
-      case AppPaths.createProfile:
-        return 'Fill Your Profile';
       case AppPaths.home:
         return 'Home';
       case AppPaths.saved:

@@ -2,7 +2,7 @@ import 'package:ecoparking_flutter/widgets/date_input_row/date_input_row_styles.
 import 'package:flutter/material.dart';
 
 class DateInputRow extends StatefulWidget {
-  final String? initialDate;
+  final DateTime? initialDate;
   final void Function(DateTime?)? onDateSelected;
 
   const DateInputRow({
@@ -21,7 +21,17 @@ class _DateInputRowState extends State<DateInputRow> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.initialDate);
+    final initialDate = widget.initialDate;
+    if (initialDate != null) {
+      final initialDay = initialDate.day.toString().padLeft(2, '0');
+      final initialMonth = initialDate.month;
+      final initialYear = initialDate.year;
+      _controller = TextEditingController(
+        text: '$initialDay/$initialMonth/$initialYear',
+      );
+    } else {
+      _controller = TextEditingController();
+    }
   }
 
   @override
@@ -70,7 +80,8 @@ class _DateInputRowState extends State<DateInputRow> {
 
     if (picked != null) {
       setState(() {
-        _controller.text = '${picked.day}/${picked.month}/${picked.year}';
+        _controller.text =
+            '${picked.day.toString().padLeft(2, '0')}/${picked.month}/${picked.year}';
       });
     }
 
