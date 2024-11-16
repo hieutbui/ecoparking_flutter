@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/register_service.dart';
 import 'package:ecoparking_flutter/domain/state/register/register_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
 import 'package:ecoparking_flutter/pages/register/register_view.dart';
@@ -12,6 +13,7 @@ import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -23,6 +25,7 @@ class RegisterPage extends StatefulWidget {
 class RegisterController extends State<RegisterPage> with ControllerLoggy {
   final RegisterInteractor _registerInteractor =
       getIt.get<RegisterInteractor>();
+  final RegisterService _registerService = getIt.get<RegisterService>();
 
   final registerStateNotifier = ValueNotifier<RegisterState>(
     const RegisterInitial(),
@@ -107,11 +110,41 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
       registerStateNotifier.value = success;
       final user = success.authResponse.user;
       if (user != null) {
-        _showRegisterSuccessDialog();
+        _processRegistered(user);
       }
     } else {
       registerStateNotifier.value = const RegisterEmptyAuth();
     }
+  }
+
+  void _processRegistered(User user) {
+    loggy.info('_processRegistered()');
+    if (user.emailConfirmedAt != null) {
+      DialogUtils.show(
+        context: context,
+        svgImage: ImagePaths.imgDialogSuccessful,
+        title: 'Register!',
+        description: 'Your email has been verified!',
+        actions: (context) {
+          return <Widget>[
+            ActionButton(
+              type: ActionButtonType.positive,
+              label: 'Go to Login',
+              onPressed: () {
+                NavigationUtils.replaceTo(
+                  context: context,
+                  path: AppPaths.login,
+                );
+                DialogUtils.hide(context);
+              },
+            ),
+          ];
+        },
+      );
+    }
+
+    _registerService.setUser(user);
+    _showRegisterSuccessDialog();
   }
 
   void _showRegisterSuccessDialog() {
@@ -121,16 +154,16 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
       context: context,
       svgImage: ImagePaths.imgDialogSuccessful,
       title: 'Register Success!',
-      description: 'Please check your email to verify your account',
+      description: 'OTP has been sent to your email. Please check your email!',
       actions: (context) {
         return <Widget>[
           ActionButton(
             type: ActionButtonType.positive,
-            label: 'Go to Login',
+            label: 'Go to Verify OTP',
             onPressed: () {
               NavigationUtils.replaceTo(
                 context: context,
-                path: AppPaths.login,
+                path: AppPaths.registerVerify,
               );
               DialogUtils.hide(context);
             },

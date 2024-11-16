@@ -4,10 +4,19 @@ import 'package:ecoparking_flutter/domain/repository/register/register_repositor
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterRepositoryImpl implements RegisterRepository {
-  final RegisterDataSource registerDataSource = getIt.get<RegisterDataSource>();
+  final RegisterDataSource _registerDataSource =
+      getIt.get<RegisterDataSource>();
 
   @override
   Future<AuthResponse> register(String email, String password) {
-    return registerDataSource.register(email, password);
+    return _registerDataSource.register(email, password);
+  }
+
+  @override
+  Future<AuthResponse> verifyRegistrationWithEmailOTP(
+    String email,
+    String token,
+  ) {
+    return _registerDataSource.verifyRegistrationWithEmailOTP(email, token);
   }
 }

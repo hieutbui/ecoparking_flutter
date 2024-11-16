@@ -14,6 +14,8 @@ import 'package:ecoparking_flutter/pages/register/register.dart';
 import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
+import 'package:ecoparking_flutter/pages/verify_otp/model/register_types.dart';
+import 'package:ecoparking_flutter/pages/verify_otp/verify_otp.dart';
 import 'package:ecoparking_flutter/utils/responsive.dart';
 import 'package:ecoparking_flutter/widgets/app_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -225,6 +227,16 @@ class AppRoutes {
               const RegisterPage(),
               name: AppPaths.register.label,
             ),
+            routes: <RouteBase>[
+              GoRoute(
+                path: AppPaths.registerVerify.path,
+                pageBuilder: (context, state) => defaultPageBuilder(
+                  context,
+                  const VerifyOtp(registerType: RegisterTypes.email),
+                  name: AppPaths.registerVerify.label,
+                ),
+              ),
+            ],
           ),
         ],
       ),

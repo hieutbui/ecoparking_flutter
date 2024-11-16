@@ -37,11 +37,13 @@ import 'package:ecoparking_flutter/domain/repository/user_vehicles/user_vehicles
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
+import 'package:ecoparking_flutter/domain/services/register_service.dart';
 import 'package:ecoparking_flutter/domain/usecase/login/login_with_email_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/update_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/register/verify_email_otp_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/sign_out/sign_out_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
@@ -177,6 +179,9 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<SignOutInteractor>(
       () => SignOutInteractor(),
     );
+    getIt.registerLazySingleton<VerifyEmailOtpInteractor>(
+      () => VerifyEmailOtpInteractor(),
+    );
     loggy.info('bindingInteractor(): Setup successfully');
   }
 
@@ -184,6 +189,7 @@ class GetItInitializer with GetItLoggy {
     getIt.registerSingleton<ParkingService>(ParkingService());
     getIt.registerSingleton<BookingService>(BookingService());
     getIt.registerSingleton<AccountService>(AccountService());
+    getIt.registerSingleton<RegisterService>(RegisterService());
     loggy.info('bindingServices(): Setup successfully');
   }
 

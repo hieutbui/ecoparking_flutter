@@ -10,4 +10,16 @@ class RegisterDataSourceImpl implements RegisterDataSource {
           email: email,
         );
   }
+
+  @override
+  Future<AuthResponse> verifyRegistrationWithEmailOTP(
+    String email,
+    String token,
+  ) {
+    return SupabaseUtils().client.auth.verifyOTP(
+          type: OtpType.signup,
+          email: email,
+          token: token,
+        );
+  }
 }
