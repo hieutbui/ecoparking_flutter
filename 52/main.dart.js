@@ -56282,57 +56282,61 @@ A.iC.prototype={
 H(){return"AppPaths."+this.b},
 gc9(a){switch(this.a){case 0:return"/login"
 case 1:return"/register"
-case 2:return"/home"
-case 3:return"/saved"
-case 4:return"/booking"
-case 5:return"/profile"
-case 6:return"parking-details"
-case 7:return"booking-details"
-case 8:return"select-vehicle"
-case 9:return"review-summary"
-case 10:return"payment-method"
-case 11:return"edit-profile"
+case 2:return"/register-verify"
+case 3:return"/home"
+case 4:return"/saved"
+case 5:return"/booking"
+case 6:return"/profile"
+case 7:return"parking-details"
+case 8:return"booking-details"
+case 9:return"select-vehicle"
+case 10:return"review-summary"
+case 11:return"payment-method"
+case 12:return"edit-profile"
 default:return"/home"}},
 gfm(){switch(this.a){case 0:return"/login"
 case 1:return"/register"
-case 2:return"/home"
-case 3:return"/saved"
-case 4:return"/booking"
-case 5:return"/profile"
-case 11:return"/profile/edit-profile"
-case 6:return"/home/parking-details"
-case 7:return"/home/booking-details"
-case 8:return"/home/select-vehicle"
-case 9:return"/home/review-summary"
-case 10:return"/home/review-summary/payment-method"
+case 2:return"/register/register-verify"
+case 3:return"/home"
+case 4:return"/saved"
+case 5:return"/booking"
+case 6:return"/profile"
+case 12:return"/profile/edit-profile"
+case 7:return"/home/parking-details"
+case 8:return"/home/booking-details"
+case 9:return"/home/select-vehicle"
+case 10:return"/home/review-summary"
+case 11:return"/home/review-summary/payment-method"
 default:return"/home"}},
 gi5(a){switch(this.a){case 0:return"Login to your Account"
 case 1:return"Create Your Account"
-case 2:return"Home"
-case 3:return"Saved"
-case 4:return"Booking"
-case 5:return"Profile"
-case 11:return"Edit Profile"
-case 6:return"Parking Details"
-case 7:return"Booking Parking Details"
-case 8:return"Select Vehicle"
-case 9:return"Review Summary"
-case 10:return"Select Payment Method"
+case 2:return"Verify Your Account"
+case 3:return"Home"
+case 4:return"Saved"
+case 5:return"Booking"
+case 6:return"Profile"
+case 12:return"Edit Profile"
+case 7:return"Parking Details"
+case 8:return"Booking Parking Details"
+case 9:return"Select Vehicle"
+case 10:return"Review Summary"
+case 11:return"Select Payment Method"
 default:return"Home"}},
 IL(a){var s
 switch(this.a){case 0:return"Login to your Account"
 case 1:return"Create Your Account"
-case 2:return"Home"
-case 3:return"My Bookmark"
-case 4:return"My Ticket"
-case 5:s=a==null?null:a.gaMM(0)
+case 2:return"Verify Your Account"
+case 3:return"Home"
+case 4:return"My Bookmark"
+case 5:return"My Ticket"
+case 6:s=a==null?null:a.gaMM(0)
 return s==null?"Profile":s
-case 11:return"Edit Profile"
-case 6:return"Parking Details"
-case 7:return"Booking Parking Details"
-case 8:return"Select Your Vehicle"
-case 9:return"Review Summary"
-case 10:return"Payment"
+case 12:return"Edit Profile"
+case 7:return"Parking Details"
+case 8:return"Booking Parking Details"
+case 9:return"Select Your Vehicle"
+case 10:return"Review Summary"
+case 11:return"Payment"
 default:return"Home"}},
 mR(){return this.IL(null)}}
 A.a37.prototype={
@@ -56346,7 +56350,7 @@ return new A.AU(a.c,a.d,r)},
 $S:364}
 A.anf.prototype={
 $3(a,b,c){var s=b.b,r=B.d.eh(s.gc9(s))
-if(B.c.jl(A.a([B.e2.gc9(0),B.kB.gc9(0),B.kE.gfm(),B.dA.gfm(),B.kF.gfm(),B.m5.gfm(),B.m4.gfm()],t.s),new A.an6(r)))return c
+if(B.c.jl(A.a([B.e2.gc9(0),B.kB.gc9(0),B.kE.gfm(),B.dA.gfm(),B.kF.gfm(),B.m4.gfm(),B.m5.gfm()],t.s),new A.an6(r)))return c
 return new A.Ug(c,null)},
 $S:369}
 A.an6.prototype={
@@ -56376,13 +56380,13 @@ A.ank.prototype={
 $2(a,b){return $.b3b().w==null?B.cc.gc9(0):null},
 $S:118}
 A.anl.prototype={
-$2(a,b){return A.lR(a,B.aSE,B.m5.gi5(0))},
+$2(a,b){return A.lR(a,B.aSE,B.m4.gi5(0))},
 $S:30}
 A.anm.prototype={
 $2(a,b){return $.b3b().b==null?B.cc.gc9(0):null},
 $S:118}
 A.ann.prototype={
-$2(a,b){return A.lR(a,B.WV,B.m4.gi5(0))},
+$2(a,b){return A.lR(a,B.WV,B.m5.gi5(0))},
 $S:30}
 A.ano.prototype={
 $2(a,b){return A.lR(a,B.aSV,B.kC.gi5(0))},
@@ -57540,7 +57544,7 @@ E(a){return new A.Va(this,null)},
 $ick:1}
 A.aac.prototype={}
 A.Va.prototype={
-E(a){var s=null,r=B.m4.mR(),q=A.dT(A.lj(new A.bl(B.cv,A.a_q(new A.aph(this),2,new A.api(),!0),s),s,B.Q,s,B.bP,B.ao),1),p=A.a([new A.bU(2,B.a1,A.R(B.e.ag(25.5),0,0,0),B.mZ,10)],t.E)
+E(a){var s=null,r=B.m5.mR(),q=A.dT(A.lj(new A.bl(B.cv,A.a_q(new A.aph(this),2,new A.api(),!0),s),s,B.Q,s,B.bP,B.ao),1),p=A.a([new A.bU(2,B.a1,A.R(B.e.ag(25.5),0,0,0),B.mZ,10)],t.E)
 return new A.iD(r,A.c3(A.a([q,A.bj(s,A.fN(s,51,!1,"Continue",s,this.c.gqy(),B.bz,1/0),B.n,s,s,new A.bB(B.o,s,s,B.kM,p,s,s,B.L),s,s,s,B.l_,s,s,s)],t.p),B.v,B.A,B.B),!0,s,s)}}
 A.aph.prototype={
 $2(a,b){var s,r
@@ -58373,7 +58377,7 @@ s=this.c
 s.toString
 r=A.ej(s)
 r.toString
-r.iG(0,B.m4.gfm(),null)
+r.iG(0,B.m5.gfm(),null)
 return},
 tt(){A.aL("Controller Loggy - "+A.o(this).k(0),t.Z).a9(B.y,"Continue tapped",null,null)},
 E(a){return new A.a4c(this,null)},
@@ -58385,7 +58389,7 @@ return r},
 $S:0}
 A.agC.prototype={}
 A.a4c.prototype={
-E(a){var s=null,r=B.m5.mR(),q=this.c,p=t.p,o=A.dT(A.lj(new A.bl(B.a1j,A.c3(A.a([new A.Is(q.f,s),B.aV2,new A.Is(q.r,s)],p),B.v,B.A,B.B),s),s,B.Q,s,B.bP,B.ao),1),n=A.a([new A.bU(2,B.a1,A.R(B.e.ag(25.5),0,0,0),B.mZ,10)],t.E)
+E(a){var s=null,r=B.m4.mR(),q=this.c,p=t.p,o=A.dT(A.lj(new A.bl(B.a1j,A.c3(A.a([new A.Is(q.f,s),B.aV2,new A.Is(q.r,s)],p),B.v,B.A,B.B),s),s,B.Q,s,B.bP,B.ao),1),n=A.a([new A.bU(2,B.a1,A.R(B.e.ag(25.5),0,0,0),B.mZ,10)],t.E)
 return new A.iD(r,A.c3(A.a([o,A.bj(s,A.c3(A.a([new A.d7(q.e,new A.aI2(this),s,s,t.cM),B.be,A.fN(s,51,!1,"Continue",s,q.gqy(),B.bz,1/0)],p),B.b8,B.A,B.aQ),B.n,s,s,new A.bB(B.o,s,s,B.kM,n,s,s,B.L),s,s,s,B.l_,s,s,s)],p),B.v,B.en,B.B),!0,q.goT(),s)}}
 A.aI2.prototype={
 $3(a,b,c){var s=null,r=b!=null,q=r?b.So():"Please select payment method",p=r?s:"Choose how you want to pay"
@@ -58499,7 +58503,7 @@ s=this.c
 s.toString
 r=A.ej(s)
 r.toString
-r.iG(0,B.m5.gfm(),null)},
+r.iG(0,B.m4.gfm(),null)},
 E(a){return new A.a4N(this,null)},
 $ick:1}
 A.aJu.prototype={
@@ -131601,16 +131605,16 @@ B.nN=new A.lQ(3,"hidden")
 B.rr=new A.lQ(4,"paused")
 B.e2=new A.iC(0,"login")
 B.kB=new A.iC(1,"register")
-B.m4=new A.iC(10,"paymentMethod")
-B.rs=new A.iC(11,"editProfile")
-B.cc=new A.iC(2,"home")
-B.kC=new A.iC(3,"saved")
-B.kD=new A.iC(4,"booking")
-B.dz=new A.iC(5,"profile")
-B.kE=new A.iC(6,"parkingDetails")
-B.dA=new A.iC(7,"bookingDetails")
-B.kF=new A.iC(8,"selectVehicle")
-B.m5=new A.iC(9,"reviewSummary")
+B.m4=new A.iC(10,"reviewSummary")
+B.m5=new A.iC(11,"paymentMethod")
+B.rs=new A.iC(12,"editProfile")
+B.cc=new A.iC(3,"home")
+B.kC=new A.iC(4,"saved")
+B.kD=new A.iC(5,"booking")
+B.dz=new A.iC(6,"profile")
+B.kE=new A.iC(7,"parkingDetails")
+B.dA=new A.iC(8,"bookingDetails")
+B.kF=new A.iC(9,"selectVehicle")
 B.Tj=new A.Uj(!1,127)
 B.xq=new A.Uk(127)
 B.rt=new A.Fr(0,"polite")
@@ -139613,7 +139617,7 @@ s($,"bDw","b3b",()=>$.dg().dE(0,t.ec))
 s($,"bDA","biE",()=>{var q,p,o=null,n=B.cc.gc9(0),m=t.uK,l=A.b51("Root Navigator",m)
 m=A.b51("Shell Navigator",m)
 q=t.yo
-p=A.a([A.l0(o,new A.an7(),B.cc.gc9(0),o,A.a([A.l0(o,new A.an8(),B.kE.gc9(0),new A.an9(),B.dj),A.l0(o,new A.anh(),B.dA.gc9(0),new A.ani(),B.dj),A.l0(o,new A.anj(),B.kF.gc9(0),new A.ank(),B.dj),A.l0(o,new A.anl(),B.m5.gc9(0),new A.anm(),A.a([A.l0(o,new A.ann(),B.m4.gc9(0),o,B.dj)],q))],q)),A.l0(o,new A.ano(),B.kC.gc9(0),o,B.dj),A.l0(o,new A.ana(),B.kD.gc9(0),o,B.dj),A.l0(o,new A.anb(),B.dz.gc9(0),o,A.a([A.l0(o,new A.anc(),B.rs.gc9(0),o,B.dj)],q)),A.l0(o,new A.and(),B.e2.gc9(0),o,B.dj),A.l0(o,new A.ane(),B.kB.gc9(0),o,B.dj)],q)
+p=A.a([A.l0(o,new A.an7(),B.cc.gc9(0),o,A.a([A.l0(o,new A.an8(),B.kE.gc9(0),new A.an9(),B.dj),A.l0(o,new A.anh(),B.dA.gc9(0),new A.ani(),B.dj),A.l0(o,new A.anj(),B.kF.gc9(0),new A.ank(),B.dj),A.l0(o,new A.anl(),B.m4.gc9(0),new A.anm(),A.a([A.l0(o,new A.ann(),B.m5.gc9(0),o,B.dj)],q))],q)),A.l0(o,new A.ano(),B.kC.gc9(0),o,B.dj),A.l0(o,new A.ana(),B.kD.gc9(0),o,B.dj),A.l0(o,new A.anb(),B.dz.gc9(0),o,A.a([A.l0(o,new A.anc(),B.rs.gc9(0),o,B.dj)],q)),A.l0(o,new A.and(),B.e2.gc9(0),o,B.dj),A.l0(o,new A.ane(),B.kB.gc9(0),o,B.dj)],q)
 m=A.a([new A.x2(new A.anf(),m,o,p,o)],q)
 return A.bqB(!0,o,o,o,o,n,l,o,new A.ang(),!1,o,!0,o,!1,new A.aal(new A.aIr(m,A.bCL(),5)))})
 r($,"bDz","biD",()=>A.ap([B.cc.gc9(0),0,B.kC.gc9(0),1,B.kD.gc9(0),2,B.dz.gc9(0),3],t.N,t.S))
