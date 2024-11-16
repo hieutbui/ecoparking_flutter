@@ -5,7 +5,7 @@ class DialogUtils {
   static final GlobalKey<ScaffoldState> dialogScaffoldKey =
       GlobalKey<ScaffoldState>();
 
-  static void show({
+  static Future<void> show({
     required BuildContext context,
     required List<Widget> Function(BuildContext) actions,
     bool isDismissible = false,
@@ -20,7 +20,7 @@ class DialogUtils {
     bool useRootNavigator = true,
     Widget? customDescription,
   }) async {
-    await showDialog(
+    return await showDialog(
       context: context,
       barrierDismissible: isDismissible,
       useRootNavigator: useRootNavigator,
@@ -40,12 +40,12 @@ class DialogUtils {
     );
   }
 
-  static void showLoading({
+  static Future<void> showLoading({
     required BuildContext context,
     bool isDismissible = false,
     bool useRootNavigator = true,
   }) async {
-    await showDialog(
+    return showDialog(
       context: context,
       barrierDismissible: isDismissible,
       useRootNavigator: useRootNavigator,

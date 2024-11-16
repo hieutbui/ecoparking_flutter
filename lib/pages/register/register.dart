@@ -76,11 +76,6 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
   void onSignUpPressed() {
     loggy.info('onSignUpPressed()');
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      DialogUtils.showLoading(
-        context: context,
-        isDismissible: false,
-      );
-
       _registerSubscription = _registerInteractor
           .execute(
             emailController.text,
@@ -92,14 +87,11 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
               _handleRegisterSuccess,
             ),
           );
-    } else {
-      loggy.error('onSignUpPressed(): Email or password is empty');
-    }
+    } else {}
   }
 
   void _handleRegisterFailure(Failure failure) {
     loggy.error('_handleRegisterFailure(): $failure');
-    DialogUtils.hide(context);
     if (failure is RegisterAuthFailure) {
       registerStateNotifier.value = failure;
     } else if (failure is RegisterOtherFailure) {
@@ -111,7 +103,6 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
 
   void _handleRegisterSuccess(Success success) {
     loggy.info('_handleRegisterSuccess(): $success');
-    DialogUtils.hide(context);
     if (success is RegisterSuccess) {
       registerStateNotifier.value = success;
       final user = success.authResponse.user;
