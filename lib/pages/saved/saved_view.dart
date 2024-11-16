@@ -57,7 +57,7 @@ class SavedPageView extends StatelessWidget {
 
           return child!;
         },
-        child: const SizedBox(),
+        child: const SizedBox.shrink(),
       ),
     );
   }
