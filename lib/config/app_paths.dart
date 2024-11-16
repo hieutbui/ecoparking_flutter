@@ -1,6 +1,7 @@
 enum AppPaths {
   login,
   register,
+  registerVerify,
   home,
   saved,
   booking,
@@ -18,6 +19,8 @@ enum AppPaths {
         return '/login';
       case AppPaths.register:
         return '/register';
+      case AppPaths.registerVerify:
+        return 'register-verify';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -49,6 +52,8 @@ enum AppPaths {
         return '/login';
       case AppPaths.register:
         return '/register';
+      case AppPaths.registerVerify:
+        return '/register/register-verify';
       case AppPaths.home:
         return '/home';
       case AppPaths.saved:
@@ -80,6 +85,8 @@ enum AppPaths {
         return 'Login to your Account';
       case AppPaths.register:
         return 'Create Your Account';
+      case AppPaths.registerVerify:
+        return 'Verify Your Account';
       case AppPaths.home:
         return 'Home';
       case AppPaths.saved:
@@ -111,6 +118,8 @@ enum AppPaths {
         return 'Login to your Account';
       case AppPaths.register:
         return 'Create Your Account';
+      case AppPaths.registerVerify:
+        return 'Verify Your Account';
       case AppPaths.home:
         return 'Home';
       case AppPaths.saved:
