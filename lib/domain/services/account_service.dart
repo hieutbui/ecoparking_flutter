@@ -1,15 +1,19 @@
-import 'package:ecoparking_flutter/model/account/account.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AccountService {
-  Account? _account;
+  Session? session;
+  User? user;
 
-  Account? get account => _account;
+  void setSession(Session? session) {
+    this.session = session;
+  }
 
-  void setAccount(Account account) {
-    _account = account;
+  void setUser(User? user) {
+    this.user = user;
   }
 
   void clear() {
-    _account = null;
+    session = null;
+    user = null;
   }
 }
