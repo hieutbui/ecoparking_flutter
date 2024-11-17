@@ -102,6 +102,8 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
     } else {
       registerStateNotifier.value = const RegisterEmptyAuth();
     }
+
+    _showRegisterFailureDialog();
   }
 
   void _handleRegisterSuccess(Success success) {
@@ -115,6 +117,27 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
     } else {
       registerStateNotifier.value = const RegisterEmptyAuth();
     }
+  }
+
+  void _showRegisterFailureDialog() {
+    loggy.info('_showRegisterFailureDialog()');
+    DialogUtils.show(
+      context: context,
+      svgImage: ImagePaths.imgDialogError,
+      title: 'Register Failed!',
+      description: 'Please try again!',
+      actions: (context) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(context);
+            },
+          ),
+        ];
+      },
+    );
   }
 
   void _processRegistered(User user) {
