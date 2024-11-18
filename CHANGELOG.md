@@ -1,3 +1,14 @@
+## v0.0.5 - 18/11/2024
+## Added
+- Login logics
+- Register logics
+- Initialization Supabase
+## Fixed
+- Wrong app name
+- Browser pop back issues
+- App paths Re-organization
+- Missing JSON parsing for favorite parkings
+
 ## v0.0.4 - 03/11/2024
 ### Added
 - Add static UI for favorite parkings screen
