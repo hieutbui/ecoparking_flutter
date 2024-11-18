@@ -4,10 +4,15 @@ import 'package:ecoparking_flutter/domain/repository/profile/profile_repository.
 import 'package:ecoparking_flutter/model/account/profile.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
-  final ProfileDataSource profileDataSource = getIt.get<ProfileDataSource>();
+  final ProfileDataSource _profileDataSource = getIt.get<ProfileDataSource>();
 
   @override
   Future<Map<String, dynamic>> updateProfile(Profile profile) {
-    return profileDataSource.updateProfile(profile);
+    return _profileDataSource.updateProfile(profile);
+  }
+
+  @override
+  Future<Map<String, dynamic>> getProfile(String id) {
+    return _profileDataSource.getProfile(id);
   }
 }
