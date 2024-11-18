@@ -16,4 +16,16 @@ class ProfileDataSourceImpl implements ProfileDataSource {
         .select()
         .single();
   }
+
+  @override
+  Future<Map<String, dynamic>> getProfile(String id) async {
+    const table = ProfileTable();
+
+    return SupabaseUtils()
+        .client
+        .from(table.tableName)
+        .select()
+        .eq(table.id, id)
+        .single();
+  }
 }
