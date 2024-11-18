@@ -12,11 +12,11 @@ enum Genders {
   String toString() {
     switch (this) {
       case male:
-        return 'Male';
+        return 'male';
       case female:
-        return 'Female';
+        return 'female';
       case others:
-        return 'Others';
+        return 'others';
     }
   }
 }
@@ -24,7 +24,19 @@ enum Genders {
 enum AccountType {
   user,
   employee,
-  parkingOwner,
+  parkingOwner;
+
+  @override
+  String toString() {
+    switch (this) {
+      case user:
+        return 'user';
+      case employee:
+        return 'employee';
+      case parkingOwner:
+        return 'parkingOwner';
+    }
+  }
 }
 
 @JsonSerializable()
@@ -32,7 +44,6 @@ class Account with EquatableMixin {
   final String id;
   @JsonKey(name: 'user_id')
   final String userId;
-  @JsonKey(name: 'account_type')
   final AccountType type;
   final String email;
   final String password;
