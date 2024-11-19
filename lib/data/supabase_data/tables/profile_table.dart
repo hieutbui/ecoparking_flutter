@@ -1,4 +1,4 @@
-import 'package:ecoparking_flutter/data/tables/supabase_table.dart';
+import 'package:ecoparking_flutter/data/supabase_data/tables/supabase_table.dart';
 
 class ProfileTable implements SupabaseTable {
   const ProfileTable();

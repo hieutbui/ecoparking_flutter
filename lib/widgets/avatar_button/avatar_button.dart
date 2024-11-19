@@ -8,7 +8,7 @@ import 'package:getwidget/getwidget.dart';
 
 class AvatarButton extends StatefulWidget {
   final String userAvatar;
-  final Function(Uint8List?)? onImageSelected;
+  final Function(Uint8List?, String?)? onImageSelected;
 
   const AvatarButton({
     super.key,
@@ -22,15 +22,19 @@ class AvatarButton extends StatefulWidget {
 
 class _AvatarButtonState extends State<AvatarButton> {
   Uint8List? _imageData;
+  String? _fileExtension;
 
   Future<void> _pickImage() async {
     try {
       FilePickerResult? result =
           await FilePicker.platform.pickFiles(type: FileType.image);
-      if (result != null && result.files.single.bytes != null) {
+      if (result != null &&
+          result.files.single.bytes != null &&
+          result.files.single.extension != null) {
         setState(() {
           _imageData = result.files.single.bytes;
-          widget.onImageSelected?.call(_imageData);
+          _fileExtension = result.files.single.extension;
+          widget.onImageSelected?.call(_imageData, _fileExtension);
         });
       }
     } catch (e) {
@@ -47,33 +51,36 @@ class _AvatarButtonState extends State<AvatarButton> {
         child: Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: <Widget>[
-            SizedBox(
-              height: AvatarButtonStyles.avatarSize,
-              width: AvatarButtonStyles.avatarSize,
-              child: Container(
+            if (widget.userAvatar.isNotEmpty && _imageData == null) ...[
+              GFAvatar(
+                backgroundImage: NetworkImage(widget.userAvatar),
+                size: AvatarButtonStyles.avatarSize,
+                shape: GFAvatarShape.circle,
+              )
+            ] else if (_imageData == null) ...[
+              Container(
+                width: AvatarButtonStyles.avatarSize,
+                height: AvatarButtonStyles.avatarSize,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey,
+                ),
+                child: SvgPicture.asset(
+                  ImagePaths.icPerson,
+                  width: AvatarButtonStyles.iconPersonWidth,
+                  height: AvatarButtonStyles.iconPersonHeight,
+                ),
+              ),
+            ] else ...[
+              Container(
+                width: AvatarButtonStyles.avatarSize,
+                height: AvatarButtonStyles.avatarSize,
                 decoration: AvatarButtonStyles.getDecoration(
                   context: context,
                   imageData: _imageData,
                 ),
-                child: _imageData == null
-                    ? Padding(
-                        padding: AvatarButtonStyles.iconPersonPadding,
-                        child: widget.userAvatar.isEmpty
-                            ? SvgPicture.asset(
-                                ImagePaths.icPerson,
-                                width: AvatarButtonStyles.iconPersonWidth,
-                                height: AvatarButtonStyles.iconPersonHeight,
-                              )
-                            : GFAvatar(
-                                backgroundImage:
-                                    NetworkImage(widget.userAvatar),
-                                size: AvatarButtonStyles.avatarSize,
-                                shape: GFAvatarShape.standard,
-                              ),
-                      )
-                    : null,
               ),
-            ),
+            ],
             Transform.translate(
               offset: AvatarButtonStyles.editRectanglesOffset,
               child: Container(

@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
@@ -32,6 +33,7 @@ class AppRoutes {
   static final _responsive = getIt.get<ResponsiveUtils>();
   static final _parkingService = getIt.get<ParkingService>();
   static final _bookingService = getIt.get<BookingService>();
+  static final _accountService = getIt.get<AccountService>();
 
   static List<NavigationDestination> destinations(BuildContext context) =>
       <NavigationDestination>[
@@ -209,6 +211,9 @@ class AppRoutes {
                   const EditProfile(),
                   name: AppPaths.editProfile.label,
                 ),
+                redirect: (context, state) => _accountService.profile == null
+                    ? AppPaths.profile.path
+                    : null,
               )
             ],
           ),
