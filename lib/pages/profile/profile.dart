@@ -160,6 +160,7 @@ class ProfileController extends State<ProfilePage> with ControllerLoggy {
   void _handleSignOutSuccess(Success success) {
     setState(() {
       _accountService.clear();
+      profileNotifier.value = const GetProfileInitial();
     });
   }
 
