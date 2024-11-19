@@ -60,7 +60,7 @@ class ProfileController extends State<ProfilePage> with ControllerLoggy {
       SettingButtonArguments(
         title: 'Edit Profile',
         leftIcon: Icons.person_outline_rounded,
-        onTap: () {},
+        onTap: _onEditProfile,
       ),
       SettingButtonArguments(
         title: 'Notification',
@@ -149,6 +149,13 @@ class ProfileController extends State<ProfilePage> with ControllerLoggy {
         );
   }
 
+  void _onEditProfile() {
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.editProfile,
+    );
+  }
+
   void _handleSignOutFailure(Failure failure) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -158,10 +165,8 @@ class ProfileController extends State<ProfilePage> with ControllerLoggy {
   }
 
   void _handleSignOutSuccess(Success success) {
-    setState(() {
-      _accountService.clear();
-      profileNotifier.value = const GetProfileInitial();
-    });
+    _accountService.clear();
+    profileNotifier.value = const GetProfileInitial();
   }
 
   void onPressedContinueWithGoogle() {}

@@ -20,23 +20,22 @@ class ProfilePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      title: AppPaths.profile.getTitle(profileType: ProfileType.hasAccount),
-      showBackButton: false,
-      body: ValueListenableBuilder(
-        valueListenable: controller.profileNotifier,
-        builder: (context, profileState, child) {
-          if (profileState is GetProfileInitial) {
-            return ProfileNoAccountView(controller: controller);
-          }
+    return ValueListenableBuilder(
+      valueListenable: controller.profileNotifier,
+      builder: (context, getProfileState, child) {
+        if (getProfileState is GetProfileInitial) {
+          return ProfileNoAccountView(controller: controller);
+        }
 
-          if (profileState is GetProfileSuccess) {
-            final profile = profileState.profile;
-            final avatar = profile.avatar;
-            debugPrint('avatar: $avatar');
-            debugPrint('is null: ${avatar == null}');
+        if (getProfileState is GetProfileSuccess) {
+          final profile = getProfileState.profile;
+          final avatar = profile.avatar;
 
-            return SingleChildScrollView(
+          return AppScaffold(
+            title:
+                AppPaths.profile.getTitle(profileType: ProfileType.hasAccount),
+            showBackButton: false,
+            body: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Column(
                 children: <Widget>[
@@ -45,20 +44,20 @@ class ProfilePageView extends StatelessWidget {
                     child: avatar != null
                         ? GFAvatar(
                             backgroundImage: NetworkImage(avatar),
-                            shape: GFAvatarShape.standard,
-                            size: 132.0,
+                            shape: GFAvatarShape.circle,
+                            size: ProfileViewStyles.userAvatarSize,
                           )
                         : Container(
-                            width: 132.0,
-                            height: 132.0,
+                            width: ProfileViewStyles.userAvatarSize,
+                            height: ProfileViewStyles.userAvatarSize,
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.tertiary,
                               shape: BoxShape.circle,
                             ),
                             child: SvgPicture.asset(
                               ImagePaths.icPerson,
-                              width: 95.0,
-                              height: 100.0,
+                              width: ProfileViewStyles.dummyIconPersonWidth,
+                              height: ProfileViewStyles.dummyIconPersonHeight,
                             ),
                           ),
                   ),
@@ -89,13 +88,13 @@ class ProfilePageView extends StatelessWidget {
                   )
                 ],
               ),
-            );
-          }
+            ),
+          );
+        }
 
-          return child!;
-        },
-        child: const SizedBox.shrink(),
-      ),
+        return child!;
+      },
+      child: const SizedBox.shrink(),
     );
   }
 }

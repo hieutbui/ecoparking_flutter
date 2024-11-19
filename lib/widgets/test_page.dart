@@ -184,8 +184,9 @@ class TestPage extends StatelessWidget {
               const SizedBox(height: 16),
               const Text('Avatar Button'),
               AvatarButton(
-                onImageSelected: (Uint8List? image) {
-                  debugPrint('Image selected: $image');
+                onImageSelected: (Uint8List? image, String? fileExtension) {
+                  debugPrint(
+                      'Image selected: $image with extension: $fileExtension');
                 },
                 userAvatar: '',
               ),

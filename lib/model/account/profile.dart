@@ -35,6 +35,30 @@ class Profile with EquatableMixin {
 
   Map<String, dynamic> toJson() => _$ProfileToJson(this);
 
+  Profile copyWith({
+    String? id,
+    String? email,
+    AccountType? type,
+    String? phone,
+    String? fullName,
+    String? displayName,
+    String? avatar,
+    DateTime? dob,
+    Genders? gender,
+  }) {
+    return Profile(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      type: type ?? this.type,
+      phone: phone ?? this.phone,
+      fullName: fullName ?? this.fullName,
+      displayName: displayName ?? this.displayName,
+      avatar: avatar ?? this.avatar,
+      dob: dob ?? this.dob,
+      gender: gender ?? this.gender,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,
