@@ -126,8 +126,12 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
         return <Widget>[
           ActionButton(
             type: ActionButtonType.positive,
-            label: 'Try Again',
+            label: 'Go to Register',
             onPressed: () {
+              NavigationUtils.replaceTo(
+                context: context,
+                path: AppPaths.register,
+              );
               DialogUtils.hide(context);
             },
           ),
