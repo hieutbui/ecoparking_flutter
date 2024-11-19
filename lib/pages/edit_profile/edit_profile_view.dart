@@ -1,4 +1,5 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/domain/state/profile/update_profile_state.dart';
 import 'package:ecoparking_flutter/pages/edit_profile/edit_profile.dart';
 import 'package:ecoparking_flutter/pages/edit_profile/edit_profile_view_styles.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
@@ -22,73 +23,101 @@ class EditProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: AppPaths.editProfile.getTitle(),
-      body: Padding(
-        padding: EditProfileViewStyles.padding,
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child: AvatarButton(
-                  userAvatar: '',
-                  onImageSelected: controller.onImageSelected,
+      onBackButtonPressed: controller.onBackButtonPressed,
+      body: ValueListenableBuilder(
+        valueListenable: controller.updateProfileNotifier,
+        builder: (context, updateProfileState, child) {
+          if (updateProfileState is UpdateProfileLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (updateProfileState is UpdateProfileInitial) {
+            return Padding(
+              padding: EditProfileViewStyles.padding,
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.center,
+                      child: AvatarButton(
+                        userAvatar: controller.avatar,
+                        onImageSelected: controller.onImageSelected,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: EditProfileViewStyles.inputRowSpacing,
+                    ),
+                    TextInputRow(
+                      controller: controller.nameController,
+                      hintText: 'Full Name',
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      isShowObscure: false,
+                      onChanged: controller.onNameChanged,
+                    ),
+                    const SizedBox(
+                      height: EditProfileViewStyles.inputRowSpacing,
+                    ),
+                    TextInputRow(
+                      controller: controller.nickNameController,
+                      hintText: 'Nick name',
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      isShowObscure: false,
+                      onChanged: controller.onNickNameChanged,
+                    ),
+                    const SizedBox(
+                      height: EditProfileViewStyles.inputRowSpacing,
+                    ),
+                    TextInputRow(
+                      controller: controller.emailController,
+                      hintText: 'Email',
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.emailAddress,
+                      isShowObscure: false,
+                      onChanged: controller.onEmailChanged,
+                    ),
+                    const SizedBox(
+                      height: EditProfileViewStyles.inputRowSpacing,
+                    ),
+                    PhoneInputRow(
+                      initialPhoneNumber: controller.phoneController.text,
+                      onChanged: controller.onPhoneChanged,
+                    ),
+                    const SizedBox(
+                      height: EditProfileViewStyles.inputRowSpacing,
+                    ),
+                    DropdownGender(
+                      initialGender: controller.genderNotifier.value,
+                      onSelectGender: controller.onGenderChange,
+                    ),
+                    const SizedBox(
+                      height: EditProfileViewStyles.inputRowSpacing,
+                    ),
+                    DateInputRow(
+                      initialDate: controller.dateNotifier.value,
+                      onDateSelected: controller.onDateChanged,
+                    ),
+                    const SizedBox(
+                      height: EditProfileViewStyles.inputRowSpacing,
+                    ),
+                    ActionButton(
+                      type: ActionButtonType.positive,
+                      label: 'Update',
+                      onPressed: controller.onUpdatePressed,
+                    )
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: EditProfileViewStyles.inputRowSpacing,
-              ),
-              TextInputRow(
-                controller: controller.nameController,
-                hintText: 'Full Name',
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.name,
-                isShowObscure: false,
-                onChanged: controller.onNameChanged,
-              ),
-              const SizedBox(
-                height: EditProfileViewStyles.inputRowSpacing,
-              ),
-              TextInputRow(
-                controller: controller.nickNameController,
-                hintText: 'Nick name',
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.name,
-                isShowObscure: false,
-                onChanged: controller.onNickNameChanged,
-              ),
-              const SizedBox(
-                height: EditProfileViewStyles.inputRowSpacing,
-              ),
-              PhoneInputRow(
-                initialPhoneNumber: controller.phoneController.text,
-                onChanged: controller.onPhoneChanged,
-              ),
-              const SizedBox(
-                height: EditProfileViewStyles.inputRowSpacing,
-              ),
-              DropdownGender(
-                initialGender: controller.genderNotifier.value,
-                onSelectGender: controller.onGenderChange,
-              ),
-              const SizedBox(
-                height: EditProfileViewStyles.inputRowSpacing,
-              ),
-              DateInputRow(
-                initialDate: controller.dateNotifier.value,
-                onDateSelected: controller.onDateChanged,
-              ),
-              const SizedBox(
-                height: EditProfileViewStyles.inputRowSpacing,
-              ),
-              ActionButton(
-                type: ActionButtonType.positive,
-                label: 'Update',
-                onPressed: controller.onUpdatePressed,
-              )
-            ],
-          ),
-        ),
+            );
+          }
+
+          return child!;
+        },
+        child: const SizedBox.shrink(),
       ),
     );
   }
