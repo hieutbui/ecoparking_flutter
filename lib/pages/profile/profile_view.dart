@@ -33,6 +33,8 @@ class ProfilePageView extends StatelessWidget {
           if (profileState is GetProfileSuccess) {
             final profile = profileState.profile;
             final avatar = profile.avatar;
+            debugPrint('avatar: $avatar');
+            debugPrint('is null: ${avatar == null}');
 
             return SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
@@ -46,10 +48,18 @@ class ProfilePageView extends StatelessWidget {
                             shape: GFAvatarShape.standard,
                             size: 132.0,
                           )
-                        : SvgPicture.asset(
-                            ImagePaths.icPerson,
-                            width: 95.0,
-                            height: 100.0,
+                        : Container(
+                            width: 132.0,
+                            height: 132.0,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.tertiary,
+                              shape: BoxShape.circle,
+                            ),
+                            child: SvgPicture.asset(
+                              ImagePaths.icPerson,
+                              width: 95.0,
+                              height: 100.0,
+                            ),
                           ),
                   ),
                   Align(
