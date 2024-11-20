@@ -7,3 +7,5 @@ A Front-end part for graduation project that has 3 main use-case:
 
 ## Getting Started
 
+- For OAuth redirection, the deployed URL should be added to Supabase dashboard
+
