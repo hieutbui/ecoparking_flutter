@@ -8,7 +8,7 @@ part 'profile.g.dart';
 class Profile with EquatableMixin {
   final String id;
   final String email;
-  final AccountType type;
+  final AccountType? type;
   final String? phone;
   @JsonKey(name: 'full_name')
   final String? fullName;

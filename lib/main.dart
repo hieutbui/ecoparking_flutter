@@ -15,17 +15,21 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   GetItInitializer().setUp();
+  
   if (PlatformInfos.isRelease) {
     await dotenv.load(mergeWith: EnvLoader.compileTimeEnvironment);
   } else {
     await dotenv.load(fileName: EnvLoader.envFileName);
   }
+
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(
       showColors: true,
     ),
   );
+
   await Supabase.initialize(
     url: EnvLoader.supabaseProjectUrl,
     anonKey: EnvLoader.supabaseAnonKey,
