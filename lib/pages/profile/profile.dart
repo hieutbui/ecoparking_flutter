@@ -12,6 +12,7 @@ import 'package:ecoparking_flutter/pages/profile/model/setting_button_arguments.
 import 'package:ecoparking_flutter/pages/profile/profile_view.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/facebook_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/google_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
@@ -27,7 +28,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfileController extends State<ProfilePage>
-    with ControllerLoggy, GoogleAuthMixin {
+    with ControllerLoggy, GoogleAuthMixin, FacebookAuthMixin {
   final AccountService _accountService = getIt.get<AccountService>();
 
   final SignOutInteractor _signOutInteractor = getIt.get<SignOutInteractor>();
@@ -186,7 +187,12 @@ class ProfileController extends State<ProfilePage>
     }
   }
 
-  void onPressedContinueWithFacebook() {}
+  void onPressedContinueWithFacebook() {
+    loggy.info('onPressedContinueWithFacebook()');
+    if (PlatformInfos.isWeb) {
+      signInWithFacebookOnWeb();
+    }
+  }
 
   void onPressedSignInWithPassword() {
     NavigationUtils.navigateTo(context: context, path: AppPaths.login);
