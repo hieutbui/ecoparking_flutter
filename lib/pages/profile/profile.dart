@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/state/profile/get_profile_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
@@ -11,7 +12,9 @@ import 'package:ecoparking_flutter/pages/profile/model/setting_button_arguments.
 import 'package:ecoparking_flutter/pages/profile/profile_view.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/google_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
+import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -23,7 +26,8 @@ class ProfilePage extends StatefulWidget {
   ProfileController createState() => ProfileController();
 }
 
-class ProfileController extends State<ProfilePage> with ControllerLoggy {
+class ProfileController extends State<ProfilePage>
+    with ControllerLoggy, GoogleAuthMixin {
   final AccountService _accountService = getIt.get<AccountService>();
 
   final SignOutInteractor _signOutInteractor = getIt.get<SignOutInteractor>();
@@ -35,7 +39,9 @@ class ProfileController extends State<ProfilePage> with ControllerLoggy {
 
   List<SettingButtonArguments> settingOptions = [];
 
-  User? get user => _accountService.user;
+  User? get user => _accountService.user ?? SupabaseUtils().auth.currentUser;
+  Session? get session =>
+      _accountService.session ?? SupabaseUtils().auth.currentSession;
 
   StreamSubscription? _signOutSubscription;
   StreamSubscription? _getProfileSubscription;
@@ -77,6 +83,10 @@ class ProfileController extends State<ProfilePage> with ControllerLoggy {
   }
 
   void _onGetProfile() {
+    if (user == null) {
+      return;
+    }
+
     final userId = user?.id;
 
     if (userId == null) {
@@ -169,7 +179,12 @@ class ProfileController extends State<ProfilePage> with ControllerLoggy {
     profileNotifier.value = const GetProfileInitial();
   }
 
-  void onPressedContinueWithGoogle() {}
+  void onPressedContinueWithGoogle() async {
+    loggy.info('onPressedContinueWithGoogle()');
+    if (PlatformInfos.isWeb) {
+      await signInWithGoogleOnWeb();
+    }
+  }
 
   void onPressedContinueWithFacebook() {}
 

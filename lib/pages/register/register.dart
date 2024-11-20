@@ -10,7 +10,9 @@ import 'package:ecoparking_flutter/pages/register/register_view.dart';
 import 'package:ecoparking_flutter/resource/image_paths.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/google_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
+import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,7 +24,8 @@ class RegisterPage extends StatefulWidget {
   RegisterController createState() => RegisterController();
 }
 
-class RegisterController extends State<RegisterPage> with ControllerLoggy {
+class RegisterController extends State<RegisterPage>
+    with ControllerLoggy, GoogleAuthMixin {
   final RegisterInteractor _registerInteractor =
       getIt.get<RegisterInteractor>();
   final RegisterService _registerService = getIt.get<RegisterService>();
@@ -198,6 +201,9 @@ class RegisterController extends State<RegisterPage> with ControllerLoggy {
 
   void onLoginWithGooglePressed() {
     loggy.info('onLoginWithGooglePressed()');
+    if (PlatformInfos.isWeb) {
+      signInWithGoogleOnWeb();
+    }
   }
 
   void onLoginWithFacebookPressed() {
