@@ -30,4 +30,8 @@ class AppConfig {
   static const double appColumnWidth = 360;
 
   static const String appTitle = 'EcoParking';
+  static const String localRedirectURL = 'http://localhost:3000';
+  static const String repositoryURL =
+      'https://hieutbui.github.io/ecoparking_flutter';
+  static const String releaseDomain = '$repositoryURL/release';
 }
