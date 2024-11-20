@@ -1,14 +1,12 @@
-import 'package:ecoparking_flutter/config/app_config.dart';
-import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/mixin_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-mixin GoogleAuthMixin {
-  Future<bool> signInWithGoogleOnWeb() async {
+mixin FacebookAuthMixin {
+  Future<bool> signInWithFacebookOnWeb() async {
     return await SupabaseUtils().auth.signInWithOAuth(
-          OAuthProvider.google,
+          OAuthProvider.facebook,
           redirectTo: MixinUtils().getRedirectURL(),
           authScreenLaunchMode: PlatformInfos.isWeb
               ? LaunchMode.platformDefault

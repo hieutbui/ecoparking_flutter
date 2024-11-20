@@ -8,6 +8,7 @@ import 'package:ecoparking_flutter/domain/state/login/login_with_email_state.dar
 import 'package:ecoparking_flutter/domain/usecase/login/login_with_email_interactor.dart';
 import 'package:ecoparking_flutter/pages/login/login_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/facebook_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/google_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
@@ -22,7 +23,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginController extends State<LoginPage>
-    with ControllerLoggy, GoogleAuthMixin {
+    with ControllerLoggy, GoogleAuthMixin, FacebookAuthMixin {
   final LoginWithEmailInteractor _loginWithEmailInteractor =
       getIt.get<LoginWithEmailInteractor>();
 
@@ -144,7 +145,12 @@ class LoginController extends State<LoginPage>
     }
   }
 
-  void onLoginWithFacebookPressed() {}
+  void onLoginWithFacebookPressed() {
+    loggy.info('onLoginWithFacebookPressed()');
+    if (PlatformInfos.isWeb) {
+      signInWithFacebookOnWeb();
+    }
+  }
 
   void onSignUpPressed() {
     NavigationUtils.navigateTo(
