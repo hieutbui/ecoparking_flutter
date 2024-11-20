@@ -10,6 +10,7 @@ import 'package:ecoparking_flutter/pages/register/register_view.dart';
 import 'package:ecoparking_flutter/resource/image_paths.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/facebook_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/google_auth_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
@@ -25,7 +26,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class RegisterController extends State<RegisterPage>
-    with ControllerLoggy, GoogleAuthMixin {
+    with ControllerLoggy, GoogleAuthMixin, FacebookAuthMixin {
   final RegisterInteractor _registerInteractor =
       getIt.get<RegisterInteractor>();
   final RegisterService _registerService = getIt.get<RegisterService>();
@@ -208,6 +209,9 @@ class RegisterController extends State<RegisterPage>
 
   void onLoginWithFacebookPressed() {
     loggy.info('onLoginWithFacebookPressed()');
+    if (PlatformInfos.isWeb) {
+      signInWithFacebookOnWeb();
+    }
   }
 
   @override
