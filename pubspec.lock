@@ -458,6 +458,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  geobase:
+    dependency: "direct main"
+    description:
+      name: geobase
+      sha256: f14d2d3306f0a9674bde799ad581c9369de52356f1c495c1ccf915f2fe02b4f3
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0+1"
   get_it:
     dependency: "direct main"
     description:
