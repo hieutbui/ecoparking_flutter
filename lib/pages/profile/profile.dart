@@ -129,7 +129,7 @@ class ProfileController extends State<ProfilePage>
             type: ActionButtonType.positive,
             label: 'Go to login',
             onPressed: () {
-              NavigationUtils.replaceTo(
+              NavigationUtils.navigateTo(
                 context: context,
                 path: AppPaths.login,
               );

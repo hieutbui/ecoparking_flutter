@@ -21,6 +21,7 @@ class VerifyOtpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: AppPaths.registerVerify.getTitle(),
+      onBackButtonPressed: controller.onBackButtonPressed,
       body: Padding(
         padding: VerifyOtpViewStyles.padding,
         child: Center(
