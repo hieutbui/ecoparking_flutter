@@ -6,6 +6,7 @@ import 'package:ecoparking_flutter/model/parking/shift_price.dart';
 import 'package:ecoparking_flutter/model/ticket/ticket.dart';
 import 'package:ecoparking_flutter/model/ticket/ticket_status.dart';
 import 'package:flutter/material.dart';
+import 'package:geobase/geobase.dart';
 
 class DummyData {
   static List<Parking> parkings = [
@@ -16,8 +17,12 @@ class DummyData {
       address:
           '33 Ngách 143/74 Phố Nguyễn Chính, Thịnh Liệt, Hoàng Mai, Hà Nội, Việt Nam',
       phone: '0987654321',
-      latitude: 20.976443052910625,
-      longitude: 105.85115051042895,
+      geolocation: Point(
+        Position.create(
+          x: 105.85115051042895,
+          y: 20.976443052910625,
+        ),
+      ),
       totalSlot: 15,
       availableSlot: 5,
       pricePerDay: 100000.0,
@@ -25,21 +30,18 @@ class DummyData {
       pricePerYear: 30000000000.0,
       pricePerHour: [
         ShiftPrice(
-          id: '1',
           shiftType: ShiftType.morning,
           startTime: const TimeOfDay(hour: 6, minute: 0),
           endTime: const TimeOfDay(hour: 17, minute: 0),
           price: 20000.0,
         ),
         ShiftPrice(
-          id: '2',
           shiftType: ShiftType.afternoon,
           startTime: const TimeOfDay(hour: 17, minute: 0),
           endTime: const TimeOfDay(hour: 22, minute: 0),
           price: 30000.0,
         ),
         ShiftPrice(
-          id: '3',
           shiftType: ShiftType.night,
           startTime: const TimeOfDay(hour: 22, minute: 0),
           endTime: const TimeOfDay(hour: 6, minute: 0),
@@ -54,8 +56,12 @@ class DummyData {
       address:
           'P304, Tòa nhà N 6, Khu chung cư, Đồng Tàu, Hoàng Mai, Hà Nội, Việt Nam',
       phone: '0987654321',
-      latitude: 20.971450581582122,
-      longitude: 105.84827587004936,
+      geolocation: Point(
+        Position.create(
+          x: 105.84827587004936,
+          y: 20.971450581582122,
+        ),
+      ),
       totalSlot: 15,
       availableSlot: 5,
       pricePerDay: 100000.0,
@@ -63,21 +69,18 @@ class DummyData {
       pricePerYear: 30000000000.0,
       pricePerHour: [
         ShiftPrice(
-          id: '1',
           shiftType: ShiftType.morning,
           startTime: const TimeOfDay(hour: 6, minute: 0),
           endTime: const TimeOfDay(hour: 17, minute: 0),
           price: 30000.0,
         ),
         ShiftPrice(
-          id: '2',
           shiftType: ShiftType.afternoon,
           startTime: const TimeOfDay(hour: 17, minute: 0),
           endTime: const TimeOfDay(hour: 22, minute: 0),
           price: 40000.0,
         ),
         ShiftPrice(
-          id: '3',
           shiftType: ShiftType.night,
           startTime: const TimeOfDay(hour: 22, minute: 0),
           endTime: const TimeOfDay(hour: 6, minute: 0),
@@ -91,8 +94,12 @@ class DummyData {
       image: 'https://i.ibb.co/zfDshWW/parking.png',
       address: '121 P. Kim Đồng, Giáp Bát, Hoàng Mai, Hà Nội, Việt Nam',
       phone: '0987654321',
-      latitude: 20.97972534096629,
-      longitude: 105.8424822985898,
+      geolocation: Point(
+        Position.create(
+          x: 105.8424822985898,
+          y: 20.97972534096629,
+        ),
+      ),
       totalSlot: 15,
       availableSlot: 5,
       pricePerDay: 100000.0,
@@ -100,21 +107,18 @@ class DummyData {
       pricePerYear: 30000000000.0,
       pricePerHour: [
         ShiftPrice(
-          id: '1',
           shiftType: ShiftType.morning,
           startTime: const TimeOfDay(hour: 6, minute: 0),
           endTime: const TimeOfDay(hour: 17, minute: 0),
           price: 20000.0,
         ),
         ShiftPrice(
-          id: '2',
           shiftType: ShiftType.afternoon,
           startTime: const TimeOfDay(hour: 17, minute: 0),
           endTime: const TimeOfDay(hour: 22, minute: 0),
           price: 30000.0,
         ),
         ShiftPrice(
-          id: '3',
           shiftType: ShiftType.night,
           startTime: const TimeOfDay(hour: 22, minute: 0),
           endTime: const TimeOfDay(hour: 6, minute: 0),

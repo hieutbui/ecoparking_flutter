@@ -6,6 +6,8 @@ import 'package:getwidget/components/image/gf_image_overlay.dart';
 
 class ParkingBottomSheetBuilder {
   static Widget build(BuildContext context, Parking parking) {
+    final String? image = parking.image;
+
     return Container(
       color: Colors.white,
       child: Padding(
@@ -25,7 +27,7 @@ class ParkingBottomSheetBuilder {
                 height: 150,
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                 shape: BoxShape.rectangle,
-                image: NetworkImage(parking.image, scale: 1),
+                image: image != null ? NetworkImage(image, scale: 1) : null,
               ),
               const SizedBox(height: 12),
               Divider(

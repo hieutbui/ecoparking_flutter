@@ -37,7 +37,7 @@ class ParkingDetailsView extends StatelessWidget {
                       shape: BoxShape.rectangle,
                       image: controller.parking != null
                           ? NetworkImage(
-                              controller.parking!.image,
+                              controller.parking?.image ?? '',
                               scale: 1,
                             )
                           : null,
