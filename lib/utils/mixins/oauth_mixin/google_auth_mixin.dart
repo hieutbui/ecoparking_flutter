@@ -1,5 +1,3 @@
-import 'package:ecoparking_flutter/config/app_config.dart';
-import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/mixin_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
