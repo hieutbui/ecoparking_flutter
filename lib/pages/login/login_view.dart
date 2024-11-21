@@ -7,7 +7,6 @@ import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:ecoparking_flutter/widgets/text_input_row/text_input_row.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
 
 class LoginView extends StatelessWidget {
   final LoginController controller;
