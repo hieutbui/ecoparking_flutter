@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
 import 'package:equatable/equatable.dart';
+import 'package:geobase/geobase.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'parking.g.dart';
@@ -9,17 +10,20 @@ class Parking with EquatableMixin {
   final String id;
   @JsonKey(name: 'parking_name')
   final String parkingName;
-  final String image;
   final String address;
-  final String phone;
-  final double latitude;
-  final double longitude;
+  @JsonKey(
+    fromJson: _geolocationFromJson,
+    toJson: _geolocationToJson,
+  )
+  final Point geolocation;
   @JsonKey(name: 'total_slot')
   final int totalSlot;
   @JsonKey(name: 'available_slot')
   final int availableSlot;
+  final String? image;
+  final String? phone;
   @JsonKey(name: 'price_per_hour')
-  final List<ShiftPrice> pricePerHour;
+  final List<ShiftPrice>? pricePerHour;
   @JsonKey(name: 'price_per_day')
   final double? pricePerDay;
   @JsonKey(name: 'price_per_month')
@@ -30,14 +34,13 @@ class Parking with EquatableMixin {
   Parking({
     required this.id,
     required this.parkingName,
-    required this.image,
     required this.address,
-    required this.phone,
-    required this.latitude,
-    required this.longitude,
+    required this.geolocation,
     required this.totalSlot,
     required this.availableSlot,
-    required this.pricePerHour,
+    this.image,
+    this.phone,
+    this.pricePerHour,
     this.pricePerDay,
     this.pricePerMonth,
     this.pricePerYear,
@@ -54,8 +57,6 @@ class Parking with EquatableMixin {
         parkingName,
         image,
         address,
-        latitude,
-        longitude,
         totalSlot,
         availableSlot,
         pricePerHour,
@@ -63,4 +64,12 @@ class Parking with EquatableMixin {
         pricePerMonth,
         pricePerYear,
       ];
+}
+
+Point _geolocationFromJson(String geolocation) {
+  return Point.decodeHex(geolocation, format: WKB.geometry);
+}
+
+String _geolocationToJson(Point geolocation) {
+  return geolocation.toBytesHex();
 }

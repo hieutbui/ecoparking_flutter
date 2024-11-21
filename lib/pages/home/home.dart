@@ -124,6 +124,10 @@ class HomeController extends State<HomePage> with ControllerLoggy {
   }
 
   LatLng convertLocationDataToLatLng(LocationData locationData) {
+    if (locationData.latitude == null || locationData.longitude == null) {
+      return const LatLng(0, 0);
+    }
+
     return LatLng(locationData.latitude!, locationData.longitude!);
   }
 
@@ -132,8 +136,12 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     List<Parking> parkings,
   ) {
     return parkings.map((parking) {
+      final LatLng latLng = LatLng(
+        parking.geolocation.position.y,
+        parking.geolocation.position.x,
+      );
       return Marker(
-        point: LatLng(parking.latitude, parking.longitude),
+        point: latLng,
         child: GestureDetector(
           onTap: () => onParkingMarkerPressed(context, parking),
           child: Container(

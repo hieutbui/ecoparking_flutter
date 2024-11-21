@@ -30,7 +30,6 @@ String _timeOfDayToString(TimeOfDay time) {
 
 @JsonSerializable()
 class ShiftPrice with EquatableMixin {
-  final String id;
   @JsonKey(name: 'shift_type')
   final ShiftType shiftType;
   @JsonKey(
@@ -48,7 +47,6 @@ class ShiftPrice with EquatableMixin {
   final double price;
 
   ShiftPrice({
-    required this.id,
     required this.shiftType,
     required this.startTime,
     required this.endTime,
@@ -62,7 +60,6 @@ class ShiftPrice with EquatableMixin {
 
   @override
   List<Object?> get props => [
-        id,
         shiftType,
         startTime,
         endTime,
