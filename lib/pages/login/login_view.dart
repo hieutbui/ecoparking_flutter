@@ -51,45 +51,45 @@ class LoginView extends StatelessWidget {
                       onChanged: controller.onPasswordChanged,
                     ),
                     const SizedBox(height: LoginViewStyles.textInputSpacing),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ValueListenableBuilder(
-                          valueListenable: controller.isRememberMe,
-                          builder: (context, isRememberMe, child) {
-                            return GFCheckbox(
-                              value: isRememberMe,
-                              onChanged: controller.onRememberMeChanged,
-                              type: GFCheckboxType.basic,
-                              size: GFSize.SMALL,
-                              activeBgColor:
-                                  Theme.of(context).colorScheme.primary,
-                              customBgColor:
-                                  Theme.of(context).colorScheme.primary,
-                              activeBorderColor:
-                                  Theme.of(context).colorScheme.primary,
-                              inactiveBorderColor:
-                                  Theme.of(context).colorScheme.primary,
-                            );
-                          },
-                        ),
-                        const SizedBox(
-                          width: LoginViewStyles.inputBottomSpacing,
-                        ),
-                        Text(
-                          'Remember me',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: LoginViewStyles.rememberMeBottomSpacing,
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     ValueListenableBuilder(
+                    //       valueListenable: controller.isRememberMe,
+                    //       builder: (context, isRememberMe, child) {
+                    //         return GFCheckbox(
+                    //           value: isRememberMe,
+                    //           onChanged: controller.onRememberMeChanged,
+                    //           type: GFCheckboxType.basic,
+                    //           size: GFSize.SMALL,
+                    //           activeBgColor:
+                    //               Theme.of(context).colorScheme.primary,
+                    //           customBgColor:
+                    //               Theme.of(context).colorScheme.primary,
+                    //           activeBorderColor:
+                    //               Theme.of(context).colorScheme.primary,
+                    //           inactiveBorderColor:
+                    //               Theme.of(context).colorScheme.primary,
+                    //         );
+                    //       },
+                    //     ),
+                    //     const SizedBox(
+                    //       width: LoginViewStyles.inputBottomSpacing,
+                    //     ),
+                    //     Text(
+                    //       'Remember me',
+                    //       style: Theme.of(context)
+                    //           .textTheme
+                    //           .titleLarge!
+                    //           .copyWith(
+                    //             color: Theme.of(context).colorScheme.primary,
+                    //           ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // const SizedBox(
+                    //   height: LoginViewStyles.rememberMeBottomSpacing,
+                    // ),
                     ActionButton(
                       type: ActionButtonType.positive,
                       label: 'Sign in',
@@ -107,9 +107,9 @@ class LoginView extends StatelessWidget {
                     //         ),
                     //   ),
                     // ),
-                    const SizedBox(
-                      height: LoginViewStyles.forgotPasswordBottomSpacing,
-                    ),
+                    // const SizedBox(
+                    //   height: LoginViewStyles.forgotPasswordBottomSpacing,
+                    // ),
                     Row(
                       children: <Widget>[
                         Expanded(
