@@ -128,7 +128,7 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
             type: ActionButtonType.positive,
             label: 'Go to Register',
             onPressed: () {
-              NavigationUtils.replaceTo(
+              NavigationUtils.navigateTo(
                 context: context,
                 path: AppPaths.register,
               );
@@ -154,7 +154,7 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
             type: ActionButtonType.positive,
             label: 'Go to Login',
             onPressed: () {
-              NavigationUtils.replaceTo(
+              NavigationUtils.navigateTo(
                 context: context,
                 path: AppPaths.login,
               );
@@ -180,7 +180,7 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
             type: ActionButtonType.positive,
             label: 'Go to Register',
             onPressed: () {
-              NavigationUtils.replaceTo(
+              NavigationUtils.navigateTo(
                 context: context,
                 path: AppPaths.register,
               );
@@ -189,6 +189,14 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
           ),
         ];
       },
+    );
+  }
+
+  void onBackButtonPressed(BuildContext scaffoldContext) {
+    loggy.info('onBackButtonPressed()');
+    NavigationUtils.navigateTo(
+      context: scaffoldContext,
+      path: AppPaths.register,
     );
   }
 

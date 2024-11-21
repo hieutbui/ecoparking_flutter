@@ -20,6 +20,7 @@ class MyTicketsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: AppPaths.booking.getTitle(),
+      showBackButton: false,
       body: Scaffold(
         appBar: GFAppBar(
           bottomOpacity: 0.0,

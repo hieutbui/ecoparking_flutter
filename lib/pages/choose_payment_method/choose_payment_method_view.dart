@@ -18,6 +18,7 @@ class ChoosePaymentMethodView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       title: AppPaths.paymentMethod.getTitle(),
+      onBackButtonPressed: controller.onBackButtonPressed,
       body: Column(
         children: <Widget>[
           Expanded(

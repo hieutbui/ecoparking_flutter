@@ -199,7 +199,7 @@ class EditProfileController extends State<EditProfile> with ControllerLoggy {
               type: ActionButtonType.positive,
               label: 'OK',
               onPressed: () {
-                NavigationUtils.replaceTo(
+                NavigationUtils.navigateTo(
                   context: context,
                   path: AppPaths.profile,
                 );
@@ -224,7 +224,7 @@ class EditProfileController extends State<EditProfile> with ControllerLoggy {
             type: ActionButtonType.positive,
             label: 'OK',
             onPressed: () {
-              NavigationUtils.replaceTo(
+              NavigationUtils.navigateTo(
                 context: context,
                 path: AppPaths.profile,
               );
@@ -238,7 +238,7 @@ class EditProfileController extends State<EditProfile> with ControllerLoggy {
 
   void onBackButtonPressed(BuildContext scaffoldContext) {
     loggy.info('onBackButtonPressed()');
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: scaffoldContext,
       path: AppPaths.profile,
     );

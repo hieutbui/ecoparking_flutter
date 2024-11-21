@@ -85,7 +85,7 @@ class ReviewSummaryController extends State<ReviewSummary>
 
   void onBackButtonPressed(BuildContext scaffoldContext) {
     loggy.info('Back button pressed');
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: scaffoldContext,
       path: AppPaths.selectVehicle,
     );
