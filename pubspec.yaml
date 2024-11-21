@@ -65,6 +65,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^27.1.48
   supabase_flutter: ^2.8.0
   flutter_otp_text_field: ^1.2.0
+  geobase: ^1.4.0+1
 
 dev_dependencies:
   flutter_test:

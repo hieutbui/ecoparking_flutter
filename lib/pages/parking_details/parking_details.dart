@@ -41,7 +41,13 @@ class ParkingDetailsController extends State<ParkingDetails>
   }
 
   List<Widget>? buildShiftPrices() {
-    return parking?.pricePerHour
+    final pricePerHour = parking?.pricePerHour;
+
+    if (pricePerHour == null) {
+      return null;
+    }
+
+    return pricePerHour
         .map(
           (shiftPrice) => GFListTile(
             titleText:
