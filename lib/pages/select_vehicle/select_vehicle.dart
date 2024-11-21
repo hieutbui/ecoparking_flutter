@@ -49,7 +49,7 @@ class SelectVehicleController extends State<SelectVehicle>
 
   void onBackButtonPressed(BuildContext scaffoldContext) {
     loggy.info('Back button pressed');
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: scaffoldContext,
       path: AppPaths.bookingDetails,
     );

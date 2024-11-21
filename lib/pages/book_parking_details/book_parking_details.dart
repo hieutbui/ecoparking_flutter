@@ -125,7 +125,7 @@ class BookParkingDetailsController extends State<BookParkingDetails>
 
   void onBackButtonPressed(BuildContext scaffoldContext) {
     loggy.info('Back button pressed');
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: scaffoldContext,
       path: AppPaths.parkingDetails,
     );

@@ -58,7 +58,7 @@ class RegisterController extends State<RegisterPage>
 
   void onBackButtonPressed(BuildContext scaffoldContext) {
     loggy.info('onBackButtonPressed()');
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: context,
       path: AppPaths.login,
     );
@@ -66,7 +66,7 @@ class RegisterController extends State<RegisterPage>
 
   void loginPressed() {
     loggy.info('loginPressed()');
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: context,
       path: AppPaths.login,
     );
@@ -158,7 +158,7 @@ class RegisterController extends State<RegisterPage>
               type: ActionButtonType.positive,
               label: 'Go to Login',
               onPressed: () {
-                NavigationUtils.replaceTo(
+                NavigationUtils.navigateTo(
                   context: context,
                   path: AppPaths.login,
                 );
@@ -188,7 +188,7 @@ class RegisterController extends State<RegisterPage>
             type: ActionButtonType.positive,
             label: 'Go to Verify OTP',
             onPressed: () {
-              NavigationUtils.replaceTo(
+              NavigationUtils.navigateTo(
                 context: context,
                 path: AppPaths.registerVerify,
               );

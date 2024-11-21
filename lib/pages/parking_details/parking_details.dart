@@ -166,6 +166,14 @@ class ParkingDetailsController extends State<ParkingDetails>
     return;
   }
 
+  void onBackButtonPressed(BuildContext scaffoldContext) {
+    loggy.info('onBackButtonPressed()');
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.home,
+    );
+  }
+
   @override
   Widget build(BuildContext context) => ParkingDetailsView(controller: this);
 }

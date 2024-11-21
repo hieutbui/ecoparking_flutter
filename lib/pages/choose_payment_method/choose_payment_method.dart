@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/model/payment/e_wallet.dart';
@@ -43,6 +44,14 @@ class ChoosePaymentMethodController extends State<ChoosePaymentMethod>
     loggy.info('Select Payment Method tapped');
 
     NavigationUtils.goBack(context);
+  }
+
+  void onBackButtonPressed(BuildContext scaffoldContext) {
+    loggy.info('onBackButtonPressed()');
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.reviewSummary,
+    );
   }
 
   @override
