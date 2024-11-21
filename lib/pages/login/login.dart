@@ -54,7 +54,7 @@ class LoginController extends State<LoginPage>
 
   void onBackButtonPressed(BuildContext scaffoldContext) {
     loggy.info('onBackButtonPressed()');
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: scaffoldContext,
       path: AppPaths.profile,
     );
@@ -130,7 +130,7 @@ class LoginController extends State<LoginPage>
     _accountService.setUser(success.authResponse.user);
     _accountService.setSession(success.authResponse.session);
 
-    NavigationUtils.replaceTo(
+    NavigationUtils.navigateTo(
       context: context,
       path: AppPaths.profile,
     );
