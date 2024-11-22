@@ -18,11 +18,16 @@ class UserFavoriteParkingsInteractor with InteractorLoggy {
       final favoriteParkingsJson =
           await _userFavoriteParkingsRepository.fetchFavoriteParkings(favorite);
 
-      final List<FavoriteParking>? favoriteParkings = favoriteParkingsJson
-          ?.map((e) => FavoriteParking.fromJson(e))
-          .toList();
+      if (favoriteParkingsJson == null) {
+        loggy.error('execute(): favorite parkings is null');
+        yield const Right(GetUserFavoriteParkingsIsEmpty());
+        return;
+      }
 
-      if (favoriteParkings == null || favoriteParkings.isEmpty) {
+      final List<FavoriteParking> favoriteParkings =
+          favoriteParkingsJson.map((e) => FavoriteParking.fromJson(e)).toList();
+
+      if (favoriteParkings.isEmpty) {
         loggy.error('execute(): favorite parkings is null');
         yield const Right(GetUserFavoriteParkingsIsEmpty());
       } else {

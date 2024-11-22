@@ -4,11 +4,11 @@ import 'package:ecoparking_flutter/domain/repository/user_vehicles/user_vehicles
 import 'package:ecoparking_flutter/model/account/vehicle.dart';
 
 class UserVehiclesRepositoryImpl implements UserVehiclesRepository {
-  final UserVehiclesDatasource userVehiclesDatasource =
-      getIt.get<UserVehiclesDatasource>();
+  final UserVehiclesDataSource userVehiclesDataSource =
+      getIt.get<UserVehiclesDataSource>();
 
   @override
-  Future<List<Vehicle>?> fetchUserVehicles() {
-    return userVehiclesDatasource.fetchUserVehicles();
+  Future<List<Map<String, dynamic>>?> fetchUserVehicles() {
+    return userVehiclesDataSource.fetchUserVehicles();
   }
 }

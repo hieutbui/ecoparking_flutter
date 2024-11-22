@@ -4,8 +4,8 @@ import 'package:ecoparking_flutter/domain/repository/user_favorite_parkings/user
 
 class UserFavoriteParkingsRepositoryImpl
     implements UserFavoriteParkingsRepository {
-  final UserFavoriteParkingsDatasource userFavoriteParkingsDatasource =
-      getIt.get<UserFavoriteParkingsDatasource>();
+  final UserFavoriteParkingsDataSource userFavoriteParkingsDatasource =
+      getIt.get<UserFavoriteParkingsDataSource>();
 
   @override
   Future<List<Map<String, dynamic>>?> fetchFavoriteParkings(
