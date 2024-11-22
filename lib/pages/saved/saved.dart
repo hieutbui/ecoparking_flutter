@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/state/user_favorite_parkings/get_user_favorite_parkings.dart';
 import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
 import 'package:ecoparking_flutter/pages/saved/saved_view.dart';
@@ -18,6 +19,7 @@ class SavedPage extends StatefulWidget {
 class SavedController extends State<SavedPage> with ControllerLoggy {
   final UserFavoriteParkingsInteractor _userFavoriteParkingsInteractor =
       getIt.get<UserFavoriteParkingsInteractor>();
+  final AccountService _accountService = getIt.get<AccountService>();
 
   final userFavoriteParkingsNotifier =
       ValueNotifier<GetUserFavoriteParkingsState>(
@@ -41,15 +43,22 @@ class SavedController extends State<SavedPage> with ControllerLoggy {
   }
 
   void _getUserFavoriteParkings() async {
+    loggy.info('_getUserFavoriteParkings()');
+    final favoriteParkings = _accountService.profile?.favoriteParkings;
+
+    if (favoriteParkings == null) {
+      userFavoriteParkingsNotifier.value =
+          const GetUserFavoriteParkingsIsEmpty();
+      return;
+    }
+
     _userFavoriteParkingsSubscription =
-        _userFavoriteParkingsInteractor.execute().listen(
-      (event) {
-        event.fold(
-          (failure) => _handleGetUserFavoriteParkingsFailure(failure),
-          (success) => _handleGetUserFavoriteParkingsSuccess(success),
-        );
-      },
-    );
+        _userFavoriteParkingsInteractor.execute(favoriteParkings).listen(
+              (event) => event.fold(
+                (failure) => _handleGetUserFavoriteParkingsFailure(failure),
+                (success) => _handleGetUserFavoriteParkingsSuccess(success),
+              ),
+            );
 
     return;
   }
