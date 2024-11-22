@@ -22,6 +22,8 @@ class TicketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final parkingImage = ticket.parkingImage;
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -35,7 +37,9 @@ class TicketCard extends StatelessWidget {
                 width: 98,
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                 shape: BoxShape.rectangle,
-                image: NetworkImage(ticket.image, scale: 1),
+                image: parkingImage != null
+                    ? NetworkImage(parkingImage, scale: 1)
+                    : null,
               ),
               const SizedBox(width: 12),
               Column(
@@ -98,7 +102,7 @@ class TicketCard extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           Text(
-            ticket.address,
+            ticket.parkingAddress,
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!
