@@ -1,12 +1,15 @@
-import 'package:ecoparking_flutter/config/dummy_data.dart';
 import 'package:ecoparking_flutter/data/datasource/user_vehicles/user_vehicles_datasource.dart';
-import 'package:ecoparking_flutter/model/account/vehicle.dart';
+import 'package:ecoparking_flutter/data/supabase_data/tables/vehicle_table.dart';
+import 'package:ecoparking_flutter/di/supabase_utils.dart';
 
-class UserVehiclesDatasourceImpl implements UserVehiclesDatasource {
+class UserVehiclesDataSourceImpl implements UserVehiclesDataSource {
   @override
-  Future<List<Vehicle>?> fetchUserVehicles() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<List<Map<String, dynamic>>?> fetchUserVehicles() async {
+    const table = VehicleTable();
 
-    return DummyData.vehicles;
+    return SupabaseUtils()
+        .client
+        .from(table.tableName)
+        .select('${table.id}, ${table.vehicleName}, ${table.licensePlate}');
   }
 }

@@ -12,6 +12,11 @@ class SelectVehicleViewStyles {
     right: 16.0,
     bottom: 16.0,
   );
+  static const EdgeInsetsGeometry emptyVehiclePadding = EdgeInsets.only(
+    top: 32.0,
+    left: 16.0,
+    right: 16.0,
+  );
 
   static List<BoxShadow> get bottomContainerShadow => [
         BoxShadow(
