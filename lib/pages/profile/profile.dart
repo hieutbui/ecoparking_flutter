@@ -30,7 +30,6 @@ class ProfilePage extends StatefulWidget {
 class ProfileController extends State<ProfilePage>
     with ControllerLoggy, GoogleAuthMixin, FacebookAuthMixin {
   final AccountService _accountService = getIt.get<AccountService>();
-
   final SignOutInteractor _signOutInteractor = getIt.get<SignOutInteractor>();
   final GetProfileInteractor _getProfileInteractor =
       getIt.get<GetProfileInteractor>();
@@ -84,6 +83,14 @@ class ProfileController extends State<ProfilePage>
   }
 
   void _onGetProfile() {
+    final profile = _accountService.profile;
+    if (profile != null) {
+      profileNotifier.value = GetProfileSuccess(
+        profile: profile,
+      );
+      return;
+    }
+
     if (user == null) {
       return;
     }
@@ -127,12 +134,8 @@ class ProfileController extends State<ProfilePage>
         return <Widget>[
           ActionButton(
             type: ActionButtonType.positive,
-            label: 'Go to login',
+            label: 'OK',
             onPressed: () {
-              NavigationUtils.navigateTo(
-                context: context,
-                path: AppPaths.login,
-              );
               DialogUtils.hide(context);
             },
           ),
