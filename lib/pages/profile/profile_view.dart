@@ -23,7 +23,9 @@ class ProfilePageView extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: controller.profileNotifier,
       builder: (context, getProfileState, child) {
-        if (getProfileState is GetProfileInitial) {
+        if (getProfileState is GetProfileInitial ||
+            getProfileState is GetProfileFailure ||
+            getProfileState is GetProfileEmptyProfile) {
           return ProfileNoAccountView(controller: controller);
         }
 
