@@ -1,3 +1,9 @@
+## v0.0.7 - 22/11/2024
+## Added
+- Implement Supabase for storing: tickets, favorite parkings, user vehicles
+## Fixed
+- Wrong config Github action
+
 ## v0.0.6 - 21/11/2024
 ## Added
 - Implement Supabase for user profile
