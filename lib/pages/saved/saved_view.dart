@@ -1,5 +1,4 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
-import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/user_favorite_parkings/get_user_favorite_parkings.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
 import 'package:ecoparking_flutter/pages/saved/widgets/saved_parkings_card.dart';
@@ -28,16 +27,25 @@ class SavedPageView extends StatelessWidget {
             );
           }
 
-          if (userFavoriteParkings is GetCurrentLocationIsEmpty) {
-            return const Center(
-              child: Text('No favorite parkings'),
+          if (userFavoriteParkings is GetUserFavoriteParkingsIsEmpty) {
+            return Center(
+              child: Text(
+                'No favorite parkings',
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
             );
           }
 
           if (userFavoriteParkings is GetUserFavoriteParkingsFailure) {
             return Center(
               child: Text(
-                  'Failed to load favorite parkings: ${userFavoriteParkings.exception}'),
+                'Failed to load favorite parkings: ${userFavoriteParkings.exception}',
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
             );
           }
 
