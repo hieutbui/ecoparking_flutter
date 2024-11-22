@@ -19,16 +19,22 @@ class TicketInteractor with InteractorLoggy {
 
       switch (status) {
         case TicketPages.onGoing:
-          tickets = await _ticketRepository.fetchOnGoingTickets();
+          final ticketsJson = await _ticketRepository.fetchOnGoingTickets();
+          if (ticketsJson != null) {
+            tickets = ticketsJson.map((e) => Ticket.fromJson(e)).toList();
+          }
           break;
         case TicketPages.completed:
-          tickets = await _ticketRepository.fetchCompletedTickets();
+          final ticketsJson = await _ticketRepository.fetchCompletedTickets();
+          if (ticketsJson != null) {
+            tickets = ticketsJson.map((e) => Ticket.fromJson(e)).toList();
+          }
           break;
         case TicketPages.cancelled:
-          tickets = await _ticketRepository.fetchCancelledTickets();
-          break;
-        default:
-          tickets = await _ticketRepository.fetchTickets();
+          final ticketsJson = await _ticketRepository.fetchCancelledTickets();
+          if (ticketsJson != null) {
+            tickets = ticketsJson.map((e) => Ticket.fromJson(e)).toList();
+          }
           break;
       }
 
