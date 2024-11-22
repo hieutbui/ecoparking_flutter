@@ -6,12 +6,11 @@ part 'ticket.g.dart';
 
 @JsonSerializable()
 class Ticket with EquatableMixin {
+  final String id;
   @JsonKey(name: 'parking_name')
   final String parkingName;
-  final String image;
-  final String address;
-  @JsonKey(name: 'phone')
-  final String parkingPhone;
+  @JsonKey(name: 'parking_address')
+  final String parkingAddress;
   @JsonKey(name: 'vehicle_name')
   final String vehicleName;
   @JsonKey(name: 'license_plate')
@@ -25,12 +24,15 @@ class Ticket with EquatableMixin {
   final double total;
   @JsonKey(name: 'status')
   final TicketStatus status;
+  @JsonKey(name: 'parking_phone')
+  final String? parkingPhone;
+  @JsonKey(name: 'parking_image')
+  final String? parkingImage;
 
   Ticket({
+    required this.id,
     required this.parkingName,
-    required this.image,
-    required this.address,
-    required this.parkingPhone,
+    required this.parkingAddress,
     required this.vehicleName,
     required this.licensePlate,
     required this.startTime,
@@ -39,6 +41,8 @@ class Ticket with EquatableMixin {
     required this.hours,
     required this.total,
     required this.status,
+    this.parkingPhone,
+    this.parkingImage,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
@@ -47,10 +51,9 @@ class Ticket with EquatableMixin {
 
   @override
   List<Object?> get props => [
+        id,
         parkingName,
-        image,
-        address,
-        parkingPhone,
+        parkingAddress,
         vehicleName,
         licensePlate,
         startTime,
@@ -59,5 +62,7 @@ class Ticket with EquatableMixin {
         hours,
         total,
         status,
+        parkingPhone,
+        parkingImage,
       ];
 }

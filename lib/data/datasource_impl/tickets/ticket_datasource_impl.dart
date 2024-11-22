@@ -1,34 +1,26 @@
-import 'package:ecoparking_flutter/config/dummy_data.dart';
 import 'package:ecoparking_flutter/data/datasource/tickets/ticket_datasource.dart';
-import 'package:ecoparking_flutter/model/ticket/ticket.dart';
+import 'package:ecoparking_flutter/data/supabase_data/database_functions_name.dart';
+import 'package:ecoparking_flutter/di/supabase_utils.dart';
 
 class TicketDataSourceImpl implements TicketDataSource {
   @override
-  Future<List<Ticket>?> fetchTickets() async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    //TODO: Implement fetching data from API
-    return DummyData.tickets;
+  Future<List<dynamic>?> fetchOnGoingTickets() async {
+    return SupabaseUtils().client.rpc(
+          DatabaseFunctionsName.getOngoingTickets.functionName,
+        );
   }
 
   @override
-  Future<List<Ticket>?> fetchOnGoingTickets() async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    return DummyData.onGoingTickets;
+  Future<List<dynamic>?> fetchCompletedTickets() async {
+    return SupabaseUtils().client.rpc(
+          DatabaseFunctionsName.getCompletedTickets.functionName,
+        );
   }
 
   @override
-  Future<List<Ticket>?> fetchCompletedTickets() async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    return DummyData.completedTickets;
-  }
-
-  @override
-  Future<List<Ticket>?> fetchCancelledTickets() async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    return DummyData.cancelledTickets;
+  Future<List<dynamic>?> fetchCancelledTickets() async {
+    return SupabaseUtils().client.rpc(
+          DatabaseFunctionsName.getCancelledTickets.functionName,
+        );
   }
 }
