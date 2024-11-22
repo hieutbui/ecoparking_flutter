@@ -15,35 +15,27 @@ class TicketInteractor with InteractorLoggy {
     try {
       yield const Right(GetUserTicketsInitial());
 
-      List<Ticket>? tickets;
+      List<dynamic>? ticketsJson;
 
       switch (status) {
         case TicketPages.onGoing:
-          final ticketsJson = await _ticketRepository.fetchOnGoingTickets();
-          if (ticketsJson != null) {
-            tickets = ticketsJson.map((e) => Ticket.fromJson(e)).toList();
-          }
+          ticketsJson = await _ticketRepository.fetchOnGoingTickets();
           break;
         case TicketPages.completed:
-          final ticketsJson = await _ticketRepository.fetchCompletedTickets();
-          if (ticketsJson != null) {
-            tickets = ticketsJson.map((e) => Ticket.fromJson(e)).toList();
-          }
+          ticketsJson = await _ticketRepository.fetchCompletedTickets();
           break;
         case TicketPages.cancelled:
-          final ticketsJson = await _ticketRepository.fetchCancelledTickets();
-          if (ticketsJson != null) {
-            tickets = ticketsJson.map((e) => Ticket.fromJson(e)).toList();
-          }
+          ticketsJson = await _ticketRepository.fetchCancelledTickets();
           break;
       }
 
-      if (tickets == null || tickets.isEmpty) {
-        loggy.error('execute(): tickets is null');
-        yield const Right(GetUserTicketsIsEmpty());
-      } else {
+      if (ticketsJson != null && ticketsJson.isNotEmpty) {
+        final tickets = ticketsJson.map((e) => Ticket.fromJson(e)).toList();
         loggy.info('execute(): get tickets success');
         yield Right(GetUserTicketsSuccess(tickets: tickets));
+      } else {
+        loggy.error('execute(): tickets is null or empty');
+        yield const Right(GetUserTicketsIsEmpty());
       }
       return;
     } catch (e) {
