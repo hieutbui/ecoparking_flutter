@@ -3,12 +3,16 @@ import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/di/supabase_utils.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
+import 'package:ecoparking_flutter/domain/state/profile/get_profile_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
@@ -34,8 +38,11 @@ class HomeController extends State<HomePage> with ControllerLoggy {
   final CurrentLocationInteractor _currentLocationInteractor =
       getIt.get<CurrentLocationInteractor>();
   final ParkingInteractor _parkingInteractor = getIt.get<ParkingInteractor>();
+  final GetProfileInteractor _getProfileInteractor =
+      getIt.get<GetProfileInteractor>();
   final ParkingService parkingService = getIt.get<ParkingService>();
   final BookingService bookingService = getIt.get<BookingService>();
+  final AccountService _accountService = getIt.get<AccountService>();
 
   final currentLocationNotifier = ValueNotifier<GetCurrentLocationState>(
     const GetCurrentLocationInitial(),
@@ -46,23 +53,77 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   StreamSubscription? _currentLocationSubscription;
   StreamSubscription? _parkingSubscription;
+  StreamSubscription? _getUserProfileSubscription;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
     _getParkings();
+    _getUserProfile();
   }
 
   @override
   void dispose() {
+    _clearSubscriptions();
+    _disposeNotifier();
+    super.dispose();
+  }
+
+  void _clearSubscriptions() {
     _currentLocationSubscription?.cancel();
     _parkingSubscription?.cancel();
+    _getUserProfileSubscription?.cancel();
     _currentLocationSubscription = null;
     _parkingSubscription = null;
+  }
+
+  void _disposeNotifier() {
     currentLocationNotifier.dispose();
     parkingNotifier.dispose();
-    super.dispose();
+  }
+
+  void _getUserProfile() {
+    loggy.info('_getUserProfile()');
+    if (_accountService.profile != null) {
+      return;
+    }
+
+    final user = _accountService.user ?? SupabaseUtils().auth.currentUser;
+    final userId = user?.id;
+
+    if (userId == null) {
+      loggy.error('_getUserProfile(): user is null');
+      return;
+    }
+
+    _getUserProfileSubscription = _getProfileInteractor.execute(userId).listen(
+          (event) => event.fold(
+            (failure) => _handleGetProfileFailure(failure),
+            (success) => _handleGetProfileSuccess(success),
+          ),
+        );
+  }
+
+  void _handleGetProfileSuccess(Success success) {
+    loggy.info('handleGetProfileSuccess(): $success');
+
+    if (success is GetProfileSuccess) {
+      loggy.info('handleGetProfileSuccess(): ${success.profile}');
+      _accountService.setProfile(success.profile);
+    }
+  }
+
+  void _handleGetProfileFailure(Failure failure) {
+    loggy.error('handleGetProfileFailure(): $failure');
+
+    if (failure is GetProfileFailure) {
+      loggy.error(
+        'handleGetProfileFailure():: GetProfileFailure: ${failure.exception}',
+      );
+    } else {
+      loggy.error('handleGetProfileFailure():: Unknown failure: $failure');
+    }
   }
 
   void _getCurrentLocation() async {
