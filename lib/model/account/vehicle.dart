@@ -6,6 +6,7 @@ part 'vehicle.g.dart';
 @JsonSerializable()
 class Vehicle with EquatableMixin {
   final String id;
+  @JsonKey(name: 'vehicle_name')
   final String name;
   @JsonKey(name: 'license_plate')
   final String licensePlate;

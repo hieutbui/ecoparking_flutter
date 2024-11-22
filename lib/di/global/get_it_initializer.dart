@@ -97,14 +97,14 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<ParkingDataSource>(
       () => ParkingsDataSourceImpl(),
     );
-    getIt.registerLazySingleton<UserVehiclesDatasource>(
-      () => UserVehiclesDatasourceImpl(),
+    getIt.registerLazySingleton<UserVehiclesDataSource>(
+      () => UserVehiclesDataSourceImpl(),
     );
     getIt.registerLazySingleton<TicketDataSource>(
       () => TicketDataSourceImpl(),
     );
-    getIt.registerLazySingleton<UserFavoriteParkingsDatasource>(
-      () => UserFavoriteParkingsDatasourceImpl(),
+    getIt.registerLazySingleton<UserFavoriteParkingsDataSource>(
+      () => UserFavoriteParkingsDataSourceImpl(),
     );
     getIt.registerLazySingleton<RegisterDataSource>(
       () => RegisterDataSourceImpl(),

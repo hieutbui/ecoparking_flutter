@@ -26,6 +26,20 @@ class SelectVehicleView extends StatelessWidget {
         builder: (context, notifier, child) {
           if (notifier is GetUserVehiclesInitial) return child!;
 
+          if (notifier is GetUserVehiclesIsEmpty) {
+            return Padding(
+              padding: SelectVehicleViewStyles.emptyVehiclePadding,
+              child: ActionButton(
+                type: ActionButtonType.positive,
+                label: 'Add New Vehicle',
+                backgroundColor:
+                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                labelColor: Theme.of(context).colorScheme.primary,
+                onPressed: () {},
+              ),
+            );
+          }
+
           if (notifier is GetUserVehiclesSuccess) {
             return Column(
               children: <Widget>[

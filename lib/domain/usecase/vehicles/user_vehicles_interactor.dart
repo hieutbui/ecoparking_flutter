@@ -4,6 +4,7 @@ import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/repository/user_vehicles/user_vehicles_repository.dart';
 import 'package:ecoparking_flutter/domain/state/vehicles/get_user_vehicles_state.dart';
+import 'package:ecoparking_flutter/model/account/vehicle.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 
 class UserVehiclesInteractor with InteractorLoggy {
@@ -14,9 +15,20 @@ class UserVehiclesInteractor with InteractorLoggy {
     try {
       yield const Right(GetUserVehiclesInitial());
 
-      final vehicles = await _userVehiclesRepository.fetchUserVehicles();
+      final vehiclesJson = await _userVehiclesRepository.fetchUserVehicles();
 
-      if (vehicles == null || vehicles.isEmpty) {
+      print('vehiclesJson: $vehiclesJson');
+
+      if (vehiclesJson == null) {
+        loggy.error('execute(): vehiclesJson is null');
+        yield const Left(GetUserVehiclesIsEmpty());
+        return;
+      }
+
+      final List<Vehicle> vehicles =
+          vehiclesJson.map((e) => Vehicle.fromJson(e)).toList();
+
+      if (vehicles.isEmpty) {
         loggy.error('execute(): vehicles is null');
         yield const Left(GetUserVehiclesIsEmpty());
       } else {

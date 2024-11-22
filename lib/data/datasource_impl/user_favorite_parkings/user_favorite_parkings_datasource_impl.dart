@@ -2,8 +2,8 @@ import 'package:ecoparking_flutter/data/datasource/user_favorite_parkings/user_f
 import 'package:ecoparking_flutter/data/supabase_data/tables/parking_table.dart';
 import 'package:ecoparking_flutter/di/supabase_utils.dart';
 
-class UserFavoriteParkingsDatasourceImpl
-    implements UserFavoriteParkingsDatasource {
+class UserFavoriteParkingsDataSourceImpl
+    implements UserFavoriteParkingsDataSource {
   @override
   Future<List<Map<String, dynamic>>?> fetchFavoriteParkings(
     List<String> favoriteParkings,
