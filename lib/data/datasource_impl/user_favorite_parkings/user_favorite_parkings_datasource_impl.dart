@@ -1,14 +1,22 @@
-import 'package:ecoparking_flutter/config/dummy_data.dart';
 import 'package:ecoparking_flutter/data/datasource/user_favorite_parkings/user_favorite_parkings_datasource.dart';
-import 'package:ecoparking_flutter/model/account/favorite_parking.dart';
+import 'package:ecoparking_flutter/data/supabase_data/tables/parking_table.dart';
+import 'package:ecoparking_flutter/di/supabase_utils.dart';
 
 class UserFavoriteParkingsDatasourceImpl
     implements UserFavoriteParkingsDatasource {
   @override
-  Future<List<FavoriteParking>?> fetchFavoriteParkings() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<List<Map<String, dynamic>>?> fetchFavoriteParkings(
+    List<String> favoriteParkings,
+  ) async {
+    const table = ParkingTable();
 
-    //TODO: Implement fetching data from API
-    return DummyData.favoriteParkings;
+    return SupabaseUtils()
+        .client
+        .from(table.tableName)
+        .select('${table.image}, ${table.name}, ${table.address}')
+        .inFilter(
+          table.id,
+          favoriteParkings,
+        );
   }
 }

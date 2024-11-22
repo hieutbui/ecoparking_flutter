@@ -15,4 +15,5 @@ class ProfileTable implements SupabaseTable {
   String get type => 'type';
   String get dob => 'dob';
   String get gender => 'gender';
+  String get favoriteParkings => 'favorite_parking';
 }

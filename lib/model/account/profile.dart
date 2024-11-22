@@ -17,6 +17,8 @@ class Profile with EquatableMixin {
   final String? avatar;
   final DateTime? dob;
   final Genders? gender;
+  @JsonKey(name: 'favorite_parking')
+  final List<String>? favoriteParkings;
 
   Profile({
     required this.id,
@@ -28,6 +30,7 @@ class Profile with EquatableMixin {
     this.avatar,
     this.dob,
     this.gender,
+    this.favoriteParkings,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
@@ -45,6 +48,7 @@ class Profile with EquatableMixin {
     String? avatar,
     DateTime? dob,
     Genders? gender,
+    List<String>? favoriteParkings,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -56,6 +60,7 @@ class Profile with EquatableMixin {
       avatar: avatar ?? this.avatar,
       dob: dob ?? this.dob,
       gender: gender ?? this.gender,
+      favoriteParkings: favoriteParkings ?? this.favoriteParkings,
     );
   }
 
@@ -70,5 +75,6 @@ class Profile with EquatableMixin {
         type,
         dob,
         gender,
+        favoriteParkings,
       ];
 }
