@@ -6,7 +6,7 @@ class ParkingRepositoryImpl implements ParkingRepository {
   final ParkingDataSource parkingsDataSource = getIt.get<ParkingDataSource>();
 
   @override
-  Future<List<Map<String, dynamic>>?> fetchParkings() {
+  Future<List<dynamic>?> fetchParkings() {
     return parkingsDataSource.fetchParkings();
   }
 }

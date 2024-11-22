@@ -1,3 +1,3 @@
 abstract class ParkingDataSource {
-  Future<List<Map<String, dynamic>>?> fetchParkings();
+  Future<List<dynamic>?> fetchParkings();
 }
