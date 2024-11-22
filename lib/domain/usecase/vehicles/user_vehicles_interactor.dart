@@ -17,8 +17,6 @@ class UserVehiclesInteractor with InteractorLoggy {
 
       final vehiclesJson = await _userVehiclesRepository.fetchUserVehicles();
 
-      print('vehiclesJson: $vehiclesJson');
-
       if (vehiclesJson == null) {
         loggy.error('execute(): vehiclesJson is null');
         yield const Left(GetUserVehiclesIsEmpty());
