@@ -34,4 +34,5 @@ class AppConfig {
   static const String repositoryURL =
       'https://hieutbui.github.io/ecoparking_flutter';
   static const String releaseDomain = '$repositoryURL/release';
+  static const String userAgentPackageName = 'com.example.ecoparking_flutter';
 }
