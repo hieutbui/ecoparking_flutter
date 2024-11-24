@@ -2,7 +2,7 @@ import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/initial.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:equatable/equatable.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 abstract class GetCurrentLocationState with EquatableMixin {
   const GetCurrentLocationState();
@@ -21,7 +21,7 @@ class GetCurrentLocationInitial extends Initial
 
 class GetCurrentLocationSuccess extends Success
     implements GetCurrentLocationState {
-  final LocationData currentLocation;
+  final Position currentLocation;
 
   const GetCurrentLocationSuccess({required this.currentLocation});
 
