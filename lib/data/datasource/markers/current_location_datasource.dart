@@ -1,5 +1,5 @@
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 abstract class CurrentLocationDataSource {
-  Future<LocationData?> fetchCurrentLocation();
+  Future<Position?> fetchCurrentLocation();
 }

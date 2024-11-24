@@ -40,7 +40,7 @@ import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/services/register_service.dart';
 import 'package:ecoparking_flutter/domain/usecase/login/login_with_email_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
-import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/markers/find_nearby_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/update_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
@@ -156,9 +156,6 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<CurrentLocationInteractor>(
       () => CurrentLocationInteractor(),
     );
-    getIt.registerLazySingleton<ParkingInteractor>(
-      () => ParkingInteractor(),
-    );
     getIt.registerLazySingleton<UserVehiclesInteractor>(
       () => UserVehiclesInteractor(),
     );
@@ -185,6 +182,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<GetProfileInteractor>(
       () => GetProfileInteractor(),
+    );
+    getIt.registerLazySingleton<FindNearbyParkingsInteractor>(
+      () => FindNearbyParkingsInteractor(),
     );
     loggy.info('bindingInteractor(): Setup successfully');
   }

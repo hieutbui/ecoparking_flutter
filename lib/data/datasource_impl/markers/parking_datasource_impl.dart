@@ -1,12 +1,20 @@
 import 'package:ecoparking_flutter/data/datasource/markers/parking_datasource.dart';
 import 'package:ecoparking_flutter/data/supabase_data/database_functions_name.dart';
 import 'package:ecoparking_flutter/di/supabase_utils.dart';
+import 'package:geobase/geobase.dart';
 
 class ParkingsDataSourceImpl implements ParkingDataSource {
   @override
-  Future<List<dynamic>?> fetchParkings() async {
+  Future<List<dynamic>?> findNearbyParkings(
+    Point userLocation,
+    double searchDistance,
+  ) async {
     return SupabaseUtils().client.rpc(
-          DatabaseFunctionsName.getParkingWithShiftPrices.functionName,
-        );
+      DatabaseFunctionsName.findNearbyParkings.functionName,
+      params: {
+        'user_location': userLocation.toBytesHex(),
+        'search_distance': searchDistance,
+      },
+    );
   }
 }

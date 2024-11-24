@@ -1,7 +1,7 @@
 import 'package:ecoparking_flutter/config/app_config.dart';
 import 'package:ecoparking_flutter/config/env_loader.dart';
+import 'package:ecoparking_flutter/domain/state/markers/find_nearby_parkings_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
-import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
 import 'package:ecoparking_flutter/pages/home/widgets/rounded_button/rounded_button.dart';
@@ -35,6 +35,8 @@ class HomePageView extends StatelessWidget {
                   initialCenter: center,
                   initialZoom: HomeViewStyles.initialZoom,
                   onMapReady: () => controller.onMapReady(center),
+                  onMapEvent: controller.onMapEvent,
+                  onPositionChanged: controller.onPositionChanged,
                 ),
                 children: [
                   TileLayer(
@@ -54,9 +56,9 @@ class HomePageView extends StatelessWidget {
                     ],
                   ),
                   ValueListenableBuilder(
-                    valueListenable: controller.parkingNotifier,
+                    valueListenable: controller.findNearbyParkingsNotifier,
                     builder: (context, notifier, child) {
-                      if (notifier is GetParkingsSuccess) {
+                      if (notifier is FindNearbyParkingsSuccess) {
                         return MarkerLayer(
                           markers: controller.convertParkingsToMarkers(
                             context,
