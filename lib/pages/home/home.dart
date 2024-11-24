@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
@@ -51,6 +52,8 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     const GetParkingsInitial(),
   );
 
+  final MapController mapController = MapController();
+
   StreamSubscription? _currentLocationSubscription;
   StreamSubscription? _parkingSubscription;
   StreamSubscription? _getUserProfileSubscription;
@@ -65,6 +68,7 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   @override
   void dispose() {
+    mapController.dispose();
     _clearSubscriptions();
     _disposeNotifier();
     super.dispose();
@@ -105,27 +109,6 @@ class HomeController extends State<HomePage> with ControllerLoggy {
         );
   }
 
-  void _handleGetProfileSuccess(Success success) {
-    loggy.info('handleGetProfileSuccess(): $success');
-
-    if (success is GetProfileSuccess) {
-      loggy.info('handleGetProfileSuccess(): ${success.profile}');
-      _accountService.setProfile(success.profile);
-    }
-  }
-
-  void _handleGetProfileFailure(Failure failure) {
-    loggy.error('handleGetProfileFailure(): $failure');
-
-    if (failure is GetProfileFailure) {
-      loggy.error(
-        'handleGetProfileFailure():: GetProfileFailure: ${failure.exception}',
-      );
-    } else {
-      loggy.error('handleGetProfileFailure():: Unknown failure: $failure');
-    }
-  }
-
   void _getCurrentLocation() async {
     _currentLocationSubscription = _currentLocationInteractor.execute().listen(
       (event) {
@@ -146,6 +129,27 @@ class HomeController extends State<HomePage> with ControllerLoggy {
         );
       },
     );
+  }
+
+  void _handleGetProfileSuccess(Success success) {
+    loggy.info('handleGetProfileSuccess(): $success');
+
+    if (success is GetProfileSuccess) {
+      loggy.info('handleGetProfileSuccess(): ${success.profile}');
+      _accountService.setProfile(success.profile);
+    }
+  }
+
+  void _handleGetProfileFailure(Failure failure) {
+    loggy.error('handleGetProfileFailure(): $failure');
+
+    if (failure is GetProfileFailure) {
+      loggy.error(
+        'handleGetProfileFailure():: GetProfileFailure: ${failure.exception}',
+      );
+    } else {
+      loggy.error('handleGetProfileFailure():: Unknown failure: $failure');
+    }
   }
 
   void _handleGetCurrentLocationFailure(Failure failure) {
@@ -283,6 +287,48 @@ class HomeController extends State<HomePage> with ControllerLoggy {
         path: AppPaths.bookingDetails,
       );
     }
+  }
+
+  double _calculateDistance(LatLng start, LatLng end) {
+    const double earthRadius = 6371e3;
+    final double lat1 = start.latitude * (pi / 180);
+    final double lat2 = end.latitude * (pi / 180);
+    final double deltaLat = (end.latitude - start.latitude) * (pi / 180);
+    final double deltaLng = (end.longitude - start.longitude) * (pi / 180);
+
+    final double a = sin(deltaLat / 2) * sin(deltaLat / 2) +
+        cos(lat1) * cos(lat2) * sin(deltaLng / 2) * sin(deltaLng / 2);
+
+    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return earthRadius * c;
+  }
+
+  double _getNearbyMaxDistance(LatLng currentLocation) {
+    final LatLng userLocation = currentLocation;
+    final LatLngBounds bounds = mapController.camera.visibleBounds;
+
+    final List<double> distances = [
+      _calculateDistance(userLocation, bounds.southWest),
+      _calculateDistance(userLocation, bounds.northEast),
+      _calculateDistance(
+        userLocation,
+        LatLng(bounds.southWest.latitude, bounds.northEast.longitude),
+      ),
+      _calculateDistance(
+        userLocation,
+        LatLng(bounds.northEast.latitude, bounds.southWest.longitude),
+      ),
+    ];
+
+    return distances.reduce((a, b) => a > b ? a : b);
+  }
+
+  void onMapReady(LatLng userLocation) {
+    loggy.info('onMapReady()');
+    final test = _getNearbyMaxDistance(userLocation);
+
+    loggy.info('handleGetCurrentLocationSuccess(): test: $test');
   }
 
   @override
