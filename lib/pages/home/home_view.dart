@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/config/app_config.dart';
 import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
@@ -39,7 +40,7 @@ class HomePageView extends StatelessWidget {
                   TileLayer(
                     tileProvider: CancellableNetworkTileProvider(),
                     urlTemplate: EnvLoader.mapURLTemplate,
-                    userAgentPackageName: 'com.example.ecoparking_flutter',
+                    userAgentPackageName: AppConfig.userAgentPackageName,
                   ),
                   MarkerLayer(
                     markers: [
