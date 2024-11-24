@@ -29,9 +29,11 @@ class HomePageView extends StatelessWidget {
           return Stack(
             children: [
               FlutterMap(
+                mapController: controller.mapController,
                 options: MapOptions(
                   initialCenter: center,
                   initialZoom: HomeViewStyles.initialZoom,
+                  onMapReady: () => controller.onMapReady(center),
                 ),
                 children: [
                   TileLayer(
