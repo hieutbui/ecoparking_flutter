@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:math' hide Point;
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
@@ -8,11 +8,11 @@ import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
+import 'package:ecoparking_flutter/domain/state/markers/find_nearby_parkings_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
-import 'package:ecoparking_flutter/domain/state/markers/get_parkings_state.dart';
 import 'package:ecoparking_flutter/domain/state/profile/get_profile_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
-import 'package:ecoparking_flutter/domain/usecase/markers/parking_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/markers/find_nearby_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
@@ -25,8 +25,9 @@ import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geobase/geobase.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart' as geolocator;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,9 +39,10 @@ class HomePage extends StatefulWidget {
 class HomeController extends State<HomePage> with ControllerLoggy {
   final CurrentLocationInteractor _currentLocationInteractor =
       getIt.get<CurrentLocationInteractor>();
-  final ParkingInteractor _parkingInteractor = getIt.get<ParkingInteractor>();
   final GetProfileInteractor _getProfileInteractor =
       getIt.get<GetProfileInteractor>();
+  final FindNearbyParkingsInteractor _findNearbyParkingsInteractor =
+      getIt.get<FindNearbyParkingsInteractor>();
   final ParkingService parkingService = getIt.get<ParkingService>();
   final BookingService bookingService = getIt.get<BookingService>();
   final AccountService _accountService = getIt.get<AccountService>();
@@ -48,21 +50,20 @@ class HomeController extends State<HomePage> with ControllerLoggy {
   final currentLocationNotifier = ValueNotifier<GetCurrentLocationState>(
     const GetCurrentLocationInitial(),
   );
-  final parkingNotifier = ValueNotifier<GetParkingsState>(
-    const GetParkingsInitial(),
+  final findNearbyParkingsNotifier = ValueNotifier<FindNearbyParkingsState>(
+    const FindNearbyParkingsInitial(),
   );
 
   final MapController mapController = MapController();
 
   StreamSubscription? _currentLocationSubscription;
-  StreamSubscription? _parkingSubscription;
   StreamSubscription? _getUserProfileSubscription;
+  StreamSubscription? _findNearbyParkingsSubscription;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
-    _getParkings();
     _getUserProfile();
   }
 
@@ -76,15 +77,15 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   void _clearSubscriptions() {
     _currentLocationSubscription?.cancel();
-    _parkingSubscription?.cancel();
     _getUserProfileSubscription?.cancel();
+    _findNearbyParkingsSubscription?.cancel();
     _currentLocationSubscription = null;
-    _parkingSubscription = null;
+    _getUserProfileSubscription = null;
   }
 
   void _disposeNotifier() {
     currentLocationNotifier.dispose();
-    parkingNotifier.dispose();
+    findNearbyParkingsNotifier.dispose();
   }
 
   void _getUserProfile() {
@@ -120,80 +121,27 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     );
   }
 
-  void _getParkings() async {
-    _parkingSubscription = _parkingInteractor.execute().listen(
-      (event) {
-        event.fold(
-          (failure) => _handleGetParkingsFailure(failure),
-          (success) => _handleGetParkingsSuccess(success),
+  void findNearbyParking(LatLng userLocation) async {
+    _findNearbyParkingsSubscription = _findNearbyParkingsInteractor
+        .execute(
+          Point(
+            Position.create(
+              x: userLocation.longitude,
+              y: userLocation.latitude,
+            ),
+          ),
+          _getNearbyMaxDistance(userLocation),
+        )
+        .listen(
+          (event) => event.fold(
+            (failure) => _handleFindNearbyParkingsFailure(failure),
+            (success) => _handleFindNearbyParkingsSuccess(success),
+          ),
         );
-      },
-    );
   }
 
-  void _handleGetProfileSuccess(Success success) {
-    loggy.info('handleGetProfileSuccess(): $success');
-
-    if (success is GetProfileSuccess) {
-      loggy.info('handleGetProfileSuccess(): ${success.profile}');
-      _accountService.setProfile(success.profile);
-    }
-  }
-
-  void _handleGetProfileFailure(Failure failure) {
-    loggy.error('handleGetProfileFailure(): $failure');
-
-    if (failure is GetProfileFailure) {
-      loggy.error(
-        'handleGetProfileFailure():: GetProfileFailure: ${failure.exception}',
-      );
-    } else {
-      loggy.error('handleGetProfileFailure():: Unknown failure: $failure');
-    }
-  }
-
-  void _handleGetCurrentLocationFailure(Failure failure) {
-    loggy.error('handleGetCurrentLocationFailure(): failure: $failure');
-    if (failure is GetCurrentLocationFailure) {
-      currentLocationNotifier.value = failure;
-    } else {
-      currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
-    }
-  }
-
-  void _handleGetParkingsFailure(Failure failure) {
-    loggy.error('handleGetParkingsFailure(): failure: $failure');
-    if (failure is GetParkingsFailure) {
-      parkingNotifier.value = failure;
-    } else {
-      parkingNotifier.value = const GetParkingsIsEmpty();
-    }
-  }
-
-  void _handleGetCurrentLocationSuccess(Success success) {
-    loggy.info('handleGetCurrentLocationSuccess(): success');
-    if (success is GetCurrentLocationSuccess) {
-      currentLocationNotifier.value = success;
-    } else {
-      currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
-    }
-  }
-
-  void _handleGetParkingsSuccess(Success success) {
-    loggy.info('handleGetParkingsSuccess(): success');
-    if (success is GetParkingsSuccess) {
-      parkingNotifier.value = success;
-    } else {
-      parkingNotifier.value = const GetParkingsIsEmpty();
-    }
-  }
-
-  LatLng convertLocationDataToLatLng(LocationData locationData) {
-    if (locationData.latitude == null || locationData.longitude == null) {
-      return const LatLng(0, 0);
-    }
-
-    return LatLng(locationData.latitude!, locationData.longitude!);
+  LatLng convertLocationDataToLatLng(geolocator.Position locationData) {
+    return LatLng(locationData.latitude, locationData.longitude);
   }
 
   List<Marker> convertParkingsToMarkers(
@@ -326,9 +274,76 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   void onMapReady(LatLng userLocation) {
     loggy.info('onMapReady()');
-    final test = _getNearbyMaxDistance(userLocation);
 
-    loggy.info('handleGetCurrentLocationSuccess(): test: $test');
+    findNearbyParking(userLocation);
+  }
+
+  void onMapEvent(MapEvent event) {
+    loggy.info('onMapEvent() event: $event');
+  }
+
+  void onPositionChanged(MapCamera camera, bool hasGesture) {
+    loggy
+        .info('onPositionChanged() position: $camera, hasGesture: $hasGesture');
+    findNearbyParking(camera.center);
+  }
+
+  void _handleFindNearbyParkingsFailure(Failure failure) {
+    loggy.error('handleFindNearbyParkingsFailure(): failure: $failure');
+    if (failure is FindNearbyParkingsFailure) {
+      findNearbyParkingsNotifier.value = failure;
+    } else {
+      findNearbyParkingsNotifier.value = const FindNearbyParkingsIsEmpty();
+    }
+  }
+
+  void _handleFindNearbyParkingsSuccess(Success success) {
+    loggy.info('handleFindNearbyParkingsSuccess(): success');
+    if (success is FindNearbyParkingsSuccess) {
+      findNearbyParkingsNotifier.value = success;
+    } else {
+      loggy.info('handleFindNearbyParkingsSuccess(): success is empty');
+      findNearbyParkingsNotifier.value = const FindNearbyParkingsIsEmpty();
+    }
+  }
+
+  void _handleGetProfileSuccess(Success success) {
+    loggy.info('handleGetProfileSuccess(): $success');
+
+    if (success is GetProfileSuccess) {
+      loggy.info('handleGetProfileSuccess(): ${success.profile}');
+      _accountService.setProfile(success.profile);
+    }
+  }
+
+  void _handleGetProfileFailure(Failure failure) {
+    loggy.error('handleGetProfileFailure(): $failure');
+
+    if (failure is GetProfileFailure) {
+      loggy.error(
+        'handleGetProfileFailure():: GetProfileFailure: ${failure.exception}',
+      );
+    } else {
+      loggy.error('handleGetProfileFailure():: Unknown failure: $failure');
+    }
+  }
+
+  void _handleGetCurrentLocationFailure(Failure failure) {
+    loggy.error('handleGetCurrentLocationFailure(): failure: $failure');
+    if (failure is GetCurrentLocationFailure) {
+      currentLocationNotifier.value = failure;
+    } else {
+      currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
+    }
+  }
+
+  void _handleGetCurrentLocationSuccess(Success success) {
+    loggy.info('handleGetCurrentLocationSuccess(): success');
+    if (success is GetCurrentLocationSuccess) {
+      currentLocationNotifier.value = success;
+    } else {
+      currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
+    }
   }
 
   @override

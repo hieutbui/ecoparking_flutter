@@ -1,32 +1,27 @@
 import 'package:ecoparking_flutter/data/datasource/markers/current_location_datasource.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CurrentLocationDataSourceImpl implements CurrentLocationDataSource {
   @override
-  Future<LocationData?> fetchCurrentLocation() async {
-    Location location = Location();
+  Future<Position?> fetchCurrentLocation() async {
     bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
+    LocationPermission permission;
 
-    serviceEnabled = await location.serviceEnabled();
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
+      return null;
+    }
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
         return null;
       }
     }
 
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return null;
-      }
-    }
-
-    locationData = await location.getLocation();
-
-    return locationData;
+    return await Geolocator.getCurrentPosition();
   }
 }
