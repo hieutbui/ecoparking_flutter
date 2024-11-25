@@ -25,6 +25,7 @@ import 'package:ecoparking_flutter/data/repository/sign_out/sign_out_repository_
 import 'package:ecoparking_flutter/data/repository/tickets/ticket_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/user_favorite_parkings/user_favorite_parkings_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/user_vehicles/user_vehicles_repository_impl.dart';
+import 'package:ecoparking_flutter/di/global/hive_initializer.dart';
 import 'package:ecoparking_flutter/domain/repository/login/login_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/current_location_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.dart';
@@ -49,9 +50,11 @@ import 'package:ecoparking_flutter/domain/usecase/sign_out/sign_out_interactor.d
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
+import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/responsive.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 
 final getIt = GetIt.instance;
 
@@ -66,6 +69,7 @@ class GetItInitializer with GetItLoggy {
 
   void setUp() {
     bindingGlobal();
+    bindingHiveBoxes();
     bindingDataSource();
     bindingDataSourceImpl();
     bindingRepositories();
@@ -80,6 +84,13 @@ class GetItInitializer with GetItLoggy {
     getIt.registerSingleton(ResponsiveUtils());
 
     loggy.info('bindingGlobal(): Setup successfully');
+  }
+
+  void bindingHiveBoxes() {
+    getIt.registerLazySingletonAsync<Box<Parking>>(
+      () async => HiveInitializer.openRecentSearchesBox(),
+    );
+    loggy.info('bindingHiveBoxes(): Setup successfully');
   }
 
   void bidingAPI() {

@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/config/app_routes.dart';
 import 'package:ecoparking_flutter/config/env_loader.dart';
 import 'package:ecoparking_flutter/config/themes.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/di/global/hive_initializer.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:ecoparking_flutter/widgets/theme_builder.dart';
@@ -16,8 +17,10 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await HiveInitializer.init();
+
   GetItInitializer().setUp();
-  
+
   if (PlatformInfos.isRelease) {
     await dotenv.load(mergeWith: EnvLoader.compileTimeEnvironment);
   } else {

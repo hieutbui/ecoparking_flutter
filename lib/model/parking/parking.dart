@@ -1,34 +1,48 @@
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geobase/geobase.dart';
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'parking.g.dart';
 
 @JsonSerializable()
+@HiveType(typeId: 0)
 class Parking with EquatableMixin {
+  @HiveField(0)
   final String id;
   @JsonKey(name: 'parking_name')
+  @HiveField(1)
   final String parkingName;
+  @HiveField(2)
   final String address;
   @JsonKey(
     fromJson: _geolocationFromJson,
     toJson: _geolocationToJson,
   )
+  @HiveField(3)
   final Point geolocation;
   @JsonKey(name: 'total_slot')
+  @HiveField(4)
   final int totalSlot;
   @JsonKey(name: 'available_slot')
+  @HiveField(5)
   final int availableSlot;
+  @HiveField(6)
   final String? image;
+  @HiveField(7)
   final String? phone;
   @JsonKey(name: 'price_per_hour')
+  @HiveField(8)
   final List<ShiftPrice>? pricePerHour;
   @JsonKey(name: 'price_per_day')
+  @HiveField(9)
   final double? pricePerDay;
   @JsonKey(name: 'price_per_month')
+  @HiveField(10)
   final double? pricePerMonth;
   @JsonKey(name: 'price_per_year')
+  @HiveField(11)
   final double? pricePerYear;
 
   Parking({
