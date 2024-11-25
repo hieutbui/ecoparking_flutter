@@ -95,11 +95,11 @@ class HomePageView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    RoundedButton(
-                      icon: Icons.home,
-                      onPressed: controller.onHomePressed,
-                    ),
-                    const SizedBox(height: HomeViewStyles.bottomButtonSpacing),
+                    // RoundedButton(
+                    //   icon: Icons.home,
+                    //   onPressed: controller.onHomePressed,
+                    // ),
+                    // const SizedBox(height: HomeViewStyles.bottomButtonSpacing),
                     Container(
                       decoration:
                           HomeViewStyles.getFloatingButtonDecoration(context),
