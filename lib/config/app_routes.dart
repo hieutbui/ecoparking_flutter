@@ -14,6 +14,7 @@ import 'package:ecoparking_flutter/pages/profile/profile.dart';
 import 'package:ecoparking_flutter/pages/register/register.dart';
 import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
+import 'package:ecoparking_flutter/pages/search_map/search_map.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
 import 'package:ecoparking_flutter/pages/verify_otp/model/register_types.dart';
 import 'package:ecoparking_flutter/pages/verify_otp/verify_otp.dart';
@@ -177,7 +178,15 @@ class AppRoutes {
                     ),
                   )
                 ],
-              )
+              ),
+              GoRoute(
+                path: AppPaths.searchMap.path,
+                pageBuilder: (context, state) => defaultPageBuilder(
+                  context,
+                  const SearchMap(),
+                  name: AppPaths.searchMap.label,
+                ),
+              ),
             ],
           ),
           GoRoute(
@@ -295,5 +304,7 @@ class AppRoutes {
         AppPaths.selectVehicle.navigationPath,
         AppPaths.reviewSummary.navigationPath,
         AppPaths.paymentMethod.navigationPath,
+        AppPaths.searchMap.navigationPath,
+        AppPaths.editProfile.navigationPath,
       ];
 }
