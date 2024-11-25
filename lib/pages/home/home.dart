@@ -182,6 +182,10 @@ class HomeController extends State<HomePage> with ControllerLoggy {
 
   void onSearchPressed() {
     loggy.warning('Search button pressed');
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.searchMap,
+    );
   }
 
   void onNotificationPressed() {
