@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatelessWidget {
   final ActionButtonType type;
   final String label;
-  final VoidCallback? onPressed;
   final bool isShowArrow;
   final double arrowSize;
   final double width;
@@ -14,6 +13,8 @@ class ActionButton extends StatelessWidget {
   final Color? hollowBorderColor;
   final BorderRadiusGeometry? borderRadius;
   final Color? labelColor;
+  final VoidCallback? onPressed;
+  final IconData? rightIcon;
 
   const ActionButton({
     super.key,
@@ -29,6 +30,7 @@ class ActionButton extends StatelessWidget {
     this.hollowBorderColor,
     this.borderRadius,
     this.labelColor,
+    this.rightIcon,
   });
 
   @override
@@ -75,7 +77,19 @@ class ActionButton extends StatelessWidget {
                 ),
                 size: arrowSize,
               ),
-            ]
+            ],
+            if (rightIcon != null) ...[
+              const SizedBox(width: 14),
+              Icon(
+                rightIcon,
+                color: AppButtonStyles.getLabelColor(
+                  context,
+                  type,
+                  labelColor: labelColor,
+                ),
+                size: arrowSize,
+              ),
+            ],
           ],
         ),
       ),
