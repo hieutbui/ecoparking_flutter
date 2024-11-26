@@ -1,4 +1,5 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/config/route_change_notifier.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
@@ -14,7 +15,6 @@ import 'package:ecoparking_flutter/pages/profile/profile.dart';
 import 'package:ecoparking_flutter/pages/register/register.dart';
 import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
-import 'package:ecoparking_flutter/pages/search_map/search_map.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
 import 'package:ecoparking_flutter/pages/verify_otp/model/register_types.dart';
 import 'package:ecoparking_flutter/pages/verify_otp/verify_otp.dart';
@@ -95,6 +95,7 @@ class AppRoutes {
     initialLocation: AppPaths.home.path,
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
+    refreshListenable: routeChangeNotifier,
     routes: [
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
@@ -178,14 +179,6 @@ class AppRoutes {
                     ),
                   )
                 ],
-              ),
-              GoRoute(
-                path: AppPaths.searchMap.path,
-                pageBuilder: (context, state) => defaultPageBuilder(
-                  context,
-                  const SearchMap(),
-                  name: AppPaths.searchMap.label,
-                ),
               ),
             ],
           ),
@@ -304,7 +297,6 @@ class AppRoutes {
         AppPaths.selectVehicle.navigationPath,
         AppPaths.reviewSummary.navigationPath,
         AppPaths.paymentMethod.navigationPath,
-        AppPaths.searchMap.navigationPath,
         AppPaths.editProfile.navigationPath,
       ];
 }

@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/data/datasource/markers/current_location_data
 import 'package:ecoparking_flutter/data/datasource/markers/parking_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/profile/profile_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/register/register_datasource.dart';
+import 'package:ecoparking_flutter/data/datasource/search_parking/search_parking_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/sign_out/sign_out_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/tickets/ticket_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/user_favorite_parkings/user_favorite_parkings_datasource.dart';
@@ -12,6 +13,7 @@ import 'package:ecoparking_flutter/data/datasource_impl/markers/current_location
 import 'package:ecoparking_flutter/data/datasource_impl/markers/parking_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/profile/profile_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/register/register_datasource_impl.dart';
+import 'package:ecoparking_flutter/data/datasource_impl/search_parking/search_parking_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/sign_out/sign_out_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/tickets/ticket_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_favorite_parkings/user_favorite_parkings_datasource_impl.dart';
@@ -21,6 +23,7 @@ import 'package:ecoparking_flutter/data/repository/markers/current_location_repo
 import 'package:ecoparking_flutter/data/repository/markers/parking_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/profile/profile_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/register/register_repository_impl.dart';
+import 'package:ecoparking_flutter/data/repository/search_parking/search_parking_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/sign_out/sign_out_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/tickets/ticket_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/user_favorite_parkings/user_favorite_parkings_repository_impl.dart';
@@ -31,6 +34,7 @@ import 'package:ecoparking_flutter/domain/repository/markers/current_location_re
 import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/profile/profile_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/register/register_repository.dart';
+import 'package:ecoparking_flutter/domain/repository/search_parking/search_parking_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/sign_out/sign_out_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/tickets/ticket_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/user_favorite_parkings/user_favorite_parkings_repository.dart';
@@ -46,6 +50,7 @@ import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor
 import 'package:ecoparking_flutter/domain/usecase/profile/update_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/verify_email_otp_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/search_parking/search_parking_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/sign_out/sign_out_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
@@ -129,6 +134,9 @@ class GetItInitializer with GetItLoggy {
     getIt.registerLazySingleton<SignOutDataSource>(
       () => SignOutDataSourceImpl(),
     );
+    getIt.registerLazySingleton<SearchParkingDataSource>(
+      () => SearchParkingDataSourceImpl(),
+    );
     loggy.info('bindingDataSourceImpl(): Setup successfully');
   }
 
@@ -159,6 +167,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<SignOutRepository>(
       () => SignOutRepositoryImpl(),
+    );
+    getIt.registerLazySingleton<SearchParkingRepository>(
+      () => SearchParkingRepositoryImpl(),
     );
     loggy.info('bindingRepositories(): Setup successfully');
   }
@@ -196,6 +207,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<FindNearbyParkingsInteractor>(
       () => FindNearbyParkingsInteractor(),
+    );
+    getIt.registerLazySingleton<SearchParkingInteractor>(
+      () => SearchParkingInteractor(),
     );
     loggy.info('bindingInteractor(): Setup successfully');
   }
