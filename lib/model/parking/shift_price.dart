@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'shift_price.g.dart';
@@ -29,21 +30,26 @@ String _timeOfDayToString(TimeOfDay time) {
 }
 
 @JsonSerializable()
+@HiveType(typeId: 2)
 class ShiftPrice with EquatableMixin {
   @JsonKey(name: 'shift_type')
+  @HiveField(0)
   final ShiftType shiftType;
   @JsonKey(
     name: 'start_time',
     fromJson: _timeOfDayFromString,
     toJson: _timeOfDayToString,
   )
+  @HiveField(1)
   final TimeOfDay startTime;
   @JsonKey(
     name: 'end_time',
     fromJson: _timeOfDayFromString,
     toJson: _timeOfDayToString,
   )
+  @HiveField(2)
   final TimeOfDay endTime;
+  @HiveField(3)
   final double price;
 
   ShiftPrice({
