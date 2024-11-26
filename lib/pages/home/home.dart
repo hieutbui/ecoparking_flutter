@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math' hide Point;
+import 'package:collection/collection.dart';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
+import 'package:ecoparking_flutter/config/route_change_notifier.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
@@ -11,10 +13,14 @@ import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/state/markers/find_nearby_parkings_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/profile/get_profile_state.dart';
+import 'package:ecoparking_flutter/domain/state/search_parking/search_parking_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/find_nearby_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/search_parking/search_parking_interactor.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
+import 'package:ecoparking_flutter/model/parking/parking_sort_by.dart';
+import 'package:ecoparking_flutter/model/parking/parking_sort_order.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
@@ -22,10 +28,12 @@ import 'package:ecoparking_flutter/pages/home/model/parking_bottom_sheet_action.
 import 'package:ecoparking_flutter/pages/home/widgets/parking_bottom_sheet_builder/parking_bottom_sheet_builder.dart';
 import 'package:ecoparking_flutter/utils/bottom_sheet_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/mixins/search_debounce_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geobase/geobase.dart';
+import 'package:geobase/geobase.dart' hide Box;
+import 'package:hive/hive.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 
@@ -36,13 +44,20 @@ class HomePage extends StatefulWidget {
   HomeController createState() => HomeController();
 }
 
-class HomeController extends State<HomePage> with ControllerLoggy {
+class HomeController extends State<HomePage>
+    with ControllerLoggy, SearchDebounceMixin {
   final CurrentLocationInteractor _currentLocationInteractor =
       getIt.get<CurrentLocationInteractor>();
   final GetProfileInteractor _getProfileInteractor =
       getIt.get<GetProfileInteractor>();
   final FindNearbyParkingsInteractor _findNearbyParkingsInteractor =
       getIt.get<FindNearbyParkingsInteractor>();
+  final SearchParkingInteractor _searchParkingInteractor =
+      getIt.get<SearchParkingInteractor>();
+
+  final Future<Box<Parking>> _recentSearchesBox =
+      getIt.getAsync<Box<Parking>>();
+
   final ParkingService parkingService = getIt.get<ParkingService>();
   final BookingService bookingService = getIt.get<BookingService>();
   final AccountService _accountService = getIt.get<AccountService>();
@@ -53,39 +68,70 @@ class HomeController extends State<HomePage> with ControllerLoggy {
   final findNearbyParkingsNotifier = ValueNotifier<FindNearbyParkingsState>(
     const FindNearbyParkingsInitial(),
   );
+  final ValueNotifier<SearchParkingState> searchParkingNotifier =
+      ValueNotifier(const SearchParkingInitial());
+  final ValueNotifier<ParkingSortOrder> sortOrderNotifier =
+      ValueNotifier(ParkingSortOrder.ascending);
+  final ValueNotifier<ParkingSortBy> sortByNotifier =
+      ValueNotifier(ParkingSortBy.distance);
+  final ValueNotifier<double> maxDistanceNotifier = ValueNotifier(1000);
 
   final MapController mapController = MapController();
+  final SearchController searchController = SearchController();
 
   StreamSubscription? _currentLocationSubscription;
   StreamSubscription? _getUserProfileSubscription;
   StreamSubscription? _findNearbyParkingsSubscription;
+  StreamSubscription? _searchParkingSubscription;
+
+  int get maxRecentSearches => 10;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
     _getUserProfile();
+    initializeDebounce(onDebounce: _searchParking);
+    routeChangeNotifier.addListener(_onRouteChange);
   }
 
   @override
   void dispose() {
-    mapController.dispose();
+    _disposeController();
     _clearSubscriptions();
     _disposeNotifier();
+    cancelDebounce();
+    routeChangeNotifier.removeListener(_onRouteChange);
     super.dispose();
+  }
+
+  void _disposeController() {
+    mapController.dispose();
+  }
+
+  void _onRouteChange() {
+    if (searchController.isOpen) {
+      searchController.closeView('');
+    }
   }
 
   void _clearSubscriptions() {
     _currentLocationSubscription?.cancel();
     _getUserProfileSubscription?.cancel();
     _findNearbyParkingsSubscription?.cancel();
+    _searchParkingSubscription?.cancel();
     _currentLocationSubscription = null;
     _getUserProfileSubscription = null;
+    _findNearbyParkingsSubscription = null;
   }
 
   void _disposeNotifier() {
     currentLocationNotifier.dispose();
     findNearbyParkingsNotifier.dispose();
+    searchParkingNotifier.dispose();
+    sortOrderNotifier.dispose();
+    sortByNotifier.dispose();
+    maxDistanceNotifier.dispose();
   }
 
   void _getUserProfile() {
@@ -180,12 +226,9 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     }).toList();
   }
 
-  void onSearchPressed() {
-    loggy.warning('Search button pressed');
-    NavigationUtils.navigateTo(
-      context: context,
-      path: AppPaths.searchMap,
-    );
+  void onSearchPressed(SearchController searchController) {
+    loggy.info('Search button pressed');
+    searchController.openView();
   }
 
   void onNotificationPressed() {
@@ -290,6 +333,151 @@ class HomeController extends State<HomePage> with ControllerLoggy {
     loggy
         .info('onPositionChanged() position: $camera, hasGesture: $hasGesture');
     findNearbyParking(camera.center);
+  }
+
+  Future<List<Parking>> getRecentSearches() async {
+    final box = await _recentSearchesBox;
+    final list = box.values.toList();
+    return list;
+  }
+
+  Future<void> addRecentSearch(Parking parking) async {
+    final box = await _recentSearchesBox;
+    final existingParking = box.values.firstWhereOrNull(
+      (element) => element.id == parking.id,
+    );
+    if (existingParking == null) {
+      if (box.length >= maxRecentSearches) {
+        await box.deleteAt(0);
+
+        await box.putAt(0, parking);
+      }
+
+      await box.add(parking);
+    } else {
+      final existingParkingIndex = box.values.toList().indexOf(existingParking);
+      await box.putAt(existingParkingIndex, parking);
+    }
+  }
+
+  void onSuggestionPressed(
+    SearchController suggestionController,
+    Parking parking,
+  ) {
+    loggy.info('Suggestion pressed: ');
+
+    suggestionController.closeView(parking.parkingName);
+
+    mapController.move(
+      LatLng(
+        parking.geolocation.position.y,
+        parking.geolocation.position.x,
+      ),
+      HomeViewStyles.initialZoom,
+    );
+
+    onParkingMarkerPressed(context, parking);
+  }
+
+  void onSearchChanged(String value) {
+    loggy.info('Search changed: $value');
+    setSearchQuery(value);
+  }
+
+  void _searchParking(String? searchQuery) {
+    loggy.info('_searchParking() searchQuery: $searchQuery');
+    Point? userLocation;
+
+    if (currentLocationNotifier.value is GetCurrentLocationSuccess) {
+      final location =
+          (currentLocationNotifier.value as GetCurrentLocationSuccess)
+              .currentLocation;
+
+      userLocation = Point(
+        Position.create(
+          x: location.longitude,
+          y: location.latitude,
+        ),
+      );
+    }
+
+    _searchParkingSubscription = _searchParkingInteractor
+        .execute(
+          searchQuery: searchQuery,
+          userLocation: userLocation,
+          maxDistance: maxDistanceNotifier.value,
+          sortBy: sortByNotifier.value,
+          sortOrder: sortOrderNotifier.value,
+        )
+        .listen(
+          (result) => result.fold(
+            _handleSearchParkingFailure,
+            _handleSearchParkingSuccess,
+          ),
+        );
+  }
+
+  void onSearchResultTap(Parking parking) async {
+    loggy.info('Search result tapped: $parking');
+
+    parkingService.selectParking(parking);
+
+    searchController.closeView(parking.parkingName);
+
+    await addRecentSearch(parking);
+
+    if (!mounted) return;
+
+    mapController.move(
+      LatLng(
+        parking.geolocation.position.y,
+        parking.geolocation.position.x,
+      ),
+      HomeViewStyles.initialZoom,
+    );
+
+    onParkingMarkerPressed(context, parking);
+  }
+
+  void onSortByPressed() {
+    loggy.info('Sort by pressed');
+    sortByNotifier.value = sortByNotifier.value == ParkingSortBy.distance
+        ? ParkingSortBy.price
+        : ParkingSortBy.distance;
+    setSearchQuery(searchController.text);
+  }
+
+  void onSortOrderPressed() {
+    loggy.info('Sort order pressed');
+    sortOrderNotifier.value =
+        sortOrderNotifier.value == ParkingSortOrder.ascending
+            ? ParkingSortOrder.descending
+            : ParkingSortOrder.ascending;
+    setSearchQuery(searchController.text);
+  }
+
+  void _handleSearchParkingFailure(Failure failure) {
+    if (failure is SearchParkingFailure) {
+      loggy.error('Search parking failure: ${failure.exception}');
+      searchParkingNotifier.value = failure;
+    } else {
+      loggy.error('Search parking unknown failure');
+    }
+  }
+
+  void _handleSearchParkingSuccess(Success success) {
+    if (success is SearchParkingSuccess) {
+      loggy.info('Search parking success');
+      searchParkingNotifier.value = success;
+    } else if (success is SearchParkingIsEmpty) {
+      loggy.info('Search parking is empty');
+      searchParkingNotifier.value = success;
+    } else if (success is SearchParkingLoading) {
+      loggy.error('Search parking is loading');
+      searchParkingNotifier.value = success;
+    } else {
+      loggy.error('Search parking unknown success');
+    }
   }
 
   void _handleFindNearbyParkingsFailure(Failure failure) {
