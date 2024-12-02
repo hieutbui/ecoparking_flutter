@@ -5,7 +5,7 @@ import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/data/models/ticket/create_ticket_request_data.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
-import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_Info_state.dart';
+import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_info_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/get_ticket_info_interactor.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
