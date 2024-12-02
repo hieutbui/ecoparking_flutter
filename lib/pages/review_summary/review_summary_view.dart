@@ -57,11 +57,14 @@ class ReviewSummaryView extends StatelessWidget {
                           : 'Choose how you want to pay',
                       icon: const Icon(Icons.arrow_forward_ios_rounded),
                       avatar: paymentMethod != null
-                          ? Image.asset(
-                              paymentMethod.getImagePath(),
-                              width: 46,
-                              height: 46,
-                            )
+                          ? paymentMethod.getImagePath().isNotEmpty &&
+                                  paymentMethod.getImagePath() != ''
+                              ? Image.asset(
+                                  paymentMethod.getImagePath(),
+                                  width: 46,
+                                  height: 46,
+                                )
+                              : Icon(paymentMethod.getIcon())
                           : const Icon(Icons.payment),
                       onTap: controller.onPressSelectPaymentMethod,
                     );

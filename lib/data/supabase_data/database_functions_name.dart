@@ -4,7 +4,8 @@ enum DatabaseFunctionsName {
   getCancelledTickets,
   getParkingWithShiftPrices,
   findNearbyParkings,
-  searchParking;
+  searchParking,
+  getTicketInfo;
 
   String get functionName {
     switch (this) {
@@ -20,6 +21,8 @@ enum DatabaseFunctionsName {
         return 'find_nearby_parkings';
       case DatabaseFunctionsName.searchParking:
         return 'search_parking';
+      case DatabaseFunctionsName.getTicketInfo:
+        return 'get_ticket_info';
     }
   }
 }

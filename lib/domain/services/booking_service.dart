@@ -1,6 +1,10 @@
+import 'package:ecoparking_flutter/data/models/ticket/create_ticket_request_data.dart';
 import 'package:ecoparking_flutter/model/account/vehicle.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/payment/e_wallet.dart';
+import 'package:ecoparking_flutter/model/ticket/ticket.dart';
+import 'package:ecoparking_flutter/model/ticket/ticket_status.dart';
+import 'package:ecoparking_flutter/pages/book_parking_details/model/calculated_fee.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/models/price_arguments.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +19,8 @@ class BookingService {
   final ValueNotifier<EWallet?> _paymentMethodNotifier =
       ValueNotifier<EWallet?>(null);
   PriceArguments? _calculatedPrice;
+  Ticket? _ticket;
+  CreateTicketRequestData? _createdTicket;
 
   Parking? get parking => _parking;
   Vehicle? get vehicle => _vehicle;
@@ -24,6 +30,8 @@ class BookingService {
   DateTime? get extraEndDateTime => _extraEndDateTime;
   EWallet? get paymentMethod => _paymentMethodNotifier.value;
   PriceArguments? get calculatedPrice => _calculatedPrice;
+  Ticket? get ticket => _ticket;
+  CreateTicketRequestData? get createdTicket => _createdTicket;
 
   void setParking(Parking parking) {
     _parking = parking;
@@ -65,6 +73,14 @@ class BookingService {
     _paymentMethodNotifier.removeListener(listener);
   }
 
+  void setTicket(Ticket ticket) {
+    _ticket = ticket;
+  }
+
+  void setCreatedTicket(CreateTicketRequestData createdTicket) {
+    _createdTicket = createdTicket;
+  }
+
   void clear() {
     _parking = null;
     _vehicle = null;
@@ -74,6 +90,30 @@ class BookingService {
     _extraEndDateTime = null;
     _paymentMethodNotifier.value = null;
     _calculatedPrice = null;
+    _ticket = null;
+    _createdTicket = null;
     _paymentMethodNotifier.dispose();
+  }
+
+  CreateTicketRequestData createTicket({
+    required String paymentIntentId,
+    String? userId,
+  }) {
+    final days = _calculatedPrice?.calculatedFee is DailyFee
+        ? (_calculatedPrice?.calculatedFee as DailyFee).days
+        : 0;
+
+    return CreateTicketRequestData(
+      paymentIntentId: paymentIntentId,
+      parkingId: _parking?.id ?? '',
+      userId: userId ?? '',
+      vehicleId: _vehicle?.id ?? '',
+      startTime: _startDateTime?.toIso8601String() ?? '',
+      endTime: _endDateTime?.toIso8601String() ?? '',
+      days: days,
+      hours: _calculatedPrice?.calculatedFee.hours ?? 0,
+      total: _calculatedPrice?.calculatedFee.total ?? 0,
+      status: TicketStatus.paid,
+    );
   }
 }

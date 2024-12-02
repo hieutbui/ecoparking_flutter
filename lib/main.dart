@@ -10,6 +10,7 @@ import 'package:ecoparking_flutter/widgets/theme_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:loggy/loggy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -40,6 +41,9 @@ Future<void> main() async {
       authFlowType: AuthFlowType.pkce,
     ),
   );
+
+  Stripe.publishableKey = EnvLoader.stripePublishableKey;
+  Stripe.instance.applySettings();
 
   usePathUrlStrategy();
 
