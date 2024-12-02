@@ -262,7 +262,6 @@ class AppRoutes {
           GoRoute(
             path: '/payment-return',
             pageBuilder: (context, state) {
-              print('Payment Return Page ${state.uri}');
               return defaultPageBuilder(
                 context,
                 const Center(
