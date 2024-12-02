@@ -1,6 +1,7 @@
 import 'package:ecoparking_flutter/data/datasource/login/login_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/markers/current_location_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/markers/parking_datasource.dart';
+import 'package:ecoparking_flutter/data/datasource/payment/payment_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/profile/profile_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/register/register_datasource.dart';
 import 'package:ecoparking_flutter/data/datasource/search_parking/search_parking_datasource.dart';
@@ -11,6 +12,7 @@ import 'package:ecoparking_flutter/data/datasource/user_vehicles/user_vehicles_d
 import 'package:ecoparking_flutter/data/datasource_impl/login/login_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/markers/current_location_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/markers/parking_datasource_impl.dart';
+import 'package:ecoparking_flutter/data/datasource_impl/payment/payment_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/profile/profile_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/register/register_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/search_parking/search_parking_datasource_impl.dart';
@@ -18,9 +20,11 @@ import 'package:ecoparking_flutter/data/datasource_impl/sign_out/sign_out_dataso
 import 'package:ecoparking_flutter/data/datasource_impl/tickets/ticket_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_favorite_parkings/user_favorite_parkings_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_vehicles/user_vehicles_datasource_impl.dart';
+import 'package:ecoparking_flutter/data/network/payment/stripe_payment_api.dart';
 import 'package:ecoparking_flutter/data/repository/login/login_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/current_location_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/parking_repository_impl.dart';
+import 'package:ecoparking_flutter/data/repository/payment/payment_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/profile/profile_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/register/register_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/search_parking/search_parking_repository_impl.dart';
@@ -29,9 +33,11 @@ import 'package:ecoparking_flutter/data/repository/tickets/ticket_repository_imp
 import 'package:ecoparking_flutter/data/repository/user_favorite_parkings/user_favorite_parkings_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/user_vehicles/user_vehicles_repository_impl.dart';
 import 'package:ecoparking_flutter/di/global/hive_initializer.dart';
+import 'package:ecoparking_flutter/di/global/network_di.dart';
 import 'package:ecoparking_flutter/domain/repository/login/login_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/current_location_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.dart';
+import 'package:ecoparking_flutter/domain/repository/payment/payment_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/profile/profile_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/register/register_repository.dart';
 import 'package:ecoparking_flutter/domain/repository/search_parking/search_parking_repository.dart';
@@ -46,12 +52,16 @@ import 'package:ecoparking_flutter/domain/services/register_service.dart';
 import 'package:ecoparking_flutter/domain/usecase/login/login_with_email_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/find_nearby_parkings_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/payment/confirm_payment_intent_web_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/payment/create_payment_intent_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/update_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/verify_email_otp_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/search_parking/search_parking_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/sign_out/sign_out_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/tickets/create_ticket_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/tickets/get_ticket_info_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
@@ -74,18 +84,20 @@ class GetItInitializer with GetItLoggy {
 
   void setUp() {
     bindingGlobal();
+
+    loggy.info('setUp(): Setup successfully');
+  }
+
+  void bindingGlobal() {
+    NetworkDi().bind();
     bindingHiveBoxes();
+    bindingAPI();
     bindingDataSource();
     bindingDataSourceImpl();
     bindingRepositories();
     bindingInteractor();
     bindingServices();
     bindingController();
-
-    loggy.info('setUp(): Setup successfully');
-  }
-
-  void bindingGlobal() {
     getIt.registerSingleton(ResponsiveUtils());
 
     loggy.info('bindingGlobal(): Setup successfully');
@@ -98,44 +110,81 @@ class GetItInitializer with GetItLoggy {
     loggy.info('bindingHiveBoxes(): Setup successfully');
   }
 
-  void bidingAPI() {
+  void bindingAPI() {
+    getIt.registerSingleton<StripePaymentApi>(StripePaymentApi());
     loggy.info('bidingAPI(): Setup successfully');
   }
 
   void bindingDataSource() {
+    getIt.registerFactory<CurrentLocationDataSource>(
+      () => CurrentLocationDataSourceImpl(),
+    );
+    getIt.registerFactory<ParkingDataSource>(
+      () => ParkingsDataSourceImpl(),
+    );
+    getIt.registerFactory<UserVehiclesDataSource>(
+      () => UserVehiclesDataSourceImpl(),
+    );
+    getIt.registerFactory<TicketDataSource>(
+      () => TicketDataSourceImpl(),
+    );
+    getIt.registerFactory<UserFavoriteParkingsDataSource>(
+      () => UserFavoriteParkingsDataSourceImpl(),
+    );
+    getIt.registerFactory<RegisterDataSource>(
+      () => RegisterDataSourceImpl(),
+    );
+    getIt.registerFactory<ProfileDataSource>(
+      () => ProfileDataSourceImpl(),
+    );
+    getIt.registerFactory<LoginDataSource>(
+      () => LoginDataSourceImpl(),
+    );
+    getIt.registerFactory<SignOutDataSource>(
+      () => SignOutDataSourceImpl(),
+    );
+    getIt.registerFactory<SearchParkingDataSource>(
+      () => SearchParkingDataSourceImpl(),
+    );
+    getIt.registerFactory<PaymentDataSource>(
+      () => PaymentDataSourceImpl(),
+    );
     loggy.info('bindingDataSource(): Setup successfully');
   }
 
   void bindingDataSourceImpl() {
-    getIt.registerLazySingleton<CurrentLocationDataSource>(
+    getIt.registerFactory<CurrentLocationDataSourceImpl>(
       () => CurrentLocationDataSourceImpl(),
     );
-    getIt.registerLazySingleton<ParkingDataSource>(
+    getIt.registerFactory<ParkingsDataSourceImpl>(
       () => ParkingsDataSourceImpl(),
     );
-    getIt.registerLazySingleton<UserVehiclesDataSource>(
+    getIt.registerFactory<UserVehiclesDataSourceImpl>(
       () => UserVehiclesDataSourceImpl(),
     );
-    getIt.registerLazySingleton<TicketDataSource>(
+    getIt.registerFactory<TicketDataSourceImpl>(
       () => TicketDataSourceImpl(),
     );
-    getIt.registerLazySingleton<UserFavoriteParkingsDataSource>(
+    getIt.registerFactory<UserFavoriteParkingsDataSourceImpl>(
       () => UserFavoriteParkingsDataSourceImpl(),
     );
-    getIt.registerLazySingleton<RegisterDataSource>(
+    getIt.registerFactory<RegisterDataSourceImpl>(
       () => RegisterDataSourceImpl(),
     );
-    getIt.registerLazySingleton<ProfileDataSource>(
+    getIt.registerFactory<ProfileDataSourceImpl>(
       () => ProfileDataSourceImpl(),
     );
-    getIt.registerLazySingleton<LoginDataSource>(
+    getIt.registerFactory<LoginDataSourceImpl>(
       () => LoginDataSourceImpl(),
     );
-    getIt.registerLazySingleton<SignOutDataSource>(
+    getIt.registerFactory<SignOutDataSourceImpl>(
       () => SignOutDataSourceImpl(),
     );
-    getIt.registerLazySingleton<SearchParkingDataSource>(
+    getIt.registerFactory<SearchParkingDataSourceImpl>(
       () => SearchParkingDataSourceImpl(),
+    );
+    getIt.registerFactory<PaymentDataSourceImpl>(
+      () => PaymentDataSourceImpl(),
     );
     loggy.info('bindingDataSourceImpl(): Setup successfully');
   }
@@ -170,6 +219,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<SearchParkingRepository>(
       () => SearchParkingRepositoryImpl(),
+    );
+    getIt.registerLazySingleton<PaymentRepository>(
+      () => PaymentRepositoryImpl(),
     );
     loggy.info('bindingRepositories(): Setup successfully');
   }
@@ -210,6 +262,18 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<SearchParkingInteractor>(
       () => SearchParkingInteractor(),
+    );
+    getIt.registerLazySingleton<CreatePaymentIntentInteractor>(
+      () => CreatePaymentIntentInteractor(),
+    );
+    getIt.registerLazySingleton<ConfirmPaymentIntentWebInteractor>(
+      () => ConfirmPaymentIntentWebInteractor(),
+    );
+    getIt.registerLazySingleton<CreateTicketInteractor>(
+      () => CreateTicketInteractor(),
+    );
+    getIt.registerLazySingleton<GetTicketInfoInteractor>(
+      () => GetTicketInfoInteractor(),
     );
     loggy.info('bindingInteractor(): Setup successfully');
   }

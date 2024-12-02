@@ -12,6 +12,7 @@ class SelectionCard extends StatelessWidget {
   final String? subtitle;
   final String? trailingSVG;
   final String? trailingImage;
+  final IconData? trailingIcon;
   final Color? titleColor;
   final Color? subtitleColor;
   final double? trailingWidth;
@@ -25,6 +26,7 @@ class SelectionCard extends StatelessWidget {
     this.subtitle,
     this.trailingSVG,
     this.trailingImage,
+    this.trailingIcon,
     this.width = double.infinity,
     this.height = SelectionCardStyles.selectionCardSize,
     this.isSelected = false,
@@ -95,18 +97,22 @@ class SelectionCard extends StatelessWidget {
   }
 
   Widget _buildTrailing(BuildContext context) {
-    if (trailingSVG != null) {
+    if (trailingSVG != null && trailingSVG!.isNotEmpty && trailingSVG != '') {
       return SvgPicture.asset(
         trailingSVG!,
         width: trailingWidth ?? SelectionCardStyles.trailingWidth,
         height: trailingHeight ?? SelectionCardStyles.trailingHeight,
       );
-    } else {
+    } else if (trailingImage != null &&
+        trailingImage!.isNotEmpty &&
+        trailingImage != '') {
       return Image.asset(
         trailingImage!,
         width: trailingWidth ?? SelectionCardStyles.trailingWidth,
         height: trailingHeight ?? SelectionCardStyles.trailingHeight,
       );
+    } else {
+      return Icon(trailingIcon);
     }
   }
 }

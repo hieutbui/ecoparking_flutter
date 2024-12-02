@@ -17,3 +17,9 @@ mixin InteractorLoggy implements LoggyType {
   Loggy<InteractorLoggy> get loggy =>
       Loggy<InteractorLoggy>('Interactor Loggy - $runtimeType');
 }
+
+mixin ServiceLoggy implements LoggyType {
+  @override
+  Loggy<ServiceLoggy> get loggy =>
+      Loggy<ServiceLoggy>('Service Loggy - $runtimeType');
+}

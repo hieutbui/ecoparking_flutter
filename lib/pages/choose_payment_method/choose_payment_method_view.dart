@@ -51,6 +51,7 @@ class ChoosePaymentMethodView extends StatelessWidget {
                         return SelectionCard(
                           title: paymentMethod.getName(),
                           trailingImage: paymentMethod.getImagePath(),
+                          trailingIcon: paymentMethod.getIcon(),
                           isShowSelectCircle: true,
                           titleColor: Theme.of(context).colorScheme.onSurface,
                           subtitleColor: Theme.of(context)

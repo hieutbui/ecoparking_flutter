@@ -71,7 +71,13 @@ class ProfileController extends State<ProfilePage>
       SettingButtonArguments(
         title: 'Notification',
         leftIcon: Icons.notifications_outlined,
-        onTap: () {},
+        onTap: () {
+          loggy.info('Notification');
+          NavigationUtils.navigateTo(
+            context: context,
+            path: AppPaths.testPage,
+          );
+        },
       ),
       SettingButtonArguments(
         title: 'Logout',
