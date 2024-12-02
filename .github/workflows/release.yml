@@ -79,7 +79,7 @@ jobs:
           flutter clean
           flutter pub get
           flutter pub run build_runner build --delete-conflicting-outputs
-          flutter build web --release --dart-define=IS_RELEASE=TRUE --dart-define=RELEASE_TAG=${{ github.ref_name }} --dart-define=MAPBOX_URL_TEMPLATE=${{ secrets.MAPBOX_URL_TEMPLATE }} --dart-define=SUPABASE_PROJECT_URL=${{ secrets.SUPABASE_PROJECT_URL }} --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} --base-href="/${GITHUB_REPOSITORY##*/}/$FOLDER/"
+          flutter build web --release --dart-define=STRIPE_PUBLISHABLE_KEY=${{secrets.STRIPE_PUBLISHABLE_KEY}} --dart-define=STRIPE_SECRET_KEY=${{secrets.STRIPE_SECRET_KEY}} --dart-define=IS_RELEASE=TRUE --dart-define=RELEASE_TAG=${{ github.ref_name }} --dart-define=MAPBOX_URL_TEMPLATE=${{ secrets.MAPBOX_URL_TEMPLATE }} --dart-define=SUPABASE_PROJECT_URL=${{ secrets.SUPABASE_PROJECT_URL }} --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} --base-href="/${GITHUB_REPOSITORY##*/}/$FOLDER/"
 
       - name: Configure environments
         id: configure
