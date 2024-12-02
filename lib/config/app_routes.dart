@@ -16,10 +16,12 @@ import 'package:ecoparking_flutter/pages/register/register.dart';
 import 'package:ecoparking_flutter/pages/review_summary/review_summary.dart';
 import 'package:ecoparking_flutter/pages/saved/saved.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle.dart';
+import 'package:ecoparking_flutter/pages/ticket_details/ticket_details.dart';
 import 'package:ecoparking_flutter/pages/verify_otp/model/register_types.dart';
 import 'package:ecoparking_flutter/pages/verify_otp/verify_otp.dart';
 import 'package:ecoparking_flutter/utils/responsive.dart';
 import 'package:ecoparking_flutter/widgets/app_layout.dart';
+import 'package:ecoparking_flutter/widgets/test_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
@@ -180,6 +182,18 @@ class AppRoutes {
                   )
                 ],
               ),
+              GoRoute(
+                path: AppPaths.ticketDetails.path,
+                pageBuilder: (context, state) => defaultPageBuilder(
+                  context,
+                  const TicketDetails(),
+                  name: AppPaths.ticketDetails.label,
+                ),
+                redirect: (context, state) =>
+                    _bookingService.createdTicket == null
+                        ? AppPaths.home.path
+                        : null,
+              ),
             ],
           ),
           GoRoute(
@@ -245,6 +259,27 @@ class AppRoutes {
               ),
             ],
           ),
+          GoRoute(
+            path: '/payment-return',
+            pageBuilder: (context, state) {
+              print('Payment Return Page ${state.uri}');
+              return defaultPageBuilder(
+                context,
+                const Center(
+                  child: Text('Payment Return Page'),
+                ),
+                name: 'Payment Return Page',
+              );
+            },
+          ),
+          GoRoute(
+            path: AppPaths.testPage.path,
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              const TestPage(),
+              name: AppPaths.testPage.label,
+            ),
+          ),
         ],
       ),
     ],
@@ -298,5 +333,7 @@ class AppRoutes {
         AppPaths.reviewSummary.navigationPath,
         AppPaths.paymentMethod.navigationPath,
         AppPaths.editProfile.navigationPath,
+        AppPaths.ticketDetails.navigationPath,
+        AppPaths.testPage.navigationPath,
       ];
 }

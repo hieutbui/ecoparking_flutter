@@ -19,7 +19,7 @@ class ChoosePaymentMethodController extends State<ChoosePaymentMethod>
     with ControllerLoggy {
   final BookingService bookingService = getIt.get<BookingService>();
 
-  final List<EWallet> paymentMethods = [EWallet.vnpay];
+  final List<EWallet> paymentMethods = [EWallet.card];
 
   final selectedPaymentMethod = ValueNotifier<EWallet?>(null);
 

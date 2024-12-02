@@ -25,9 +25,14 @@ class InfoLine extends StatelessWidget {
             arguments.title,
             style: InfoLineStyles.titleStyle(context),
           ),
-          Text(
-            arguments.info,
-            style: InfoLineStyles.infoStyle(context),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              arguments.info,
+              style: InfoLineStyles.infoStyle(context),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

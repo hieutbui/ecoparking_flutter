@@ -269,6 +269,26 @@ class BookParkingDetailsController extends State<BookParkingDetails>
     }
 
     bookingService.setCalculatedPrice(priceArgs);
+    final now = DateTime.now();
+    bookingService.setStartDateTime(
+      DateTime(
+        selectedDateRange.startDate?.year ?? now.year,
+        selectedDateRange.startDate?.month ?? now.month,
+        selectedDateRange.startDate?.day ?? now.day,
+        startHour.value?.hour ?? 0,
+        startHour.value?.minute ?? 0,
+      ),
+    );
+
+    bookingService.setEndDateTime(
+      DateTime(
+        selectedDateRange.endDate?.year ?? now.year,
+        selectedDateRange.endDate?.month ?? now.month,
+        selectedDateRange.endDate?.day ?? now.day,
+        endHour.value?.hour ?? 0,
+        endHour.value?.minute ?? 0,
+      ),
+    );
 
     NavigationUtils.navigateTo(
       context: context,

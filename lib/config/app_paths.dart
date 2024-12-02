@@ -11,7 +11,9 @@ enum AppPaths {
   selectVehicle,
   reviewSummary,
   paymentMethod,
-  editProfile;
+  editProfile,
+  ticketDetails,
+  testPage;
 
   String get path {
     switch (this) {
@@ -39,8 +41,12 @@ enum AppPaths {
         return 'review-summary';
       case AppPaths.paymentMethod:
         return 'payment-method';
+      case AppPaths.ticketDetails:
+        return 'ticket-details';
       case AppPaths.editProfile:
         return 'edit-profile';
+      case AppPaths.testPage:
+        return '/test-page';
       default:
         return '/home';
     }
@@ -72,8 +78,12 @@ enum AppPaths {
         return '/home/select-vehicle';
       case AppPaths.reviewSummary:
         return '/home/review-summary';
+      case AppPaths.ticketDetails:
+        return '/home/ticket-details';
       case AppPaths.paymentMethod:
         return '/home/review-summary/payment-method';
+      case AppPaths.testPage:
+        return '/test-page';
       default:
         return '/home';
     }
@@ -105,8 +115,12 @@ enum AppPaths {
         return 'Select Vehicle';
       case AppPaths.reviewSummary:
         return 'Review Summary';
+      case AppPaths.ticketDetails:
+        return 'Ticket Details';
       case AppPaths.paymentMethod:
         return 'Select Payment Method';
+      case AppPaths.testPage:
+        return 'Test Page';
       default:
         return 'Home';
     }
@@ -138,8 +152,12 @@ enum AppPaths {
         return 'Select Your Vehicle';
       case AppPaths.reviewSummary:
         return 'Review Summary';
+      case AppPaths.ticketDetails:
+        return 'Ticket Details';
       case AppPaths.paymentMethod:
         return 'Payment';
+      case AppPaths.testPage:
+        return 'Test Page';
       default:
         return 'Home';
     }
