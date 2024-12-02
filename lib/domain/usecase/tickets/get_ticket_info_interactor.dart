@@ -4,7 +4,7 @@ import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/data/models/ticket/ticket_display.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/repository/tickets/ticket_repository.dart';
-import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_Info_state.dart';
+import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_info_state.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 
 class GetTicketInfoInteractor with InteractorLoggy {

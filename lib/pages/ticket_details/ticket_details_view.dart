@@ -1,5 +1,5 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
-import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_Info_state.dart';
+import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_info_state.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details_view_styles.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/widgets/dash_separator.dart';
