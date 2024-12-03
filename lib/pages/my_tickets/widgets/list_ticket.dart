@@ -50,7 +50,7 @@ class ListTicket extends StatelessWidget {
           return SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ListView.separated(
                 shrinkWrap: true,
                 itemCount: getUserTicketState.tickets.length,

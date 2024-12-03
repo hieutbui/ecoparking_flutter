@@ -10,4 +10,9 @@ class LoginRepositoryImpl implements LoginRepository {
   Future<AuthResponse> loginWithEmail(String email, String password) {
     return _loginDataSource.loginWithEmail(email, password);
   }
+
+  @override
+  Future<String?> getGoogleWebClient() {
+    return _loginDataSource.getGoogleWebClient();
+  }
 }
