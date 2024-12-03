@@ -3,6 +3,7 @@ import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/register_service.dart';
 import 'package:ecoparking_flutter/domain/state/register/register_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.dart';
@@ -29,7 +30,9 @@ class RegisterController extends State<RegisterPage>
     with ControllerLoggy, GoogleAuthMixin, FacebookAuthMixin {
   final RegisterInteractor _registerInteractor =
       getIt.get<RegisterInteractor>();
+
   final RegisterService _registerService = getIt.get<RegisterService>();
+  final AccountService _accountService = getIt.get<AccountService>();
 
   final registerStateNotifier = ValueNotifier<RegisterState>(
     const RegisterInitial(),
@@ -200,10 +203,22 @@ class RegisterController extends State<RegisterPage>
     );
   }
 
-  void onLoginWithGooglePressed() {
+  void onLoginWithGooglePressed() async {
     loggy.info('onLoginWithGooglePressed()');
     if (PlatformInfos.isWeb) {
-      signInWithGoogleOnWeb();
+      await signInWithGoogleOnWeb();
+    } else {
+      final String? googleWebClientId = _accountService.googleWebClientId;
+      if (googleWebClientId != null) {
+        await nativeGoogleSign(googleWebClientId);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Cannot Sign In with Google, please try another method'),
+          ),
+        );
+      }
     }
   }
 

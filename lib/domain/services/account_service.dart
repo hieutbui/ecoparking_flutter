@@ -5,6 +5,7 @@ class AccountService {
   Session? session;
   User? user;
   Profile? profile;
+  String? googleWebClientId;
 
   void setSession(Session? session) {
     this.session = session;
@@ -18,9 +19,14 @@ class AccountService {
     this.profile = profile;
   }
 
+  void setGoogleWebClientId(String? googleWebClientId) {
+    this.googleWebClientId = googleWebClientId;
+  }
+
   void clear() {
     session = null;
     user = null;
     profile = null;
+    googleWebClientId = null;
   }
 }

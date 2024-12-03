@@ -142,6 +142,18 @@ class LoginController extends State<LoginPage>
     loggy.info('onLoginWithGooglePressed()');
     if (PlatformInfos.isWeb) {
       await signInWithGoogleOnWeb();
+    } else {
+      final String? googleWebClientId = _accountService.googleWebClientId;
+      if (googleWebClientId != null) {
+        await nativeGoogleSign(googleWebClientId);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Cannot Sign In with Google, please try another method'),
+          ),
+        );
+      }
     }
   }
 

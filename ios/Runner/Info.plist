@@ -46,7 +46,7 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<true/>
+	<string>This app needs access to location when open.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

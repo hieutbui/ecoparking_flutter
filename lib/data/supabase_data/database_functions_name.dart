@@ -7,6 +7,7 @@ enum DatabaseFunctionsName {
   searchParking,
   getTicketInfo,
   createPaymentIntent,
+  getGoogleWebClient,
   cancelTicket,
   addFavoriteParking,
   removeFavoriteParking;
@@ -29,6 +30,8 @@ enum DatabaseFunctionsName {
         return 'get_ticket_info';
       case DatabaseFunctionsName.createPaymentIntent:
         return 'create_payment_intent';
+      case DatabaseFunctionsName.getGoogleWebClient:
+        return 'get_google_web_client';
       case DatabaseFunctionsName.cancelTicket:
         return 'cancel_ticket';
       case DatabaseFunctionsName.addFavoriteParking:
