@@ -75,7 +75,7 @@ class TicketDetailsController extends State<TicketDetails>
   void onBackButtonPressed(BuildContext scaffoldContext) {
     NavigationUtils.navigateTo(
       context: scaffoldContext,
-      path: AppPaths.reviewSummary,
+      path: AppPaths.booking,
     );
   }
 
