@@ -1,9 +1,8 @@
 # ecoparking_flutter
 
-An application for graduation project that has 3 main use-cases:
+An application for graduation project that has 2 main use-cases:
 - User find parking lots
 - Parking's owners and employees manage their parking
-- Admin manage all parkings and users
 
 ## Getting Started
 
