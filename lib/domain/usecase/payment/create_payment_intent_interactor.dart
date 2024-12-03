@@ -17,10 +17,16 @@ class CreatePaymentIntentInteractor with InteractorLoggy {
     try {
       yield const Right(CreatePaymentIntentLoading());
 
-      final CreatePaymentIntentResponse paymentIntent =
+      final Map<String, dynamic>? paymentIntent =
           await _paymentRepository.createPaymentIntent(body);
 
-      yield Right(CreatePaymentIntentSuccess(paymentIntent: paymentIntent));
+      if (paymentIntent != null) {
+        yield Right(CreatePaymentIntentSuccess(
+            paymentIntent:
+                CreatePaymentIntentResponse.fromJson(paymentIntent)));
+      } else {
+        yield const Left(CreatePaymentIntentEmpty());
+      }
     } on StripeException catch (e) {
       loggy.error(
           'CreatePaymentIntentInteractor::execute(): stripe failure: $e');
