@@ -14,10 +14,15 @@ class ConfirmPaymentIntentWebInteractor with InteractorLoggy {
     try {
       yield const Right(ConfirmPaymentIntentWebLoading());
 
-      final PaymentIntent paymentIntent =
+      final PaymentIntent? paymentIntent =
           await _paymentRepository.confirmPaymentIntentWeb();
 
-      yield Right(ConfirmPaymentIntentWebSuccess(paymentIntent: paymentIntent));
+      if (paymentIntent != null) {
+        yield Right(
+            ConfirmPaymentIntentWebSuccess(paymentIntent: paymentIntent));
+      } else {
+        yield const Left(ConfirmPaymentIntentWebEmpty());
+      }
     } on StripeException catch (e) {
       loggy.error(
           'ConfirmPaymentIntentWebInteractor::execute(): stripe failure: $e');

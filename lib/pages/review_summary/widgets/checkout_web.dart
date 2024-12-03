@@ -1,6 +1,7 @@
 import 'package:ecoparking_flutter/pages/review_summary/widgets/loading_button.dart';
+import 'package:ecoparking_flutter/utils/conditional_import/stripe/stripe_payment_element/stripe_payment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe_web/flutter_stripe_web.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 class CheckoutWeb extends StatelessWidget {
   final String clientSecret;
@@ -20,7 +21,7 @@ class CheckoutWeb extends StatelessWidget {
       physics: const ClampingScrollPhysics(),
       child: Column(
         children: <Widget>[
-          PaymentElement(
+          StripePayment(
             clientSecret: clientSecret,
             onCardChanged: onCardChanged,
           ),
