@@ -20,7 +20,6 @@ import 'package:ecoparking_flutter/data/datasource_impl/sign_out/sign_out_dataso
 import 'package:ecoparking_flutter/data/datasource_impl/tickets/ticket_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_favorite_parkings/user_favorite_parkings_datasource_impl.dart';
 import 'package:ecoparking_flutter/data/datasource_impl/user_vehicles/user_vehicles_datasource_impl.dart';
-import 'package:ecoparking_flutter/data/network/payment/stripe_payment_api.dart';
 import 'package:ecoparking_flutter/data/repository/login/login_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/current_location_repository_impl.dart';
 import 'package:ecoparking_flutter/data/repository/markers/parking_repository_impl.dart';
@@ -111,7 +110,6 @@ class GetItInitializer with GetItLoggy {
   }
 
   void bindingAPI() {
-    getIt.registerSingleton<StripePaymentApi>(StripePaymentApi());
     loggy.info('bidingAPI(): Setup successfully');
   }
 

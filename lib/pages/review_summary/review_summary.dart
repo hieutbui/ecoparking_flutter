@@ -198,12 +198,12 @@ class ReviewSummaryController extends State<ReviewSummary>
         startDateTime: bookingService.startDateTime?.toIso8601String() ?? '',
         endDateTime: bookingService.endDateTime?.toIso8601String() ?? '',
         hours: bookingService.calculatedPrice?.calculatedFee.hours.toString() ??
-            '',
+            '0',
         days: bookingService.calculatedPrice?.calculatedFee is DailyFee
             ? (bookingService.calculatedPrice?.calculatedFee as DailyFee)
                 .days
                 .toString()
-            : '',
+            : '0',
       ),
     );
 
