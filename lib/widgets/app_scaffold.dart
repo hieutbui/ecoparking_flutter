@@ -1,4 +1,3 @@
-import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
