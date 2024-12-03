@@ -10,10 +10,12 @@ import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
+import 'package:ecoparking_flutter/domain/state/login/get_google_web_client_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/find_nearby_parkings_state.dart';
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/profile/get_profile_state.dart';
 import 'package:ecoparking_flutter/domain/state/search_parking/search_parking_state.dart';
+import 'package:ecoparking_flutter/domain/usecase/login/get_google_web_client_interactor.dart';
 import 'package:ecoparking_flutter/domain/state/user_favorite_parkings/add_favorite_parking_state.dart';
 import 'package:ecoparking_flutter/domain/state/user_favorite_parkings/remove_favorite_parking_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
@@ -63,6 +65,8 @@ class HomeController extends State<HomePage>
       getIt.get<FindNearbyParkingsInteractor>();
   final SearchParkingInteractor _searchParkingInteractor =
       getIt.get<SearchParkingInteractor>();
+  final GetGoogleWebClientInteractor _getGoogleWebClientInteractor =
+      getIt.get<GetGoogleWebClientInteractor>();
   final AddFavoriteParkingInteractor _addFavoriteParkingInteractor =
       getIt.get<AddFavoriteParkingInteractor>();
   final RemoveFavoriteParkingInteractor _removeFavoriteParkingInteractor =
@@ -75,14 +79,19 @@ class HomeController extends State<HomePage>
   final BookingService _bookingService = getIt.get<BookingService>();
   final AccountService _accountService = getIt.get<AccountService>();
 
-  final currentLocationNotifier = ValueNotifier<GetCurrentLocationState>(
+  final ValueNotifier currentLocationNotifier =
+      ValueNotifier<GetCurrentLocationState>(
     const GetCurrentLocationInitial(),
   );
-  final findNearbyParkingsNotifier = ValueNotifier<FindNearbyParkingsState>(
+  final ValueNotifier findNearbyParkingsNotifier =
+      ValueNotifier<FindNearbyParkingsState>(
     const FindNearbyParkingsInitial(),
   );
   final ValueNotifier<SearchParkingState> searchParkingNotifier =
       ValueNotifier(const SearchParkingInitial());
+  final ValueNotifier<GetGoogleWebClientState> googleWebClientNotifier =
+      ValueNotifier(const GetGoogleWebClientInitial());
+
   final ValueNotifier<AddFavoriteParkingState> addFavoriteParkingNotifier =
       ValueNotifier(const AddFavoriteParkingInitial());
   final ValueNotifier<RemoveFavoriteParkingState>
@@ -104,6 +113,7 @@ class HomeController extends State<HomePage>
   StreamSubscription? _getUserProfileSubscription;
   StreamSubscription? _findNearbyParkingsSubscription;
   StreamSubscription? _searchParkingSubscription;
+  StreamSubscription? _googleWebClientSubscription;
   StreamSubscription? _addFavoriteParkingSubscription;
   StreamSubscription? _removeFavoriteParkingSubscription;
 
@@ -114,6 +124,7 @@ class HomeController extends State<HomePage>
     super.initState();
     _getCurrentLocation();
     _getUserProfile();
+    _getGoogleWebClientId();
     initializeDebounce(onDebounce: _searchParking);
     routeChangeNotifier.addListener(_onRouteChange);
   }
@@ -143,11 +154,14 @@ class HomeController extends State<HomePage>
     _getUserProfileSubscription?.cancel();
     _findNearbyParkingsSubscription?.cancel();
     _searchParkingSubscription?.cancel();
+    _googleWebClientSubscription?.cancel();
     _addFavoriteParkingSubscription?.cancel();
     _removeFavoriteParkingSubscription?.cancel();
     _currentLocationSubscription = null;
     _getUserProfileSubscription = null;
     _findNearbyParkingsSubscription = null;
+    _searchParkingSubscription = null;
+    _googleWebClientSubscription = null;
     _searchParkingSubscription = null;
     _addFavoriteParkingSubscription = null;
     _removeFavoriteParkingSubscription = null;
@@ -162,6 +176,17 @@ class HomeController extends State<HomePage>
     maxDistanceNotifier.dispose();
     addFavoriteParkingNotifier.dispose();
     removeFavoriteParkingNotifier.dispose();
+    googleWebClientNotifier.dispose();
+  }
+
+  void _getGoogleWebClientId() {
+    _googleWebClientSubscription =
+        _getGoogleWebClientInteractor.execute().listen(
+              (event) => event.fold(
+                _handleGetGoogleWebClientFailure,
+                _handleGetGoogleWebClientSuccess,
+              ),
+            );
   }
 
   void _getUserProfile({String? parkingShowing}) {
@@ -706,6 +731,25 @@ class HomeController extends State<HomePage>
       currentLocationNotifier.value = success;
     } else {
       currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
+    }
+  }
+
+  void _handleGetGoogleWebClientFailure(Failure failure) {
+    loggy.error('handleGetGoogleWebClientFailure(): $failure');
+    if (failure is GetGoogleWebClientFailure) {
+      googleWebClientNotifier.value = failure;
+    } else if (failure is GetGoogleWebClientEmpty) {
+      googleWebClientNotifier.value = const GetGoogleWebClientEmpty();
+    }
+  }
+
+  void _handleGetGoogleWebClientSuccess(Success success) {
+    loggy.info('handleGetGoogleWebClientSuccess(): $success');
+    if (success is GetGoogleWebClientSuccess) {
+      googleWebClientNotifier.value = success;
+      _accountService.setGoogleWebClientId(success.googleWebClient);
+    } else if (success is GetGoogleWebClientLoading) {
+      googleWebClientNotifier.value = success;
     }
   }
 

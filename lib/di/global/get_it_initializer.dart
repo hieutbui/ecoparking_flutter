@@ -48,6 +48,7 @@ import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/domain/services/register_service.dart';
+import 'package:ecoparking_flutter/domain/usecase/login/get_google_web_client_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/login/login_with_email_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/find_nearby_parkings_interactor.dart';
@@ -276,6 +277,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<GetTicketInfoInteractor>(
       () => GetTicketInfoInteractor(),
+    );
+    getIt.registerLazySingleton<GetGoogleWebClientInteractor>(
+      () => GetGoogleWebClientInteractor(),
     );
     getIt.registerLazySingleton<CancelTicketInteractor>(
       () => CancelTicketInteractor(),
