@@ -14,7 +14,7 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<PaymentIntent> confirmPaymentIntentWeb() {
+  Future<PaymentIntent?> confirmPaymentIntentWeb() {
     return _paymentDataSource.confirmPaymentIntentWeb();
   }
 }

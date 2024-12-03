@@ -2,8 +2,8 @@ import 'package:ecoparking_flutter/data/datasource/payment/payment_datasource.da
 import 'package:ecoparking_flutter/data/models/payment/create_payment_intent_request_body.dart';
 import 'package:ecoparking_flutter/data/supabase_data/database_functions_name.dart';
 import 'package:ecoparking_flutter/di/supabase_utils.dart';
-import 'package:ecoparking_flutter/utils/mixins/oauth_mixin/mixin_utils.dart';
-import 'package:flutter_stripe_web/flutter_stripe_web.dart';
+import 'package:ecoparking_flutter/utils/conditional_import/stripe/confirm_payment/confirm_payment.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 class PaymentDataSourceImpl extends PaymentDataSource {
   @override
@@ -28,14 +28,7 @@ class PaymentDataSourceImpl extends PaymentDataSource {
   }
 
   @override
-  Future<PaymentIntent> confirmPaymentIntentWeb() {
-    return WebStripe.instance.confirmPaymentElement(
-      ConfirmPaymentElementOptions(
-        confirmParams: ConfirmPaymentParams(
-          return_url: '${MixinUtils().getRedirectURL()}/payment-return',
-        ),
-        redirect: PaymentConfirmationRedirect.ifRequired,
-      ),
-    );
+  Future<PaymentIntent?> confirmPaymentIntentWeb() {
+    return StripeConfirmPayment.confirmPayment();
   }
 }
