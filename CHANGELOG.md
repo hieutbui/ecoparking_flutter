@@ -1,3 +1,11 @@
+##v0.0.8 - 03/12/2024
+## Added
+- LICENSE, Issues templates, PR template
+- Display nearby parkings base on user location and screen camera
+- Config Hive for storing recent search
+- Handle Search parking logics
+- Integrate Payment using Stripe
+
 ## v0.0.7 - 22/11/2024
 ## Added
 - Implement Supabase for storing: tickets, favorite parkings, user vehicles
