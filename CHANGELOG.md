@@ -1,4 +1,8 @@
-##v0.0.8 - 03/12/2024
+## v0.0.9 - 03/12/2024
+## Fixed
+- Wrong uri routes after pop back on release version
+
+## v0.0.8 - 03/12/2024
 ## Added
 - LICENSE, Issues templates, PR template
 - Display nearby parkings base on user location and screen camera
