@@ -1,3 +1,5 @@
+import 'package:ecoparking_flutter/resource/image_paths.dart';
+import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -37,6 +39,26 @@ class DialogUtils {
         maxWidth: maxWidth,
         customDescription: customDescription,
       ),
+    );
+  }
+
+  static Future<void> showRequiredLogin(BuildContext context) {
+    return show(
+      context: context,
+      title: 'Login Required',
+      description: 'You need to login to continue',
+      svgImage: ImagePaths.imgDialogError,
+      actions: (dialogContext) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(dialogContext);
+            },
+          )
+        ];
+      },
     );
   }
 

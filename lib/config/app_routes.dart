@@ -113,6 +113,22 @@ class AppRoutes {
 
           return AppLayout(child: child);
         },
+        redirect: (context, state) {
+          final currentPath = state.uri.path.trim();
+
+          final containsPath =
+              listScreenRequiredAuth.any((path) => path.trim() == currentPath);
+
+          if (!containsPath) {
+            return null;
+          }
+
+          if (_accountService.profile == null) {
+            return AppPaths.profile.path;
+          }
+
+          return null;
+        },
         routes: <RouteBase>[
           GoRoute(
             path: AppPaths.home.path,
@@ -182,18 +198,6 @@ class AppRoutes {
                   )
                 ],
               ),
-              GoRoute(
-                path: AppPaths.ticketDetails.path,
-                pageBuilder: (context, state) => defaultPageBuilder(
-                  context,
-                  const TicketDetails(),
-                  name: AppPaths.ticketDetails.label,
-                ),
-                redirect: (context, state) =>
-                    _bookingService.createdTicket == null
-                        ? AppPaths.home.path
-                        : null,
-              ),
             ],
           ),
           GoRoute(
@@ -205,13 +209,27 @@ class AppRoutes {
             ),
           ),
           GoRoute(
-            path: AppPaths.booking.path,
-            pageBuilder: (context, state) => defaultPageBuilder(
-              context,
-              const MyTicketsPage(),
-              name: AppPaths.booking.label,
-            ),
-          ),
+              path: AppPaths.booking.path,
+              pageBuilder: (context, state) => defaultPageBuilder(
+                    context,
+                    const MyTicketsPage(),
+                    name: AppPaths.booking.label,
+                  ),
+              routes: <RouteBase>[
+                GoRoute(
+                  path: AppPaths.ticketDetails.path,
+                  pageBuilder: (context, state) => defaultPageBuilder(
+                    context,
+                    const TicketDetails(),
+                    name: AppPaths.ticketDetails.label,
+                  ),
+                  redirect: (context, state) =>
+                      (_bookingService.createdTicket == null &&
+                              _bookingService.selectedTicketId == null)
+                          ? AppPaths.home.path
+                          : null,
+                ),
+              ]),
           GoRoute(
             path: AppPaths.profile.path,
             pageBuilder: (context, state) => defaultPageBuilder(
@@ -334,5 +352,16 @@ class AppRoutes {
         AppPaths.editProfile.navigationPath,
         AppPaths.ticketDetails.navigationPath,
         AppPaths.testPage.navigationPath,
+      ];
+
+  static List<String> get listScreenRequiredAuth => [
+        AppPaths.bookingDetails.navigationPath,
+        AppPaths.selectVehicle.navigationPath,
+        AppPaths.reviewSummary.navigationPath,
+        AppPaths.paymentMethod.navigationPath,
+        AppPaths.saved.navigationPath,
+        AppPaths.booking.navigationPath,
+        AppPaths.ticketDetails.navigationPath,
+        AppPaths.editProfile.navigationPath,
       ];
 }

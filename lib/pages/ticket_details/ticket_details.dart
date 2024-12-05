@@ -32,9 +32,10 @@ class TicketDetailsController extends State<TicketDetails>
       ValueNotifier(const GetTicketInfoInitial());
 
   CreateTicketRequestData? get ticket => _bookingService.createdTicket;
+  String? get selectedTicketId => _bookingService.selectedTicketId;
 
   QrCode get qrCode => QrCode.fromData(
-        data: ticket?.id ?? '',
+        data: ticket?.id ?? selectedTicketId ?? '',
         errorCorrectLevel: QrErrorCorrectLevel.L,
       );
 
@@ -65,7 +66,7 @@ class TicketDetailsController extends State<TicketDetails>
 
   void _getTicketInfo() {
     _ticketInfoSubscription = _getTicketInfoInteractor
-        .execute(_bookingService.createdTicket?.id ?? '')
+        .execute(_bookingService.createdTicket?.id ?? selectedTicketId ?? '')
         .listen((result) => result.fold(
               _handleGetTicketInfoFailure,
               _handleGetTicketInfoSuccess,

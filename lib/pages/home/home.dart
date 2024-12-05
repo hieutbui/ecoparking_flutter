@@ -27,6 +27,7 @@ import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
 import 'package:ecoparking_flutter/pages/home/model/parking_bottom_sheet_action.dart';
 import 'package:ecoparking_flutter/pages/home/widgets/parking_bottom_sheet_builder/parking_bottom_sheet_builder.dart';
 import 'package:ecoparking_flutter/utils/bottom_sheet_utils.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/mixins/search_debounce_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
@@ -274,8 +275,12 @@ class HomeController extends State<HomePage>
     } else if (action == ParkingBottomSheetAction.bookNow) {
       loggy.info('Book now pressed');
 
-      bookingService.setParking(parking);
-      bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+      if (_accountService.profile == null) {
+        DialogUtils.showRequiredLogin(context);
+      } else {
+        bookingService.setParking(parking);
+        bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+      }
 
       NavigationUtils.navigateTo(
         context: context,
