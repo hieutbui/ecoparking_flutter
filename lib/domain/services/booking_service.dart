@@ -21,6 +21,7 @@ class BookingService {
   PriceArguments? _calculatedPrice;
   Ticket? _ticket;
   CreateTicketRequestData? _createdTicket;
+  String? _selectedTicketId;
 
   Parking? get parking => _parking;
   Vehicle? get vehicle => _vehicle;
@@ -32,6 +33,11 @@ class BookingService {
   PriceArguments? get calculatedPrice => _calculatedPrice;
   Ticket? get ticket => _ticket;
   CreateTicketRequestData? get createdTicket => _createdTicket;
+  String? get selectedTicketId => _selectedTicketId;
+
+  void setSelectedTicketId(String ticketId) {
+    _selectedTicketId = ticketId;
+  }
 
   void setParking(Parking parking) {
     _parking = parking;

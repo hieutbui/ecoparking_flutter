@@ -17,6 +17,7 @@ import 'package:ecoparking_flutter/model/payment/e_wallet.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/calculated_fee.dart';
 import 'package:ecoparking_flutter/pages/review_summary/review_summary_view.dart';
 import 'package:ecoparking_flutter/pages/review_summary/widgets/checkout_web.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
@@ -35,7 +36,7 @@ class ReviewSummary extends StatefulWidget {
 
 class ReviewSummaryController extends State<ReviewSummary>
     with ControllerLoggy {
-  final BookingService bookingService = getIt.get<BookingService>();
+  final BookingService _bookingService = getIt.get<BookingService>();
   final AccountService _accountService = getIt.get<AccountService>();
 
   final CreatePaymentIntentInteractor _createPaymentIntentInteractor =
@@ -71,7 +72,7 @@ class ReviewSummaryController extends State<ReviewSummary>
   void initState() {
     super.initState();
     _initializeInfoTable();
-    paymentMethod.value = bookingService.paymentMethod;
+    paymentMethod.value = _bookingService.paymentMethod;
     _paymentMethodListener();
   }
 
@@ -80,7 +81,7 @@ class ReviewSummaryController extends State<ReviewSummary>
     super.dispose();
     _cancelSubscriptions();
     _disposeNotifiers();
-    bookingService.removePaymentMethodListener(_paymentMethodListener);
+    _bookingService.removePaymentMethodListener(_paymentMethodListener);
   }
 
   void _initializeInfoTable() {
@@ -89,31 +90,31 @@ class ReviewSummaryController extends State<ReviewSummary>
   }
 
   void _initializeTicketInfo() {
-    final duration = bookingService.calculatedPrice?.calculatedFee is DailyFee
-        ? '${(bookingService.calculatedPrice?.calculatedFee as DailyFee).days} days ${bookingService.calculatedPrice?.calculatedFee.hours} hours'
-        : '${bookingService.calculatedPrice?.calculatedFee.hours} hours';
+    final duration = _bookingService.calculatedPrice?.calculatedFee is DailyFee
+        ? '${(_bookingService.calculatedPrice?.calculatedFee as DailyFee).days} days ${_bookingService.calculatedPrice?.calculatedFee.hours} hours'
+        : '${_bookingService.calculatedPrice?.calculatedFee.hours} hours';
 
     ticketInfo = [
       InfoLineArguments(
         title: 'Parking Name',
-        info: bookingService.parking?.parkingName ?? '',
+        info: _bookingService.parking?.parkingName ?? '',
       ),
       InfoLineArguments(
         title: 'Parking Address',
-        info: bookingService.parking?.address ?? '',
+        info: _bookingService.parking?.address ?? '',
       ),
       InfoLineArguments(
         title: 'Vehicle',
         info:
-            '${bookingService.vehicle?.name} (${bookingService.vehicle?.licensePlate})',
+            '${_bookingService.vehicle?.name} (${_bookingService.vehicle?.licensePlate})',
       ),
       InfoLineArguments(
         title: 'Start Date',
-        info: _formatDateTime(bookingService.startDateTime),
+        info: _formatDateTime(_bookingService.startDateTime),
       ),
       InfoLineArguments(
         title: 'End Date',
-        info: _formatDateTime(bookingService.endDateTime),
+        info: _formatDateTime(_bookingService.endDateTime),
       ),
       InfoLineArguments(
         title: 'Duration',
@@ -126,7 +127,7 @@ class ReviewSummaryController extends State<ReviewSummary>
     feeInfo = [
       InfoLineArguments(
         title: 'Total Fee',
-        info: bookingService.calculatedPrice?.calculatedFee.total.toString() ??
+        info: _bookingService.calculatedPrice?.calculatedFee.total.toString() ??
             '',
       ),
     ];
@@ -164,8 +165,8 @@ class ReviewSummaryController extends State<ReviewSummary>
   }
 
   void _paymentMethodListener() {
-    bookingService.addPaymentMethodListener(
-      () => paymentMethod.value = bookingService.paymentMethod,
+    _bookingService.addPaymentMethodListener(
+      () => paymentMethod.value = _bookingService.paymentMethod,
     );
   }
 
@@ -184,23 +185,24 @@ class ReviewSummaryController extends State<ReviewSummary>
     loggy.info('Continue tapped');
 
     final createPaymentIntentBody = CreatePaymentIntentRequestBody(
-      amount:
-          bookingService.calculatedPrice?.calculatedFee.total.toString() ?? '0',
+      amount: _bookingService.calculatedPrice?.calculatedFee.total.toString() ??
+          '0',
       currency: 'vnd',
-      description: bookingService.parking?.parkingName != null
-          ? 'Book Ticket for Parking: ${bookingService.parking?.parkingName}'
+      description: _bookingService.parking?.parkingName != null
+          ? 'Book Ticket for Parking: ${_bookingService.parking?.parkingName}'
           : 'Book Ticket',
       metadata: CreatePaymentIntentMetaData(
-        parkingName: bookingService.parking?.parkingName ?? '',
-        parkingAddress: bookingService.parking?.address ?? '',
+        parkingName: _bookingService.parking?.parkingName ?? '',
+        parkingAddress: _bookingService.parking?.address ?? '',
         vehicle:
-            '${bookingService.vehicle?.name} (${bookingService.vehicle?.licensePlate})',
-        startDateTime: bookingService.startDateTime?.toIso8601String() ?? '',
-        endDateTime: bookingService.endDateTime?.toIso8601String() ?? '',
-        hours: bookingService.calculatedPrice?.calculatedFee.hours.toString() ??
-            '0',
-        days: bookingService.calculatedPrice?.calculatedFee is DailyFee
-            ? (bookingService.calculatedPrice?.calculatedFee as DailyFee)
+            '${_bookingService.vehicle?.name} (${_bookingService.vehicle?.licensePlate})',
+        startDateTime: _bookingService.startDateTime?.toIso8601String() ?? '',
+        endDateTime: _bookingService.endDateTime?.toIso8601String() ?? '',
+        hours:
+            _bookingService.calculatedPrice?.calculatedFee.hours.toString() ??
+                '0',
+        days: _bookingService.calculatedPrice?.calculatedFee is DailyFee
+            ? (_bookingService.calculatedPrice?.calculatedFee as DailyFee)
                 .days
                 .toString()
             : '0',
@@ -301,7 +303,7 @@ class ReviewSummaryController extends State<ReviewSummary>
       NavigationUtils.goBack(context);
       if (success.paymentIntent.status == PaymentIntentsStatus.Succeeded) {
         _createTicketSubscription = _createTicketInteractor
-            .execute(bookingService.createTicket(
+            .execute(_bookingService.createTicket(
               paymentIntentId: success.paymentIntent.id,
               userId: _accountService.profile?.id,
             ))
@@ -331,8 +333,13 @@ class ReviewSummaryController extends State<ReviewSummary>
   void _handleCreateTicketSuccess(Success success) {
     loggy.info('Create Ticket success: $success');
     if (success is CreateTicketSuccess) {
-      bookingService.setCreatedTicket(success.ticket);
-      createTicketState.value = success;
+      if (_accountService.profile == null) {
+        DialogUtils.showRequiredLogin(context);
+      } else {
+        _bookingService.setCreatedTicket(success.ticket);
+        createTicketState.value = success;
+      }
+
       NavigationUtils.navigateTo(
         context: context,
         path: AppPaths.ticketDetails,

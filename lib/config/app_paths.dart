@@ -66,6 +66,8 @@ enum AppPaths {
         return '/saved';
       case AppPaths.booking:
         return '/booking';
+      case AppPaths.ticketDetails:
+        return '/booking/ticket-details';
       case AppPaths.profile:
         return '/profile';
       case AppPaths.editProfile:
@@ -78,8 +80,6 @@ enum AppPaths {
         return '/home/select-vehicle';
       case AppPaths.reviewSummary:
         return '/home/review-summary';
-      case AppPaths.ticketDetails:
-        return '/home/ticket-details';
       case AppPaths.paymentMethod:
         return '/home/review-summary/payment-method';
       case AppPaths.testPage:
