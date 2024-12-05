@@ -170,6 +170,10 @@ class ProfileController extends State<ProfilePage>
   }
 
   void _onEditProfile() {
+    if (_accountService.profile == null) {
+      DialogUtils.showRequiredLogin(context);
+    }
+
     NavigationUtils.navigateTo(
       context: context,
       path: AppPaths.editProfile,

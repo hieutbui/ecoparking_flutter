@@ -1,4 +1,5 @@
 import 'package:ecoparking_flutter/domain/state/tickets/get_user_tickets_state.dart';
+import 'package:ecoparking_flutter/model/ticket/ticket.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/model/ticket_pages.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/widgets/ticket_card.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ class ListTicket extends StatelessWidget {
   final ValueNotifier<GetUserTicketsState> ticketsNotifier;
   final TicketPages page;
   final void Function()? onCancelBooking;
-  final void Function()? onViewTicket;
+  final void Function(Ticket)? onViewTicket;
 
   const ListTicket({
     super.key,

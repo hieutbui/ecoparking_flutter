@@ -10,7 +10,7 @@ class TicketCard extends StatelessWidget {
   final Ticket ticket;
   final TicketPages page;
   final void Function()? onCancelBooking;
-  final void Function()? onViewTicket;
+  final void Function(Ticket)? onViewTicket;
 
   const TicketCard({
     super.key,
@@ -182,7 +182,7 @@ class TicketCard extends StatelessWidget {
   Widget renderButtonsRow(
     TicketPages page, {
     void Function()? onCancelBooking,
-    void Function()? onViewTicket,
+    void Function(Ticket)? onViewTicket,
   }) {
     switch (page) {
       case TicketPages.onGoing:
@@ -202,7 +202,11 @@ class TicketCard extends StatelessWidget {
               child: ActionButton(
                 type: ActionButtonType.positive,
                 label: 'View Ticket',
-                onPressed: onViewTicket,
+                onPressed: () {
+                  if (onViewTicket != null) {
+                    onViewTicket(ticket);
+                  }
+                },
                 height: 36,
                 // padding: const EdgeInsets.symmetric(vertical: 8.0),
               ),
@@ -213,7 +217,11 @@ class TicketCard extends StatelessWidget {
         return ActionButton(
           type: ActionButtonType.positive,
           label: 'View Ticket',
-          onPressed: onViewTicket,
+          onPressed: () {
+            if (onViewTicket != null) {
+              onViewTicket(ticket);
+            }
+          },
           height: 36,
           // padding: const EdgeInsets.symmetric(vertical: 8.0),
         );

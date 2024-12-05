@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/shift_price.dart';
@@ -8,6 +9,7 @@ import 'package:ecoparking_flutter/pages/book_parking_details/model/calculated_f
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/selection_hour_types.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/models/price_arguments.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
@@ -49,14 +51,15 @@ class BookParkingDetailsController extends State<BookParkingDetails>
     TimeOfDay(hour: 23, minute: 0),
   ];
 
-  final BookingService bookingService = getIt.get<BookingService>();
+  final BookingService _bookingService = getIt.get<BookingService>();
+  final AccountService _accountService = getIt.get<AccountService>();
 
   List<TimeOfDay> get selectableHours => selectableHour;
-  Parking? get parking => bookingService.parking;
+  Parking? get parking => _bookingService.parking;
   List<ShiftPrice>? get shiftPrices => parking?.pricePerHour;
   double get pricePerDay => parking?.pricePerDay ?? 0.0;
   int get tabLength => 2;
-  ParkingFeeTypes? get parkingFeeType => bookingService.parkingFeeType;
+  ParkingFeeTypes? get parkingFeeType => _bookingService.parkingFeeType;
   ShiftPrice? get morningShift => shiftPrices?.firstWhere(
         (shiftPrice) => shiftPrice.shiftType == ShiftType.morning,
       );
@@ -228,6 +231,19 @@ class BookParkingDetailsController extends State<BookParkingDetails>
   void onPressedContinue() {
     loggy.info('Continue tapped');
 
+    if (_accountService.profile == null) {
+      DialogUtils.showRequiredLogin(context);
+    } else {
+      _handlePreNavigation();
+    }
+
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.selectVehicle,
+    );
+  }
+
+  void _handlePreNavigation() {
     PriceArguments priceArgs;
 
     if (parkingFeeType == ParkingFeeTypes.hourly &&
@@ -268,9 +284,9 @@ class BookParkingDetailsController extends State<BookParkingDetails>
       );
     }
 
-    bookingService.setCalculatedPrice(priceArgs);
+    _bookingService.setCalculatedPrice(priceArgs);
     final now = DateTime.now();
-    bookingService.setStartDateTime(
+    _bookingService.setStartDateTime(
       DateTime(
         selectedDateRange.startDate?.year ?? now.year,
         selectedDateRange.startDate?.month ?? now.month,
@@ -280,7 +296,7 @@ class BookParkingDetailsController extends State<BookParkingDetails>
       ),
     );
 
-    bookingService.setEndDateTime(
+    _bookingService.setEndDateTime(
       DateTime(
         selectedDateRange.endDate?.year ?? now.year,
         selectedDateRange.endDate?.month ?? now.month,
@@ -288,11 +304,6 @@ class BookParkingDetailsController extends State<BookParkingDetails>
         endHour.value?.hour ?? 0,
         endHour.value?.minute ?? 0,
       ),
-    );
-
-    NavigationUtils.navigateTo(
-      context: context,
-      path: AppPaths.selectVehicle,
     );
   }
 
