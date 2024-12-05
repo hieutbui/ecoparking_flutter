@@ -3,10 +3,12 @@ import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/state/vehicles/get_user_vehicles_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
 import 'package:ecoparking_flutter/pages/select_vehicle/select_vehicle_view.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,9 @@ class SelectVehicleController extends State<SelectVehicle>
     with ControllerLoggy {
   final UserVehiclesInteractor _userVehiclesInteractor =
       getIt.get<UserVehiclesInteractor>();
-  final BookingService bookingService = getIt.get<BookingService>();
+
+  final BookingService _bookingService = getIt.get<BookingService>();
+  final AccountService _accountService = getIt.get<AccountService>();
 
   final userVehiclesNotifier = ValueNotifier<GetUserVehiclesState>(
     const GetUserVehiclesInitial(),
@@ -88,7 +92,7 @@ class SelectVehicleController extends State<SelectVehicle>
     loggy.info('selectVehicle(): $vehicleId');
     selectedVehicleId.value = vehicleId;
     if (userVehiclesNotifier.value is GetUserVehiclesSuccess) {
-      bookingService.setVehicle(
+      _bookingService.setVehicle(
         (userVehiclesNotifier.value as GetUserVehiclesSuccess)
             .vehicles
             .firstWhere((vehicle) => vehicle.id == vehicleId),
@@ -98,6 +102,10 @@ class SelectVehicleController extends State<SelectVehicle>
 
   void onPressedContinue() {
     loggy.info('Select Vehicle tapped');
+
+    if (_accountService.profile == null) {
+      DialogUtils.showRequiredLogin(context);
+    }
 
     NavigationUtils.navigateTo(
       context: context,

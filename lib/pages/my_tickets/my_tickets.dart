@@ -1,12 +1,18 @@
 import 'dart:async';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
+import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
+import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/state/tickets/get_user_tickets_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
+import 'package:ecoparking_flutter/model/ticket/ticket.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/model/ticket_pages.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/my_tickets_view.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
+import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 
 class MyTicketsPage extends StatefulWidget {
@@ -19,6 +25,9 @@ class MyTicketsPage extends StatefulWidget {
 class MyTicketsController extends State<MyTicketsPage>
     with ControllerLoggy, TickerProviderStateMixin {
   final TicketInteractor _ticketInteractor = getIt.get<TicketInteractor>();
+
+  final BookingService _bookingService = getIt.get<BookingService>();
+  final AccountService _accountService = getIt.get<AccountService>();
 
   final onGoingTicketsNotifier = ValueNotifier<GetUserTicketsState>(
     const GetUserTicketsInitial(),
@@ -203,8 +212,17 @@ class MyTicketsController extends State<MyTicketsPage>
     loggy.info('cancelBooking()');
   }
 
-  void viewTicket() {
+  void viewTicket(Ticket ticket) {
     loggy.info('viewTicket()');
+    if (_accountService.profile == null) {
+      DialogUtils.showRequiredLogin(context);
+    } else {
+      _bookingService.setSelectedTicketId(ticket.id);
+    }
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.ticketDetails,
+    );
   }
 
   @override

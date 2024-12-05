@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
+import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/services/parking_service.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
@@ -25,10 +26,11 @@ class ParkingDetails extends StatefulWidget {
 
 class ParkingDetailsController extends State<ParkingDetails>
     with ControllerLoggy {
-  final ParkingService parkingService = getIt.get<ParkingService>();
-  final BookingService bookingService = getIt.get<BookingService>();
+  final ParkingService _parkingService = getIt.get<ParkingService>();
+  final BookingService _bookingService = getIt.get<BookingService>();
+  final AccountService _accountService = getIt.get<AccountService>();
 
-  Parking? get parking => parkingService.selectedParking;
+  Parking? get parking => _parkingService.selectedParking;
 
   @override
   void initState() {
@@ -84,19 +86,29 @@ class ParkingDetailsController extends State<ParkingDetails>
     loggy.info('navigate to book parking details: $type');
     switch (type) {
       case ParkingFeeTypes.hourly:
-        if (parking != null) {
-          bookingService.setParking(parking!);
+        if (_accountService.profile == null) {
+          DialogUtils.showRequiredLogin(context);
+        } else {
+          if (parking != null) {
+            _bookingService.setParking(parking!);
+          }
+          _bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
         }
-        bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+
         NavigationUtils.navigateTo(
           context: context,
           path: AppPaths.bookingDetails,
         );
       case ParkingFeeTypes.daily:
-        if (parking != null) {
-          bookingService.setParking(parking!);
+        if (_accountService.profile == null) {
+          DialogUtils.showRequiredLogin(context);
+        } else {
+          if (parking != null) {
+            _bookingService.setParking(parking!);
+          }
+          _bookingService.setParkingFeeType(ParkingFeeTypes.daily);
         }
-        bookingService.setParkingFeeType(ParkingFeeTypes.daily);
+
         NavigationUtils.navigateTo(
           context: context,
           path: AppPaths.bookingDetails,
@@ -149,10 +161,15 @@ class ParkingDetailsController extends State<ParkingDetails>
   void onPressedBookNow() {
     loggy.info('Book now tapped');
 
-    if (parking != null) {
-      bookingService.setParking(parking!);
+    if (_accountService.profile == null) {
+      DialogUtils.showRequiredLogin(context);
+    } else {
+      if (parking != null) {
+        _bookingService.setParking(parking!);
+      }
+      _bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
     }
-    bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+
     NavigationUtils.navigateTo(
       context: context,
       path: AppPaths.bookingDetails,
