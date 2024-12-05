@@ -37,10 +37,6 @@ class AppLayout extends StatelessWidget {
 
     final AppPaths? path = AppRoutes.navBarIndexToPath[index];
 
-    if (path == AppPaths.saved || path == AppPaths.booking) {
-      DialogUtils.showRequiredLogin(context);
-    }
-
     NavigationUtils.navigateTo(
       context: context,
       path: path ?? AppPaths.home,
