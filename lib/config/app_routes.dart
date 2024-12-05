@@ -359,8 +359,6 @@ class AppRoutes {
         AppPaths.selectVehicle.navigationPath,
         AppPaths.reviewSummary.navigationPath,
         AppPaths.paymentMethod.navigationPath,
-        AppPaths.saved.navigationPath,
-        AppPaths.booking.navigationPath,
         AppPaths.ticketDetails.navigationPath,
         AppPaths.editProfile.navigationPath,
       ];
