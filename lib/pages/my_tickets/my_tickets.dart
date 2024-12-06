@@ -5,7 +5,9 @@ import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
+import 'package:ecoparking_flutter/domain/state/tickets/cancel_ticket_state.dart';
 import 'package:ecoparking_flutter/domain/state/tickets/get_user_tickets_state.dart';
+import 'package:ecoparking_flutter/domain/usecase/tickets/cancel_ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
 import 'package:ecoparking_flutter/model/ticket/ticket.dart';
 import 'package:ecoparking_flutter/pages/my_tickets/model/ticket_pages.dart';
@@ -25,6 +27,8 @@ class MyTicketsPage extends StatefulWidget {
 class MyTicketsController extends State<MyTicketsPage>
     with ControllerLoggy, TickerProviderStateMixin {
   final TicketInteractor _ticketInteractor = getIt.get<TicketInteractor>();
+  final CancelTicketInteractor _cancelTicketInteractor =
+      getIt.get<CancelTicketInteractor>();
 
   final BookingService _bookingService = getIt.get<BookingService>();
   final AccountService _accountService = getIt.get<AccountService>();
@@ -38,10 +42,14 @@ class MyTicketsController extends State<MyTicketsPage>
   final cancelledTicketsNotifier = ValueNotifier<GetUserTicketsState>(
     const GetUserTicketsInitial(),
   );
+  final cancelTicketNotifier = ValueNotifier<CancelTicketState>(
+    const CancelTicketInitial(),
+  );
 
   StreamSubscription? _onGoingTicketSubscription;
   StreamSubscription? _completedTicketSubscription;
   StreamSubscription? _cancelledTicketSubscription;
+  StreamSubscription? _cancelTicketSubscription;
 
   TicketPages currentPage = TicketPages.onGoing;
 
@@ -191,15 +199,18 @@ class MyTicketsController extends State<MyTicketsPage>
     onGoingTicketsNotifier.dispose();
     completedTicketsNotifier.dispose();
     cancelledTicketsNotifier.dispose();
+    cancelTicketNotifier.dispose();
   }
 
   void _cancelSubscriptions() {
     _onGoingTicketSubscription?.cancel();
     _completedTicketSubscription?.cancel();
     _cancelledTicketSubscription?.cancel();
+    _cancelTicketSubscription?.cancel();
     _onGoingTicketSubscription = null;
     _completedTicketSubscription = null;
     _cancelledTicketSubscription = null;
+    _cancelTicketSubscription = null;
   }
 
   void _onTabIndexChangedListener() {
@@ -210,6 +221,21 @@ class MyTicketsController extends State<MyTicketsPage>
 
   void cancelBooking() {
     loggy.info('cancelBooking()');
+
+    final ticketId = _bookingService.selectedTicketId;
+
+    if (ticketId == null) {
+      loggy.error('Ticket id is null');
+      return;
+    }
+
+    _cancelTicketSubscription =
+        _cancelTicketInteractor.execute(ticketId).listen(
+              (result) => result.fold(
+                _handleCancelTicketFailure,
+                _handleCancelTicketSuccess,
+              ),
+            );
   }
 
   void viewTicket(Ticket ticket) {
@@ -227,6 +253,28 @@ class MyTicketsController extends State<MyTicketsPage>
       context: context,
       path: AppPaths.ticketDetails,
     );
+  }
+
+  void _handleCancelTicketSuccess(Success success) {
+    loggy.info('_handleCancelTicketSuccess(): $success');
+    if (success is CancelTicketSuccess) {
+      cancelTicketNotifier.value = success;
+      _getTicketsForPage(currentPage);
+    } else if (success is CancelTicketLoading) {
+      cancelTicketNotifier.value = success;
+    }
+  }
+
+  void _handleCancelTicketFailure(Failure failure) {
+    loggy.error('_handleCancelTicketFailure(): $failure');
+    if (failure is CancelTicketFailure) {
+      cancelTicketNotifier.value = failure;
+    } else if (failure is CancelTicketEmpty) {
+      cancelTicketNotifier.value = failure;
+    } else {
+      cancelTicketNotifier.value =
+          const CancelTicketFailure(exception: 'Unknown error');
+    }
   }
 
   @override
