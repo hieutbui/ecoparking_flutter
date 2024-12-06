@@ -130,7 +130,9 @@ class AppRoutes {
           }
 
           if (profile.phone == null || profile.phone!.isEmpty) {
-            return AppPaths.profile.path;
+            if (currentPath != AppPaths.editProfile.navigationPath) {
+              return AppPaths.profile.path;
+            }
           }
 
           return null;
