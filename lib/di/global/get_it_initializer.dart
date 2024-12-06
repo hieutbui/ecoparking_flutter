@@ -59,6 +59,7 @@ import 'package:ecoparking_flutter/domain/usecase/register/register_interactor.d
 import 'package:ecoparking_flutter/domain/usecase/register/verify_email_otp_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/search_parking/search_parking_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/sign_out/sign_out_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/tickets/cancel_ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/create_ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/get_ticket_info_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
@@ -272,6 +273,9 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<GetTicketInfoInteractor>(
       () => GetTicketInfoInteractor(),
+    );
+    getIt.registerLazySingleton<CancelTicketInteractor>(
+      () => CancelTicketInteractor(),
     );
     loggy.info('bindingInteractor(): Setup successfully');
   }

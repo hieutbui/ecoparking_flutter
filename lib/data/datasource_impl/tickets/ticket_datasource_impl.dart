@@ -51,4 +51,14 @@ class TicketDataSourceImpl implements TicketDataSource {
       },
     );
   }
+
+  @override
+  Future<String> cancelTicket(String ticketId) async {
+    return SupabaseUtils().client.rpc(
+      DatabaseFunctionsName.cancelTicket.functionName,
+      params: {
+        'ticket_id': ticketId,
+      },
+    );
+  }
 }

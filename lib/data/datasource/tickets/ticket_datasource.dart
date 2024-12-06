@@ -6,4 +6,5 @@ abstract class TicketDataSource {
   Future<List<dynamic>?> fetchCancelledTickets();
   Future<Map<String, dynamic>?> createTicket(CreateTicketRequestData ticket);
   Future<List<dynamic>?> getTicketInfo(String ticketId);
+  Future<String> cancelTicket(String ticketId);
 }
