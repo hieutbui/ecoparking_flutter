@@ -1,3 +1,4 @@
+import 'package:ecoparking_flutter/model/ticket/ticket_status.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -18,6 +19,7 @@ class TicketDisplay with EquatableMixin {
   final DateTime startTime;
   @JsonKey(name: 'end_time')
   final DateTime endTime;
+  final TicketStatus status;
   final int days;
   final int hours;
   final double total;
@@ -30,6 +32,7 @@ class TicketDisplay with EquatableMixin {
     required this.licensePlate,
     required this.startTime,
     required this.endTime,
+    required this.status,
     required this.days,
     required this.hours,
     required this.total,
