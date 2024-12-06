@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/components/image/gf_image_overlay.dart';
 
 class ParkingBottomSheetBuilder {
-  static Widget build(BuildContext context, Parking parking) {
+  static Widget build(
+    BuildContext context,
+    Parking parking, {
+    required ValueNotifier<bool> isSelectFavoriteNotifier,
+    void Function(Parking)? onBookmark,
+  }) {
     final String? image = parking.image;
 
     return Container(
@@ -63,10 +68,20 @@ class ParkingBottomSheetBuilder {
                       ],
                     ),
                   ),
-                  IconButton(
-                    onPressed: () => {},
-                    icon: const Icon(Icons.bookmark_border),
-                  )
+                  ValueListenableBuilder(
+                    valueListenable: isSelectFavoriteNotifier,
+                    builder: (context, isSelectFavorite, child) {
+                      return IconButton(
+                        icon: Icon(
+                          isSelectFavorite
+                              ? Icons.bookmark
+                              : Icons.bookmark_border,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () => onBookmark?.call(parking),
+                      );
+                    },
+                  ),
                 ],
               ),
               const SizedBox(height: 12),

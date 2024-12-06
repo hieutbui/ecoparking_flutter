@@ -5,6 +5,7 @@ part 'favorite_parking.g.dart';
 
 @JsonSerializable()
 class FavoriteParking with EquatableMixin {
+  final String id;
   final String image;
   @JsonKey(name: 'parking_name')
   final String parkingName;
@@ -16,6 +17,7 @@ class FavoriteParking with EquatableMixin {
   Map<String, dynamic> toJson() => _$FavoriteParkingToJson(this);
 
   const FavoriteParking({
+    required this.id,
     required this.image,
     required this.parkingName,
     required this.address,
@@ -23,6 +25,7 @@ class FavoriteParking with EquatableMixin {
 
   @override
   List<Object?> get props => [
+        id,
         image,
         parkingName,
         address,
