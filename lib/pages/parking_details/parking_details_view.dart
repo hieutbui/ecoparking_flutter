@@ -81,10 +81,20 @@ class ParkingDetailsView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        IconButton(
-                          onPressed: controller.onPressedBookMark,
-                          icon: const Icon(Icons.bookmark_border),
-                        )
+                        ValueListenableBuilder(
+                          valueListenable: controller.isFavorite,
+                          builder: (context, isFavorite, child) {
+                            return IconButton(
+                              icon: Icon(
+                                isFavorite
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_border,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              onPressed: controller.onPressedBookMark,
+                            );
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(

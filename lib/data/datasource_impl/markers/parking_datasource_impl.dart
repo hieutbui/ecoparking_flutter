@@ -17,4 +17,32 @@ class ParkingsDataSourceImpl implements ParkingDataSource {
       },
     );
   }
+
+  @override
+  Future<Map<String, dynamic>?> addFavoriteParking({
+    required String userId,
+    required String parkingId,
+  }) async {
+    return SupabaseUtils().client.rpc(
+      DatabaseFunctionsName.addFavoriteParking.functionName,
+      params: {
+        'user_id': userId,
+        'parking_id': parkingId,
+      },
+    );
+  }
+
+  @override
+  Future<Map<String, dynamic>?> removeFavoriteParking({
+    required String userId,
+    required String parkingId,
+  }) async {
+    return SupabaseUtils().client.rpc(
+      DatabaseFunctionsName.removeFavoriteParking.functionName,
+      params: {
+        'user_id': userId,
+        'parking_id': parkingId,
+      },
+    );
+  }
 }

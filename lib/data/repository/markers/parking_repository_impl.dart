@@ -4,13 +4,35 @@ import 'package:ecoparking_flutter/domain/repository/markers/parking_repository.
 import 'package:geobase/geobase.dart';
 
 class ParkingRepositoryImpl implements ParkingRepository {
-  final ParkingDataSource parkingsDataSource = getIt.get<ParkingDataSource>();
+  final ParkingDataSource _parkingsDataSource = getIt.get<ParkingDataSource>();
 
   @override
   Future<List<dynamic>?> findNearbyParkings(
     Point userLocation,
     double searchDistance,
   ) {
-    return parkingsDataSource.findNearbyParkings(userLocation, searchDistance);
+    return _parkingsDataSource.findNearbyParkings(userLocation, searchDistance);
+  }
+
+  @override
+  Future<Map<String, dynamic>?> addFavoriteParking({
+    required String userId,
+    required String parkingId,
+  }) {
+    return _parkingsDataSource.addFavoriteParking(
+      userId: userId,
+      parkingId: parkingId,
+    );
+  }
+
+  @override
+  Future<Map<String, dynamic>?> removeFavoriteParking({
+    required String userId,
+    required String parkingId,
+  }) {
+    return _parkingsDataSource.removeFavoriteParking(
+      userId: userId,
+      parkingId: parkingId,
+    );
   }
 }

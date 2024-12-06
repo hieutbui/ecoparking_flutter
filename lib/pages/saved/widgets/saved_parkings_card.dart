@@ -4,10 +4,12 @@ import 'package:getwidget/getwidget.dart';
 
 class SavedParkingsCard extends StatelessWidget {
   final FavoriteParking favoriteParking;
+  final void Function(FavoriteParking) onRemoveFavoriteParking;
 
   const SavedParkingsCard({
     super.key,
     required this.favoriteParking,
+    required this.onRemoveFavoriteParking,
   });
 
   @override
@@ -37,7 +39,7 @@ class SavedParkingsCard extends StatelessWidget {
       ),
       radius: 10.0,
       color: const Color(0xFFF9F9F9),
-      onTap: () {},
+      onLongPress: () => onRemoveFavoriteParking(favoriteParking),
       shadow: const BoxShadow(color: Colors.transparent),
     );
   }

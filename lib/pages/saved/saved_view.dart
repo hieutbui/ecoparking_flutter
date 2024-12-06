@@ -58,6 +58,7 @@ class SavedPageView extends StatelessWidget {
               itemBuilder: (context, index) {
                 return SavedParkingsCard(
                   favoriteParking: parkings[index],
+                  onRemoveFavoriteParking: controller.onRemoveFavoriteParking,
                 );
               },
             );

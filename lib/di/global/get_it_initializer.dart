@@ -63,6 +63,8 @@ import 'package:ecoparking_flutter/domain/usecase/tickets/cancel_ticket_interact
 import 'package:ecoparking_flutter/domain/usecase/tickets/create_ticket_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/get_ticket_info_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/ticket_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/add_favorite_parking_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/remove_favorite_parking_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/user_favorite_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/vehicles/user_vehicles_interactor.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
@@ -276,6 +278,12 @@ class GetItInitializer with GetItLoggy {
     );
     getIt.registerLazySingleton<CancelTicketInteractor>(
       () => CancelTicketInteractor(),
+    );
+    getIt.registerLazySingleton<AddFavoriteParkingInteractor>(
+      () => AddFavoriteParkingInteractor(),
+    );
+    getIt.registerLazySingleton<RemoveFavoriteParkingInteractor>(
+      () => RemoveFavoriteParkingInteractor(),
     );
     loggy.info('bindingInteractor(): Setup successfully');
   }
