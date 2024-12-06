@@ -123,7 +123,13 @@ class AppRoutes {
             return null;
           }
 
-          if (_accountService.profile == null) {
+          final profile = _accountService.profile;
+
+          if (profile == null) {
+            return AppPaths.profile.path;
+          }
+
+          if (profile.phone == null || profile.phone!.isEmpty) {
             return AppPaths.profile.path;
           }
 

@@ -84,10 +84,14 @@ class ParkingDetailsController extends State<ParkingDetails>
 
   void _showBookParkingDetails(ParkingFeeTypes type) {
     loggy.info('navigate to book parking details: $type');
+    final profile = _accountService.profile;
+
     switch (type) {
       case ParkingFeeTypes.hourly:
-        if (_accountService.profile == null) {
+        if (profile == null) {
           DialogUtils.showRequiredLogin(context);
+        } else if (profile.phone == null || profile.phone!.isEmpty) {
+          DialogUtils.showRequiredFillProfile(context);
         } else {
           if (parking != null) {
             _bookingService.setParking(parking!);
@@ -100,8 +104,10 @@ class ParkingDetailsController extends State<ParkingDetails>
           path: AppPaths.bookingDetails,
         );
       case ParkingFeeTypes.daily:
-        if (_accountService.profile == null) {
+        if (profile == null) {
           DialogUtils.showRequiredLogin(context);
+        } else if (profile.phone == null || profile.phone!.isEmpty) {
+          DialogUtils.showRequiredFillProfile(context);
         } else {
           if (parking != null) {
             _bookingService.setParking(parking!);
@@ -161,8 +167,12 @@ class ParkingDetailsController extends State<ParkingDetails>
   void onPressedBookNow() {
     loggy.info('Book now tapped');
 
-    if (_accountService.profile == null) {
+    final profile = _accountService.profile;
+
+    if (profile == null) {
       DialogUtils.showRequiredLogin(context);
+    } else if (profile.phone == null || profile.phone!.isEmpty) {
+      DialogUtils.showRequiredFillProfile(context);
     } else {
       if (parking != null) {
         _bookingService.setParking(parking!);

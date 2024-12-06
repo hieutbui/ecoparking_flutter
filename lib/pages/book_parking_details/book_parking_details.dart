@@ -232,8 +232,12 @@ class BookParkingDetailsController extends State<BookParkingDetails>
   void onPressedContinue() {
     loggy.info('Continue tapped');
 
-    if (_accountService.profile == null) {
+    final profile = _accountService.profile;
+
+    if (profile == null) {
       DialogUtils.showRequiredLogin(context);
+    } else if (profile.phone == null || profile.phone!.isEmpty) {
+      DialogUtils.showRequiredFillProfile(context);
     } else {
       _handlePreNavigation();
     }
