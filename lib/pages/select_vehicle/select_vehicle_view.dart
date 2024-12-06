@@ -35,7 +35,7 @@ class SelectVehicleView extends StatelessWidget {
                 backgroundColor:
                     Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 labelColor: Theme.of(context).colorScheme.primary,
-                onPressed: () {},
+                onPressed: controller.onAddNewVehicle,
               ),
             );
           }
@@ -58,7 +58,7 @@ class SelectVehicleView extends StatelessWidget {
                                 .primary
                                 .withOpacity(0.1),
                             labelColor: Theme.of(context).colorScheme.primary,
-                            onPressed: () {},
+                            onPressed: controller.onAddNewVehicle,
                           );
                         }
 

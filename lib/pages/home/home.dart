@@ -285,7 +285,9 @@ class HomeController extends State<HomePage>
     } else {
       final favoriteParkings = profile.favoriteParkings;
 
-      if (favoriteParkings != null) {
+      if (favoriteParkings == null) {
+        _addFavoriteParking(parking.id, profile.id);
+      } else {
         if (favoriteParkings.contains(parking.id)) {
           _removeFavoriteParking(parking.id, profile.id);
         } else {

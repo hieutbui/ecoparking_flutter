@@ -10,4 +10,17 @@ class UserVehiclesRepositoryImpl implements UserVehiclesRepository {
   Future<List<Map<String, dynamic>>?> fetchUserVehicles() {
     return userVehiclesDataSource.fetchUserVehicles();
   }
+
+  @override
+  Future<Map<String, dynamic>?> addUserVehicle({
+    required String name,
+    required String licensePlate,
+    required String userId,
+  }) {
+    return userVehiclesDataSource.addUserVehicle(
+      name: name,
+      licensePlate: licensePlate,
+      userId: userId,
+    );
+  }
 }
