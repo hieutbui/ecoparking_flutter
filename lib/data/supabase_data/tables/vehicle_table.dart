@@ -9,4 +9,5 @@ class VehicleTable implements SupabaseTable {
   String get id => 'id';
   String get vehicleName => 'vehicle_name';
   String get licensePlate => 'license_plate';
+  String get userId => 'user_id';
 }

@@ -42,6 +42,20 @@ class DialogUtils {
     );
   }
 
+  static Future<void> showCustomDialog({
+    required BuildContext context,
+    required Widget Function(BuildContext) child,
+    bool isDismissible = false,
+    bool useRootNavigator = true,
+  }) async {
+    return await showDialog(
+      context: context,
+      barrierDismissible: isDismissible,
+      useRootNavigator: useRootNavigator,
+      builder: child,
+    );
+  }
+
   static Future<void> showRequiredLogin(BuildContext context) {
     return show(
       context: context,
