@@ -275,8 +275,12 @@ class HomeController extends State<HomePage>
     } else if (action == ParkingBottomSheetAction.bookNow) {
       loggy.info('Book now pressed');
 
-      if (_accountService.profile == null) {
+      final profile = _accountService.profile;
+
+      if (profile == null) {
         DialogUtils.showRequiredLogin(context);
+      } else if (profile.phone == null || profile.phone!.isEmpty) {
+        DialogUtils.showRequiredFillProfile(context);
       } else {
         bookingService.setParking(parking);
         bookingService.setParkingFeeType(ParkingFeeTypes.hourly);

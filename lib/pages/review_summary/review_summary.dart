@@ -332,9 +332,14 @@ class ReviewSummaryController extends State<ReviewSummary>
 
   void _handleCreateTicketSuccess(Success success) {
     loggy.info('Create Ticket success: $success');
+
+    final profile = _accountService.profile;
+
     if (success is CreateTicketSuccess) {
-      if (_accountService.profile == null) {
+      if (profile == null) {
         DialogUtils.showRequiredLogin(context);
+      } else if (profile.phone == null || profile.phone!.isEmpty) {
+        DialogUtils.showRequiredFillProfile(context);
       } else {
         _bookingService.setCreatedTicket(success.ticket);
         createTicketState.value = success;
