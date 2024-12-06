@@ -14,10 +14,14 @@ import 'package:ecoparking_flutter/domain/state/markers/find_nearby_parkings_sta
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/domain/state/profile/get_profile_state.dart';
 import 'package:ecoparking_flutter/domain/state/search_parking/search_parking_state.dart';
+import 'package:ecoparking_flutter/domain/state/user_favorite_parkings/add_favorite_parking_state.dart';
+import 'package:ecoparking_flutter/domain/state/user_favorite_parkings/remove_favorite_parking_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/current_location_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/markers/find_nearby_parkings_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/search_parking/search_parking_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/add_favorite_parking_interactor.dart';
+import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/remove_favorite_parking_interactor.dart';
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/parking_sort_by.dart';
 import 'package:ecoparking_flutter/model/parking/parking_sort_order.dart';
@@ -55,12 +59,16 @@ class HomeController extends State<HomePage>
       getIt.get<FindNearbyParkingsInteractor>();
   final SearchParkingInteractor _searchParkingInteractor =
       getIt.get<SearchParkingInteractor>();
+  final AddFavoriteParkingInteractor _addFavoriteParkingInteractor =
+      getIt.get<AddFavoriteParkingInteractor>();
+  final RemoveFavoriteParkingInteractor _removeFavoriteParkingInteractor =
+      getIt.get<RemoveFavoriteParkingInteractor>();
 
   final Future<Box<Parking>> _recentSearchesBox =
       getIt.getAsync<Box<Parking>>();
 
-  final ParkingService parkingService = getIt.get<ParkingService>();
-  final BookingService bookingService = getIt.get<BookingService>();
+  final ParkingService _parkingService = getIt.get<ParkingService>();
+  final BookingService _bookingService = getIt.get<BookingService>();
   final AccountService _accountService = getIt.get<AccountService>();
 
   final currentLocationNotifier = ValueNotifier<GetCurrentLocationState>(
@@ -71,11 +79,19 @@ class HomeController extends State<HomePage>
   );
   final ValueNotifier<SearchParkingState> searchParkingNotifier =
       ValueNotifier(const SearchParkingInitial());
+  final ValueNotifier<AddFavoriteParkingState> addFavoriteParkingNotifier =
+      ValueNotifier(const AddFavoriteParkingInitial());
+  final ValueNotifier<RemoveFavoriteParkingState>
+      removeFavoriteParkingNotifier =
+      ValueNotifier(const RemoveFavoriteParkingInitial());
+
   final ValueNotifier<ParkingSortOrder> sortOrderNotifier =
       ValueNotifier(ParkingSortOrder.ascending);
   final ValueNotifier<ParkingSortBy> sortByNotifier =
       ValueNotifier(ParkingSortBy.distance);
   final ValueNotifier<double> maxDistanceNotifier = ValueNotifier(1000);
+  final ValueNotifier<bool> isSelectFavoriteParkingNotifier =
+      ValueNotifier(false);
 
   final MapController mapController = MapController();
   final SearchController searchController = SearchController();
@@ -84,6 +100,8 @@ class HomeController extends State<HomePage>
   StreamSubscription? _getUserProfileSubscription;
   StreamSubscription? _findNearbyParkingsSubscription;
   StreamSubscription? _searchParkingSubscription;
+  StreamSubscription? _addFavoriteParkingSubscription;
+  StreamSubscription? _removeFavoriteParkingSubscription;
 
   int get maxRecentSearches => 10;
 
@@ -121,9 +139,14 @@ class HomeController extends State<HomePage>
     _getUserProfileSubscription?.cancel();
     _findNearbyParkingsSubscription?.cancel();
     _searchParkingSubscription?.cancel();
+    _addFavoriteParkingSubscription?.cancel();
+    _removeFavoriteParkingSubscription?.cancel();
     _currentLocationSubscription = null;
     _getUserProfileSubscription = null;
     _findNearbyParkingsSubscription = null;
+    _searchParkingSubscription = null;
+    _addFavoriteParkingSubscription = null;
+    _removeFavoriteParkingSubscription = null;
   }
 
   void _disposeNotifier() {
@@ -133,11 +156,13 @@ class HomeController extends State<HomePage>
     sortOrderNotifier.dispose();
     sortByNotifier.dispose();
     maxDistanceNotifier.dispose();
+    addFavoriteParkingNotifier.dispose();
+    removeFavoriteParkingNotifier.dispose();
   }
 
-  void _getUserProfile() {
+  void _getUserProfile({String? parkingShowing}) {
     loggy.info('_getUserProfile()');
-    if (_accountService.profile != null) {
+    if (_accountService.profile != null && parkingShowing == null) {
       return;
     }
 
@@ -152,7 +177,10 @@ class HomeController extends State<HomePage>
     _getUserProfileSubscription = _getProfileInteractor.execute(userId).listen(
           (event) => event.fold(
             (failure) => _handleGetProfileFailure(failure),
-            (success) => _handleGetProfileSuccess(success),
+            (success) => _handleGetProfileSuccess(
+              success,
+              parkingShowing: parkingShowing,
+            ),
           ),
         );
   }
@@ -245,8 +273,77 @@ class HomeController extends State<HomePage>
     _getCurrentLocation();
   }
 
+  void _onBookmark(Parking parking) {
+    loggy.info('Bookmark pressed: $parking');
+
+    final profile = _accountService.profile;
+
+    if (profile == null) {
+      DialogUtils.showRequiredLogin(context);
+    } else if (profile.phone == null || profile.phone!.isEmpty) {
+      DialogUtils.showRequiredFillProfile(context);
+    } else {
+      final favoriteParkings = profile.favoriteParkings;
+
+      if (favoriteParkings != null) {
+        if (favoriteParkings.contains(parking.id)) {
+          _removeFavoriteParking(parking.id, profile.id);
+        } else {
+          _addFavoriteParking(parking.id, profile.id);
+        }
+      }
+    }
+  }
+
+  void _removeFavoriteParking(String parkingId, String userId) {
+    _removeFavoriteParkingSubscription = _removeFavoriteParkingInteractor
+        .execute(
+          userId: userId,
+          parkingId: parkingId,
+        )
+        .listen(
+          (event) => event.fold(
+            _handleRemoveFavoriteParkingFailure,
+            (success) => _handleRemoveFavoriteParkingSuccess(
+              success,
+              parkingId,
+            ),
+          ),
+        );
+  }
+
+  void _addFavoriteParking(String parkingId, String userId) {
+    _addFavoriteParkingSubscription = _addFavoriteParkingInteractor
+        .execute(
+          userId: userId,
+          parkingId: parkingId,
+        )
+        .listen(
+          (event) => event.fold(
+            _handleAddFavoriteParkingFailure,
+            (success) => _handleAddFavoriteParkingSuccess(
+              success,
+              parkingId,
+            ),
+          ),
+        );
+  }
+
   void onParkingMarkerPressed(BuildContext context, Parking parking) async {
     loggy.info('Parking marker pressed', parking);
+
+    final profile = _accountService.profile;
+
+    if (profile == null) {
+      isSelectFavoriteParkingNotifier.value = false;
+    } else {
+      final favoriteParkings = profile.favoriteParkings;
+
+      if (favoriteParkings != null) {
+        isSelectFavoriteParkingNotifier.value =
+            favoriteParkings.contains(parking.id);
+      }
+    }
 
     final ParkingBottomSheetAction? action =
         await BottomSheetUtils.show<ParkingBottomSheetAction>(
@@ -255,7 +352,12 @@ class HomeController extends State<HomePage>
       isScrollControlled: true,
       showDragHandle: true,
       maxHeight: MediaQuery.sizeOf(context).height * 0.65,
-      builder: (context) => ParkingBottomSheetBuilder.build(context, parking),
+      builder: (context) => ParkingBottomSheetBuilder.build(
+        context,
+        parking,
+        onBookmark: (parking) => _onBookmark(parking),
+        isSelectFavoriteNotifier: isSelectFavoriteParkingNotifier,
+      ),
     );
 
     if (!context.mounted) return;
@@ -265,7 +367,7 @@ class HomeController extends State<HomePage>
     if (action == ParkingBottomSheetAction.details) {
       loggy.info('Parking details pressed');
 
-      parkingService.selectParking(parking);
+      _parkingService.selectParking(parking);
 
       NavigationUtils.navigateTo(
         context: context,
@@ -282,8 +384,8 @@ class HomeController extends State<HomePage>
       } else if (profile.phone == null || profile.phone!.isEmpty) {
         DialogUtils.showRequiredFillProfile(context);
       } else {
-        bookingService.setParking(parking);
-        bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
+        _bookingService.setParking(parking);
+        _bookingService.setParkingFeeType(ParkingFeeTypes.hourly);
       }
 
       NavigationUtils.navigateTo(
@@ -429,7 +531,7 @@ class HomeController extends State<HomePage>
   void onSearchResultTap(Parking parking) async {
     loggy.info('Search result tapped: $parking');
 
-    parkingService.selectParking(parking);
+    _parkingService.selectParking(parking);
 
     searchController.closeView(parking.parkingName);
 
@@ -508,12 +610,19 @@ class HomeController extends State<HomePage>
     }
   }
 
-  void _handleGetProfileSuccess(Success success) {
+  void _handleGetProfileSuccess(Success success, {String? parkingShowing}) {
     loggy.info('handleGetProfileSuccess(): $success');
 
     if (success is GetProfileSuccess) {
       loggy.info('handleGetProfileSuccess(): ${success.profile}');
       _accountService.setProfile(success.profile);
+      final favoriteParkings = success.profile.favoriteParkings;
+
+      if (favoriteParkings != null) {
+        isSelectFavoriteParkingNotifier.value = favoriteParkings.contains(
+          parkingShowing,
+        );
+      }
     }
   }
 
@@ -544,6 +653,71 @@ class HomeController extends State<HomePage>
       currentLocationNotifier.value = success;
     } else {
       currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
+    }
+  }
+
+  void _handleAddFavoriteParkingFailure(Failure failure) {
+    loggy.error('handleAddFavoriteParkingFailure(): $failure');
+    if (failure is AddFavoriteParkingFailure) {
+      addFavoriteParkingNotifier.value = failure;
+    } else if (failure is AddFavoriteParkingEmpty) {
+      addFavoriteParkingNotifier.value = failure;
+    } else {
+      addFavoriteParkingNotifier.value =
+          AddFavoriteParkingFailure(exception: failure);
+    }
+  }
+
+  void _handleAddFavoriteParkingSuccess(Success success, String parkingId) {
+    loggy.info('handleAddFavoriteParkingSuccess(): $success');
+    if (success is AddFavoriteParkingSuccess) {
+      addFavoriteParkingNotifier.value = success;
+
+      _getUserProfile(
+        parkingShowing: parkingId,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Parking added to favorites'),
+        ),
+      );
+    } else if (success is AddFavoriteParkingLoading) {
+      addFavoriteParkingNotifier.value = success;
+    }
+  }
+
+  void _handleRemoveFavoriteParkingFailure(Failure failure) {
+    loggy.error('handleRemoveFavoriteParkingFailure(): $failure');
+    if (failure is RemoveFavoriteParkingFailure) {
+      removeFavoriteParkingNotifier.value = failure;
+    } else if (failure is RemoveFavoriteParkingEmpty) {
+      removeFavoriteParkingNotifier.value = failure;
+    } else {
+      removeFavoriteParkingNotifier.value =
+          RemoveFavoriteParkingFailure(exception: failure);
+    }
+  }
+
+  void _handleRemoveFavoriteParkingSuccess(
+    Success success,
+    String parkingId,
+  ) {
+    loggy.info('handleRemoveFavoriteParkingSuccess(): $success');
+    if (success is RemoveFavoriteParkingSuccess) {
+      removeFavoriteParkingNotifier.value = success;
+
+      _getUserProfile(
+        parkingShowing: parkingId,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Parking removed from favorites'),
+        ),
+      );
+    } else if (success is RemoveFavoriteParkingLoading) {
+      removeFavoriteParkingNotifier.value = success;
     }
   }
 

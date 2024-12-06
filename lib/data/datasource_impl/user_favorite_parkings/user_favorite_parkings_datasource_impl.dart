@@ -13,7 +13,7 @@ class UserFavoriteParkingsDataSourceImpl
     return SupabaseUtils()
         .client
         .from(table.tableName)
-        .select('${table.image}, ${table.name}, ${table.address}')
+        .select('${table.id}, ${table.image}, ${table.name}, ${table.address}')
         .inFilter(
           table.id,
           favoriteParkings,
