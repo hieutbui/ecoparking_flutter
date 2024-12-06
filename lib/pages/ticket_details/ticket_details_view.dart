@@ -86,14 +86,23 @@ class TicketDetailsView extends StatelessWidget {
                                             ?.copyWith(
                                               color: const Color(0xFFA1A1A1),
                                             ),
-                                        children: const <InlineSpan>[
-                                          TextSpan(
+                                        children: <InlineSpan>[
+                                          if (state.ticket.status ==
+                                                  TicketStatus.active ||
+                                              state.ticket.status ==
+                                                  TicketStatus.paid) ...[
+                                            const TextSpan(
+                                                text:
+                                                    'Scan this on the scanner machine\n'),
+                                            const TextSpan(
                                               text:
-                                                  'Scan this on the scanner machine\n'),
-                                          TextSpan(
-                                            text:
-                                                'when you are in the parking lot',
-                                          ),
+                                                  'when you are in the parking lot',
+                                            ),
+                                          ] else ...[
+                                            const TextSpan(
+                                              text: 'This ticket is done\n',
+                                            )
+                                          ]
                                         ],
                                       ),
                                     ),

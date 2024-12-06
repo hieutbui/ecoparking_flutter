@@ -130,18 +130,25 @@ class ParkingDetailsController extends State<ParkingDetails>
           path: AppPaths.profile,
         );
       } else {
-        if (parking != null) {
+        final currentParking = parking;
+
+        if (currentParking != null) {
           final favoriteParkings = profile.favoriteParkings;
 
-          if (favoriteParkings != null) {
-            if (favoriteParkings.contains(parking?.id)) {
+          if (favoriteParkings == null) {
+            _addFavoriteParkings(
+              parkingId: currentParking.id,
+              userId: profile.id,
+            );
+          } else {
+            if (favoriteParkings.contains(currentParking.id)) {
               _removeFavoriteParkings(
-                parkingId: parking!.id,
+                parkingId: currentParking.id,
                 userId: profile.id,
               );
             } else {
               _addFavoriteParkings(
-                parkingId: parking!.id,
+                parkingId: currentParking.id,
                 userId: profile.id,
               );
             }
