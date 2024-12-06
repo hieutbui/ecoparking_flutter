@@ -34,8 +34,11 @@ class TicketDetailsController extends State<TicketDetails>
   CreateTicketRequestData? get ticket => _bookingService.createdTicket;
   String? get selectedTicketId => _bookingService.selectedTicketId;
 
+  String get qrData =>
+      '{ "ticketId": "${ticket?.id ?? selectedTicketId}", "timestamp": "${DateTime.now().millisecondsSinceEpoch}" }';
+
   QrCode get qrCode => QrCode.fromData(
-        data: ticket?.id ?? selectedTicketId ?? '',
+        data: qrData,
         errorCorrectLevel: QrErrorCorrectLevel.L,
       );
 

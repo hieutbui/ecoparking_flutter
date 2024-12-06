@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_info_state.dart';
+import 'package:ecoparking_flutter/model/ticket/ticket_status.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details_view_styles.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/widgets/dash_separator.dart';
@@ -97,15 +98,16 @@ class TicketDetailsView extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(height: 16.0),
-                                    QrImageView.withQr(
-                                      qr: QrCode.fromData(
-                                        data: 'test',
-                                        errorCorrectLevel:
-                                            QrErrorCorrectLevel.L,
+                                    if (state.ticket.status ==
+                                            TicketStatus.active ||
+                                        state.ticket.status ==
+                                            TicketStatus.paid) ...[
+                                      QrImageView.withQr(
+                                        qr: controller.qrCode,
+                                        version: QrVersions.max,
+                                        size: 200.0,
                                       ),
-                                      version: QrVersions.max,
-                                      size: 200.0,
-                                    ),
+                                    ]
                                   ],
                                 ),
                               ),
