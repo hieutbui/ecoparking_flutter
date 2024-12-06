@@ -103,8 +103,12 @@ class SelectVehicleController extends State<SelectVehicle>
   void onPressedContinue() {
     loggy.info('Select Vehicle tapped');
 
-    if (_accountService.profile == null) {
+    final profile = _accountService.profile;
+
+    if (profile == null) {
       DialogUtils.showRequiredLogin(context);
+    } else if (profile.phone == null || profile.phone!.isEmpty) {
+      DialogUtils.showRequiredFillProfile(context);
     }
 
     NavigationUtils.navigateTo(

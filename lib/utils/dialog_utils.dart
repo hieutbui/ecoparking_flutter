@@ -62,6 +62,26 @@ class DialogUtils {
     );
   }
 
+  static Future<void> showRequiredFillProfile(BuildContext context) {
+    return show(
+      context: context,
+      title: 'Information Required',
+      description: 'You need to fill your profile to continue',
+      svgImage: ImagePaths.imgDialogError,
+      actions: (dialogContext) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(dialogContext);
+            },
+          )
+        ];
+      },
+    );
+  }
+
   static Future<void> showLoading({
     required BuildContext context,
     bool isDismissible = false,
