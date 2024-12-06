@@ -214,8 +214,12 @@ class MyTicketsController extends State<MyTicketsPage>
 
   void viewTicket(Ticket ticket) {
     loggy.info('viewTicket()');
-    if (_accountService.profile == null) {
+    final profile = _accountService.profile;
+
+    if (profile == null) {
       DialogUtils.showRequiredLogin(context);
+    } else if (profile.phone == null || profile.phone!.isEmpty) {
+      DialogUtils.showRequiredFillProfile(context);
     } else {
       _bookingService.setSelectedTicketId(ticket.id);
     }
