@@ -170,6 +170,7 @@ class BookParkingDetailsController extends State<BookParkingDetails>
       // Move to the next hour
       currentTime = currentTime.replacing(hour: currentTime.hour + 1);
     }
+
     return HourlyFee(
       total: totalPrice,
       hours: end.hour - start.hour,
