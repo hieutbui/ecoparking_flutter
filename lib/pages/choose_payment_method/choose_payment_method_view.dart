@@ -31,15 +31,25 @@ class ChoosePaymentMethodView extends StatelessWidget {
                   itemCount: controller.paymentMethods.length + 1,
                   itemBuilder: (context, index) {
                     if (index == controller.paymentMethods.length) {
-                      return ActionButton(
-                        type: ActionButtonType.positive,
-                        label: 'Add New Payment Method',
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.1),
-                        labelColor: Theme.of(context).colorScheme.primary,
-                        onPressed: () {},
+                      // return ActionButton(
+                      //   type: ActionButtonType.positive,
+                      //   label: 'Add New Payment Method',
+                      //   backgroundColor: Theme.of(context)
+                      //       .colorScheme
+                      //       .primary
+                      //       .withOpacity(0.1),
+                      //   labelColor: Theme.of(context).colorScheme.primary,
+                      //   onPressed: () {},
+                      // );
+                      return Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Other payment methods will be coming soon',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    color: const Color(0xFFA1A1A1),
+                                  ),
+                        ),
                       );
                     }
 

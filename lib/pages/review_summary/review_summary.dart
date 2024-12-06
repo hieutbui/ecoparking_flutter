@@ -46,7 +46,8 @@ class ReviewSummaryController extends State<ReviewSummary>
   final CreateTicketInteractor _createTicketInteractor =
       getIt.get<CreateTicketInteractor>();
 
-  final ValueNotifier<EWallet?> paymentMethod = ValueNotifier<EWallet?>(null);
+  final ValueNotifier<EWallet?> paymentMethod =
+      ValueNotifier<EWallet?>(EWallet.card);
   final ValueNotifier<CreatePaymentIntentState> createPaymentIntentState =
       ValueNotifier<CreatePaymentIntentState>(
     const CreatePaymentIntentInitial(),
