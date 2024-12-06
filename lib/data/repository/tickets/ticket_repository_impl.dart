@@ -30,4 +30,9 @@ class TicketRepositoryImpl implements TicketRepository {
   Future<List<dynamic>?> getTicketInfo(String ticketId) {
     return _ticketDataSource.getTicketInfo(ticketId);
   }
+
+  @override
+  Future<String> cancelTicket(String ticketId) {
+    return _ticketDataSource.cancelTicket(ticketId);
+  }
 }
