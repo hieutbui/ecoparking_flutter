@@ -3,7 +3,6 @@ import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
-import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/state/vehicles/add_new_vehicle_state.dart';
