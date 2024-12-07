@@ -52,9 +52,10 @@ class ParkingBottomSheetBuilder {
                                     Theme.of(context).colorScheme.primary,
                               ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(width: 4.0),
                         Icon(
-                          Icons.arrow_right_rounded,
+                          Icons.arrow_right_alt_rounded,
+                          size: 16,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ],
