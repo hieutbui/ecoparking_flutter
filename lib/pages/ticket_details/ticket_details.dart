@@ -10,9 +10,12 @@ import 'package:ecoparking_flutter/domain/usecase/tickets/get_ticket_info_intera
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details_view.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
+import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TicketDetails extends StatefulWidget {
   const TicketDetails({super.key});
@@ -83,7 +86,31 @@ class TicketDetailsController extends State<TicketDetails>
     );
   }
 
-  void onNavigateToParking() {}
+  void onNavigateToParking() async {
+    if (PlatformInfos.isWeb) {
+      final Uri queryUri = Uri.https(
+        'www.google.com',
+        'maps/dir/',
+        {
+          'api': '1',
+          'destination':
+              '${_bookingService.parking?.geolocation.position.y},${_bookingService.parking?.geolocation.position.x}',
+        },
+      );
+
+      await launchUrl(queryUri);
+    } else {
+      final availableMaps = await MapLauncher.installedMaps;
+
+      await availableMaps.first.showDirections(
+        destination: Coords(
+          _bookingService.parking?.geolocation.position.y ?? 0,
+          _bookingService.parking?.geolocation.position.x ?? 0,
+        ),
+        directionsMode: DirectionsMode.driving,
+      );
+    }
+  }
 
   String formatDateTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('HH:mm, dd/MM/yyyy');
