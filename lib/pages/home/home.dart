@@ -25,6 +25,7 @@ import 'package:ecoparking_flutter/domain/usecase/user_favorite_parkings/remove_
 import 'package:ecoparking_flutter/model/parking/parking.dart';
 import 'package:ecoparking_flutter/model/parking/parking_sort_by.dart';
 import 'package:ecoparking_flutter/model/parking/parking_sort_order.dart';
+import 'package:ecoparking_flutter/model/parking/shift_price.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/model/parking_fee_types.dart';
 import 'package:ecoparking_flutter/pages/home/home_view.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
@@ -35,12 +36,15 @@ import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/mixins/search_debounce_mixin.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
+import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geobase/geobase.dart' hide Box;
+import 'package:geobase/geobase.dart' hide Box, Coords;
 import 'package:hive/hive.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
+import 'package:map_launcher/map_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -331,6 +335,37 @@ class HomeController extends State<HomePage>
         );
   }
 
+  void _onNavigateToParking(Parking parking) async {
+    final parkingLatitude = parking.geolocation.position.y;
+    final parkingLongitude = parking.geolocation.position.x;
+
+    final parkingLocation = LatLng(parkingLatitude, parkingLongitude);
+
+    if (PlatformInfos.isWeb) {
+      final Uri queryUri = Uri.https(
+        'www.google.com',
+        'maps/dir/',
+        {
+          'api': '1',
+          'destination':
+              '${parkingLocation.latitude},${parkingLocation.longitude}',
+        },
+      );
+
+      await launchUrl(queryUri);
+    } else {
+      final availableMaps = await MapLauncher.installedMaps;
+
+      await availableMaps.first.showDirections(
+        destination: Coords(
+          parkingLocation.latitude,
+          parkingLocation.longitude,
+        ),
+        directionsMode: DirectionsMode.driving,
+      );
+    }
+  }
+
   void onParkingMarkerPressed(BuildContext context, Parking parking) async {
     loggy.info('Parking marker pressed', parking);
 
@@ -357,8 +392,10 @@ class HomeController extends State<HomePage>
       builder: (context) => ParkingBottomSheetBuilder.build(
         context,
         parking,
-        onBookmark: (parking) => _onBookmark(parking),
+        onBookmark: _onBookmark,
         isSelectFavoriteNotifier: isSelectFavoriteParkingNotifier,
+        cheapestPrice: _getCheapestPrice(parking)?.price ?? 0.0,
+        onNavigate: _onNavigateToParking,
       ),
     );
 
@@ -567,6 +604,20 @@ class HomeController extends State<HomePage>
             ? ParkingSortOrder.descending
             : ParkingSortOrder.ascending;
     setSearchQuery(searchController.text);
+  }
+
+  ShiftPrice? _getCheapestPrice(Parking parking) {
+    loggy.info('Get cheapest price: $parking');
+
+    final cheapestPrice = parking.pricePerHour?.reduce(
+      (value, element) => value.price < element.price ? value : element,
+    );
+
+    if (cheapestPrice != null) {
+      return cheapestPrice;
+    }
+
+    return parking.pricePerHour?.first;
   }
 
   void _handleSearchParkingFailure(Failure failure) {

@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/model/ticket/ticket_status.dart';
 import 'package:equatable/equatable.dart';
+import 'package:geobase/geobase.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ticket_display.g.dart';
@@ -11,6 +12,12 @@ class TicketDisplay with EquatableMixin {
   final String parkingName;
   @JsonKey(name: 'parking_address')
   final String parkingAddress;
+  @JsonKey(
+    name: 'geolocation',
+    fromJson: _geolocationFromJson,
+    toJson: _geolocationToJson,
+  )
+  final Point parkingGeolocation;
   @JsonKey(name: 'vehicle_name')
   final String vehicleName;
   @JsonKey(name: 'license_plate')
@@ -28,6 +35,7 @@ class TicketDisplay with EquatableMixin {
     required this.id,
     required this.parkingName,
     required this.parkingAddress,
+    required this.parkingGeolocation,
     required this.vehicleName,
     required this.licensePlate,
     required this.startTime,
@@ -48,6 +56,7 @@ class TicketDisplay with EquatableMixin {
         id,
         parkingName,
         parkingAddress,
+        parkingGeolocation,
         vehicleName,
         licensePlate,
         startTime,
@@ -56,4 +65,12 @@ class TicketDisplay with EquatableMixin {
         hours,
         total,
       ];
+}
+
+Point _geolocationFromJson(String geolocation) {
+  return Point.decodeHex(geolocation, format: WKB.geometry);
+}
+
+String _geolocationToJson(Point geolocation) {
+  return geolocation.toBytesHex();
 }
