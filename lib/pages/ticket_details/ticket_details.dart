@@ -12,7 +12,9 @@ import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:flutter/material.dart';
+import 'package:geobase/geobase.dart' hide Coords;
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,6 +46,8 @@ class TicketDetailsController extends State<TicketDetails>
         data: qrData,
         errorCorrectLevel: QrErrorCorrectLevel.L,
       );
+
+  Point? parkingGeolocation;
 
   StreamSubscription? _ticketInfoSubscription;
 
@@ -87,6 +91,15 @@ class TicketDetailsController extends State<TicketDetails>
   }
 
   void onNavigateToParking() async {
+    final parkingLatitude = parkingGeolocation?.position.y ??
+        _bookingService.parking?.geolocation.position.y ??
+        0;
+    final parkingLongitude = parkingGeolocation?.position.x ??
+        _bookingService.parking?.geolocation.position.x ??
+        0;
+
+    final parkingLocation = LatLng(parkingLatitude, parkingLongitude);
+
     if (PlatformInfos.isWeb) {
       final Uri queryUri = Uri.https(
         'www.google.com',
@@ -94,7 +107,7 @@ class TicketDetailsController extends State<TicketDetails>
         {
           'api': '1',
           'destination':
-              '${_bookingService.parking?.geolocation.position.y},${_bookingService.parking?.geolocation.position.x}',
+              '${parkingLocation.latitude},${parkingLocation.longitude}',
         },
       );
 
@@ -104,8 +117,8 @@ class TicketDetailsController extends State<TicketDetails>
 
       await availableMaps.first.showDirections(
         destination: Coords(
-          _bookingService.parking?.geolocation.position.y ?? 0,
-          _bookingService.parking?.geolocation.position.x ?? 0,
+          parkingLocation.latitude,
+          parkingLocation.longitude,
         ),
         directionsMode: DirectionsMode.driving,
       );
@@ -134,6 +147,7 @@ class TicketDetailsController extends State<TicketDetails>
       ticketInfoState.value = success;
     } else if (success is GetTicketInfoSuccess) {
       ticketInfoState.value = success;
+      parkingGeolocation = success.ticket.parkingGeolocation;
     }
   }
 
