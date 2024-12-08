@@ -185,9 +185,10 @@ class ReviewSummaryController extends State<ReviewSummary>
   void onPressedContinue() {
     loggy.info('Continue tapped');
 
+    final amount = _bookingService.calculatedPrice?.calculatedFee.total.round();
+
     final createPaymentIntentBody = CreatePaymentIntentRequestBody(
-      amount: _bookingService.calculatedPrice?.calculatedFee.total.toString() ??
-          '0',
+      amount: (amount ?? 0).toString(),
       currency: 'vnd',
       description: _bookingService.parking?.parkingName != null
           ? 'Book Ticket for Parking: ${_bookingService.parking?.parkingName}'
@@ -273,16 +274,66 @@ class ReviewSummaryController extends State<ReviewSummary>
           );
         }
       } else {
-        await Stripe.instance.initPaymentSheet(
-          paymentSheetParameters: SetupPaymentSheetParameters(
-            paymentIntentClientSecret: success.paymentIntent.clientSecret,
-            customFlow: false,
-            merchantDisplayName: 'EcoParking',
-            style: ThemeMode.system,
-          ),
-        );
+        try {
+          await Stripe.instance.initPaymentSheet(
+            paymentSheetParameters: SetupPaymentSheetParameters(
+              paymentIntentClientSecret: success.paymentIntent.clientSecret,
+              customFlow: true,
+              merchantDisplayName: 'EcoParking',
+              style: ThemeMode.system,
+            ),
+          );
+        } on StripeError catch (e) {
+          _showStripeErrorMobile(e);
+        } on StripeException catch (e) {
+          _showStripeExceptionMobile(e);
+        } catch (e) {
+          _showOtherErrorMobile(e: e);
+        } finally {
+          final result = await Stripe.instance.presentPaymentSheet();
+
+          if (result != null) {
+            _createTicketSubscription = _createTicketInteractor
+                .execute(_bookingService.createTicket(
+                  paymentIntentId: success.paymentIntent.id,
+                  userId: _accountService.profile?.id,
+                ))
+                .listen(
+                  (result) => result.fold(
+                    _handleCreateTicketFailure,
+                    _handleCreateTicketSuccess,
+                  ),
+                );
+          } else {
+            _showOtherErrorMobile();
+          }
+        }
       }
     }
+  }
+
+  void _showOtherErrorMobile({dynamic e}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Cannot create your payment, please try again'),
+      ),
+    );
+  }
+
+  void _showStripeExceptionMobile(StripeException e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Cannot create your payment, please try again'),
+      ),
+    );
+  }
+
+  void _showStripeErrorMobile(StripeError e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Cannot create your payment, please try again'),
+      ),
+    );
   }
 
   void _handleConfirmPaymentIntentWebFailure(Failure failure) {

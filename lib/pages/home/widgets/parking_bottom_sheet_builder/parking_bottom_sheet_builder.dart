@@ -150,25 +150,27 @@ class ParkingBottomSheetBuilder {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  ActionButton(
-                    type: ActionButtonType.negative,
-                    label: 'Details',
-                    isShowArrow: true,
-                    onPressed: () => {
-                      Navigator.of(context).pop(
-                        ParkingBottomSheetAction.details,
-                      ),
-                    },
-                    width: 200,
-                  ),
-                  ActionButton(
-                    type: ActionButtonType.positive,
-                    label: 'Book Now',
-                    isShowArrow: false,
-                    onPressed: () => Navigator.of(context).pop(
-                      ParkingBottomSheetAction.bookNow,
+                  Expanded(
+                    child: ActionButton(
+                      type: ActionButtonType.negative,
+                      label: 'Details',
+                      isShowArrow: true,
+                      onPressed: () => {
+                        Navigator.of(context).pop(
+                          ParkingBottomSheetAction.details,
+                        ),
+                      },
                     ),
-                    width: 200,
+                  ),
+                  Expanded(
+                    child: ActionButton(
+                      type: ActionButtonType.positive,
+                      label: 'Book Now',
+                      isShowArrow: false,
+                      onPressed: () => Navigator.of(context).pop(
+                        ParkingBottomSheetAction.bookNow,
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -5,7 +5,9 @@ import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/di/supabase_utils.dart';
 import 'package:ecoparking_flutter/domain/services/account_service.dart';
+import 'package:ecoparking_flutter/domain/state/login/get_google_web_client_state.dart';
 import 'package:ecoparking_flutter/domain/state/profile/get_profile_state.dart';
+import 'package:ecoparking_flutter/domain/usecase/login/get_google_web_client_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/profile/get_profile_interactor.dart';
 import 'package:ecoparking_flutter/domain/usecase/sign_out/sign_out_interactor.dart';
 import 'package:ecoparking_flutter/pages/profile/model/setting_button_arguments.dart';
@@ -33,9 +35,13 @@ class ProfileController extends State<ProfilePage>
   final SignOutInteractor _signOutInteractor = getIt.get<SignOutInteractor>();
   final GetProfileInteractor _getProfileInteractor =
       getIt.get<GetProfileInteractor>();
+  final GetGoogleWebClientInteractor _getGoogleWebClientInteractor =
+      getIt.get<GetGoogleWebClientInteractor>();
 
   final ValueNotifier<GetProfileState> profileNotifier =
       ValueNotifier<GetProfileState>(const GetProfileInitial());
+  final ValueNotifier<GetGoogleWebClientState> googleWebClientNotifier =
+      ValueNotifier(const GetGoogleWebClientInitial());
 
   List<SettingButtonArguments> settingOptions = [];
 
@@ -45,18 +51,38 @@ class ProfileController extends State<ProfilePage>
 
   StreamSubscription? _signOutSubscription;
   StreamSubscription? _getProfileSubscription;
+  StreamSubscription? _authStateSubscription;
+  StreamSubscription? _googleWebClientSubscription;
 
   @override
   void initState() {
     super.initState();
     _initializeSettingOptions();
     _onGetProfile();
+    _getGoogleWebClientId();
+    _authStateSubscription = SupabaseUtils().auth.onAuthStateChange.listen(
+      (data) {
+        final session = data.session;
+        if (session != null) {
+          _onGetProfile();
+        }
+      },
+      onError: (error) {
+        if (error is AuthException) {
+          _showAuthError(error: error);
+        } else {
+          _showAuthError();
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
     _signOutSubscription?.cancel();
     _getProfileSubscription?.cancel();
+    _authStateSubscription?.cancel();
+    _googleWebClientSubscription?.cancel();
     profileNotifier.dispose();
     super.dispose();
   }
@@ -86,6 +112,18 @@ class ProfileController extends State<ProfilePage>
         onTap: _onSignOut,
       ),
     ];
+  }
+
+  void _showAuthError({
+    AuthException? error,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          error?.message ?? 'Something went wrong',
+        ),
+      ),
+    );
   }
 
   void _onGetProfile() {
@@ -212,11 +250,9 @@ class ProfileController extends State<ProfilePage>
     }
   }
 
-  void onPressedContinueWithFacebook() {
+  void onPressedContinueWithFacebook() async {
     loggy.info('onPressedContinueWithFacebook()');
-    if (PlatformInfos.isWeb) {
-      signInWithFacebookOnWeb();
-    }
+    await signInWithFacebook();
   }
 
   void onPressedSignInWithPassword() {
@@ -225,6 +261,35 @@ class ProfileController extends State<ProfilePage>
 
   void onPressedSignUp() {
     NavigationUtils.navigateTo(context: context, path: AppPaths.register);
+  }
+
+  void _getGoogleWebClientId() {
+    _googleWebClientSubscription =
+        _getGoogleWebClientInteractor.execute().listen(
+              (event) => event.fold(
+                _handleGetGoogleWebClientFailure,
+                _handleGetGoogleWebClientSuccess,
+              ),
+            );
+  }
+
+  void _handleGetGoogleWebClientFailure(Failure failure) {
+    loggy.error('handleGetGoogleWebClientFailure(): $failure');
+    if (failure is GetGoogleWebClientFailure) {
+      googleWebClientNotifier.value = failure;
+    } else if (failure is GetGoogleWebClientEmpty) {
+      googleWebClientNotifier.value = const GetGoogleWebClientEmpty();
+    }
+  }
+
+  void _handleGetGoogleWebClientSuccess(Success success) {
+    loggy.info('handleGetGoogleWebClientSuccess(): $success');
+    if (success is GetGoogleWebClientSuccess) {
+      googleWebClientNotifier.value = success;
+      _accountService.setGoogleWebClientId(success.googleWebClient);
+    } else if (success is GetGoogleWebClientLoading) {
+      googleWebClientNotifier.value = success;
+    }
   }
 
   @override

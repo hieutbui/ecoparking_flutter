@@ -144,7 +144,7 @@ class HomeController extends State<HomePage>
   }
 
   void _onRouteChange() {
-    if (searchController.isOpen) {
+    if (searchController.isOpen && searchController.isAttached) {
       searchController.closeView('');
     }
   }
@@ -381,13 +381,27 @@ class HomeController extends State<HomePage>
     } else {
       final availableMaps = await MapLauncher.installedMaps;
 
-      await availableMaps.first.showDirections(
+      if (availableMaps.isEmpty) {
+        final Uri queryUri = Uri.https(
+          'www.google.com',
+          'maps/dir/',
+          {
+            'api': '1',
+            'destination':
+                '${parkingLocation.latitude},${parkingLocation.longitude}',
+          },
+        );
+
+        await launchUrl(queryUri);
+      } else {
+        await availableMaps.first.showDirections(
         destination: Coords(
           parkingLocation.latitude,
           parkingLocation.longitude,
         ),
         directionsMode: DirectionsMode.driving,
       );
+      }
     }
   }
 

@@ -6,11 +6,13 @@ part 'create_payment_intent_response.g.dart';
 
 @JsonSerializable()
 class CreatePaymentIntentResponse with EquatableMixin {
+  final String id;
   @JsonKey(name: 'client_secret')
   final String clientSecret;
   final CreatePaymentIntentMetaData metadata;
 
   const CreatePaymentIntentResponse({
+    required this.id,
     required this.clientSecret,
     required this.metadata,
   });
@@ -22,6 +24,7 @@ class CreatePaymentIntentResponse with EquatableMixin {
 
   @override
   List<Object?> get props => [
+        id,
         clientSecret,
         metadata,
       ];

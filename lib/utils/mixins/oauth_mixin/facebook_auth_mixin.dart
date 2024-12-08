@@ -4,10 +4,12 @@ import 'package:ecoparking_flutter/utils/platform_infos.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 mixin FacebookAuthMixin {
-  Future<bool> signInWithFacebookOnWeb() async {
+  Future<bool> signInWithFacebook() async {
     return await SupabaseUtils().auth.signInWithOAuth(
           OAuthProvider.facebook,
-          redirectTo: MixinUtils().getRedirectURL(),
+          redirectTo: PlatformInfos.isWeb
+              ? MixinUtils().getRedirectURL()
+              : 'io.supabase.flutterquickstart://login-callback/',
           authScreenLaunchMode: PlatformInfos.isWeb
               ? LaunchMode.platformDefault
               : LaunchMode.externalApplication,
