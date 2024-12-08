@@ -165,19 +165,23 @@ class ParkingDetailsView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                ActionButton(
-                  type: ActionButtonType.negative,
-                  label: 'Cancel',
-                  isShowArrow: false,
-                  onPressed: controller.onPressedCancel,
-                  width: ParkingDetailsViewStyles.actionButtonWidth,
+                Expanded(
+                  child: ActionButton(
+                    type: ActionButtonType.negative,
+                    label: 'Cancel',
+                    isShowArrow: false,
+                    onPressed: controller.onPressedCancel,
+                    width: ParkingDetailsViewStyles.actionButtonWidth,
+                  ),
                 ),
-                ActionButton(
-                  type: ActionButtonType.positive,
-                  label: 'Book Now',
-                  isShowArrow: false,
-                  onPressed: controller.onPressedBookNow,
-                  width: ParkingDetailsViewStyles.actionButtonWidth,
+                Expanded(
+                  child: ActionButton(
+                    type: ActionButtonType.positive,
+                    label: 'Book Now',
+                    isShowArrow: false,
+                    onPressed: controller.onPressedBookNow,
+                    width: ParkingDetailsViewStyles.actionButtonWidth,
+                  ),
                 ),
               ],
             ),
