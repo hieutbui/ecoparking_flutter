@@ -395,12 +395,12 @@ class HomeController extends State<HomePage>
         await launchUrl(queryUri);
       } else {
         await availableMaps.first.showDirections(
-        destination: Coords(
-          parkingLocation.latitude,
-          parkingLocation.longitude,
-        ),
-        directionsMode: DirectionsMode.driving,
-      );
+          destination: Coords(
+            parkingLocation.latitude,
+            parkingLocation.longitude,
+          ),
+          directionsMode: DirectionsMode.driving,
+        );
       }
     }
   }
