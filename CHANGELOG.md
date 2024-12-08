@@ -1,3 +1,18 @@
+## v0.1.0 - 08/12/2024
+## Added
+- Sign in guard
+- Test for calculate price
+- Workflow for test
+- Ticket cancellable
+- Remove/Add favorite parkings
+- Add new vehicle
+- Open map for parking direction
+- Android integration
+- Secure QR
+## Fixed
+- Saved screen and Booking screen visible without signin
+- Hide QR for complete tickets
+
 ## v0.0.9 - 03/12/2024
 ## Fixed
 - Wrong uri routes after pop back on release version
