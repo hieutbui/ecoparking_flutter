@@ -2,23 +2,30 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
+import 'package:ecoparking_flutter/config/app_config.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/data/models/ticket/create_ticket_request_data.dart';
+import 'package:ecoparking_flutter/data/supabase_data/tables/ticket_table.dart';
 import 'package:ecoparking_flutter/di/global/get_it_initializer.dart';
 import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_info_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/get_ticket_info_interactor.dart';
 import 'package:ecoparking_flutter/model/ticket/qr_data.dart';
+import 'package:ecoparking_flutter/pages/ticket_details/models/scanned_ticket_info.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details_view.dart';
+import 'package:ecoparking_flutter/resource/image_paths.dart';
+import 'package:ecoparking_flutter/utils/dialog_utils.dart';
 import 'package:ecoparking_flutter/utils/logging/custom_logger.dart';
 import 'package:ecoparking_flutter/utils/navigation_utils.dart';
 import 'package:ecoparking_flutter/utils/platform_infos.dart';
+import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:geobase/geobase.dart' hide Coords;
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TicketDetails extends StatefulWidget {
@@ -44,6 +51,7 @@ class TicketDetailsController extends State<TicketDetails>
       errorCorrectLevel: QrErrorCorrectLevel.L,
     ),
   );
+  final ValueNotifier<bool> isExitTicket = ValueNotifier<bool>(false);
 
   CreateTicketRequestData? get ticket => _bookingService.createdTicket;
   String? get selectedTicketId => _bookingService.selectedTicketId;
@@ -58,6 +66,7 @@ class TicketDetailsController extends State<TicketDetails>
     super.initState();
     _getTicketInfo();
     _startQrTimer();
+    _listenRealtimeChanges();
     loggy.info('TicketDetailsController initialized');
   }
 
@@ -68,6 +77,106 @@ class TicketDetailsController extends State<TicketDetails>
     _disposeNotifiers();
     _disposeTimer();
     super.dispose();
+  }
+
+  void _listenRealtimeChanges() {
+    const realtimePurpose = 'scan_ticket';
+
+    Supabase.instance.client
+        .channel('${AppConfig.appTitle}/$realtimePurpose')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.all,
+          callback: _handleRealtimeChanges,
+          schema: 'public',
+        )
+        .subscribe();
+  }
+
+  void _handleRealtimeChanges(PostgresChangePayload payload) {
+    loggy.info('Realtime changes: $payload');
+    const table = TicketTable();
+    if (payload.schema == 'public' && payload.table == table.tableName) {
+      try {
+        final ticketInfo = ScannedTicketInfo.fromJson(payload.newRecord);
+
+        if (ticket != null && ticket?.id == ticketInfo.id) {
+          _showScannedDialog(ticketInfo);
+        } else if (selectedTicketId != null &&
+            selectedTicketId == ticketInfo.id) {
+          _showScannedDialog(ticketInfo);
+        }
+      } catch (e) {
+        _showScanFailedDialog();
+      }
+    }
+  }
+
+  void _showScannedDialog(ScannedTicketInfo ticketInfo) {
+    if (ticketInfo.entryTime != null && ticketInfo.exitTime != null) {
+      _showExitDialog();
+    } else if (ticketInfo.entryTime != null) {
+      _showEntryDialog();
+    }
+  }
+
+  void _showEntryDialog() {
+    DialogUtils.show(
+      context: context,
+      title: 'Success',
+      description: 'You have arrived at the parking lot!',
+      svgImage: ImagePaths.imgDialogSuccessful,
+      actions: (context) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(context);
+            },
+          ),
+        ];
+      },
+    );
+  }
+
+  void _showExitDialog() {
+    DialogUtils.show(
+      context: context,
+      title: 'Success',
+      description: 'You have left the parking lot!',
+      svgImage: ImagePaths.imgDialogSuccessful,
+      actions: (context) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(context);
+            },
+          ),
+        ];
+      },
+    );
+  }
+
+  void _showScanFailedDialog() {
+    DialogUtils.show(
+      context: context,
+      title: 'Scan Failed',
+      description: 'Please try again',
+      svgImage: ImagePaths.imgDialogError,
+      actions: (context) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(context);
+            },
+          ),
+        ];
+      },
+    );
   }
 
   void _startQrTimer() {
@@ -88,12 +197,18 @@ class TicketDetailsController extends State<TicketDetails>
     final qrData = QrData(
       ticketId: ticketId ?? '',
       timestamp: timestamp,
+      timeType: isExitTicket.value ? QrTimeType.exit : QrTimeType.entry,
     );
 
     qrDataNotifier.value = QrCode.fromData(
       data: jsonEncode(qrData.toJson()),
       errorCorrectLevel: QrErrorCorrectLevel.L,
     );
+  }
+
+  void toggleExitTicket(bool? value) {
+    isExitTicket.value = value ?? false;
+    _setQrData();
   }
 
   void _cancelTicketInfoSubscriptions() {

@@ -8,6 +8,7 @@ import 'package:ecoparking_flutter/pages/ticket_details/widgets/ticket_info_fiel
 import 'package:ecoparking_flutter/widgets/action_button/action_button.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class TicketDetailsView extends StatelessWidget {
@@ -122,7 +123,48 @@ class TicketDetailsView extends StatelessWidget {
                                           );
                                         },
                                       ),
-                                    ]
+                                      const SizedBox(height: 16.0),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Entry time',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color:
+                                                      const Color(0xFFA1A1A1),
+                                                ),
+                                          ),
+                                          const SizedBox(width: 8.0),
+                                          ValueListenableBuilder(
+                                            valueListenable:
+                                                controller.isExitTicket,
+                                            builder: (context, isExit, child) {
+                                              return GFToggle(
+                                                onChanged:
+                                                    controller.toggleExitTicket,
+                                                value: isExit,
+                                                type: GFToggleType.ios,
+                                              );
+                                            },
+                                          ),
+                                          const SizedBox(width: 8.0),
+                                          Text(
+                                            'Exit time',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color:
+                                                      const Color(0xFFA1A1A1),
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ],
                                 ),
                               ),
