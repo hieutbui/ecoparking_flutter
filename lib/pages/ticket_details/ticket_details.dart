@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:ecoparking_flutter/app_state/failure.dart';
 import 'package:ecoparking_flutter/app_state/success.dart';
 import 'package:ecoparking_flutter/config/app_paths.dart';
@@ -90,7 +91,7 @@ class TicketDetailsController extends State<TicketDetails>
     );
 
     qrDataNotifier.value = QrCode.fromData(
-      data: qrData.toJson().toString(),
+      data: jsonEncode(qrData.toJson()),
       errorCorrectLevel: QrErrorCorrectLevel.L,
     );
   }
