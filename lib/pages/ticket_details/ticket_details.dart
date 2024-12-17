@@ -36,18 +36,18 @@ class TicketDetailsController extends State<TicketDetails>
   final ValueNotifier<GetTicketInfoState> ticketInfoState =
       ValueNotifier(const GetTicketInfoInitial());
 
+  final ValueNotifier<QrCode> qrDataNotifier = ValueNotifier<QrCode>(
+    QrCode.fromData(
+      data: '',
+      errorCorrectLevel: QrErrorCorrectLevel.L,
+    ),
+  );
+
   CreateTicketRequestData? get ticket => _bookingService.createdTicket;
   String? get selectedTicketId => _bookingService.selectedTicketId;
 
-  String get qrData =>
-      '{ "ticketId": "${ticket?.id ?? selectedTicketId}", "timestamp": "${DateTime.now().millisecondsSinceEpoch}" }';
-
-  QrCode get qrCode => QrCode.fromData(
-        data: qrData,
-        errorCorrectLevel: QrErrorCorrectLevel.L,
-      );
-
   Point? parkingGeolocation;
+  Timer? _qrDataTimer;
 
   StreamSubscription? _ticketInfoSubscription;
 
@@ -55,6 +55,7 @@ class TicketDetailsController extends State<TicketDetails>
   void initState() {
     super.initState();
     _getTicketInfo();
+    _startQrTimer();
     loggy.info('TicketDetailsController initialized');
   }
 
@@ -63,7 +64,29 @@ class TicketDetailsController extends State<TicketDetails>
     loggy.info('TicketDetailsController disposed');
     _cancelTicketInfoSubscriptions();
     _disposeNotifiers();
+    _disposeTimer();
     super.dispose();
+  }
+
+  void _startQrTimer() {
+    _setQrData();
+
+    _qrDataTimer = Timer.periodic(
+      const Duration(minutes: 1),
+      (timer) {
+        _setQrData();
+      },
+    );
+  }
+
+  void _setQrData() {
+    final ticketId = ticket?.id ?? selectedTicketId;
+    final timeStamp = DateTime.now().millisecondsSinceEpoch;
+
+    qrDataNotifier.value = QrCode.fromData(
+      data: '{ "ticketId": "$ticketId", "timestamp": "$timeStamp" }',
+      errorCorrectLevel: QrErrorCorrectLevel.L,
+    );
   }
 
   void _cancelTicketInfoSubscriptions() {
@@ -72,6 +95,11 @@ class TicketDetailsController extends State<TicketDetails>
 
   void _disposeNotifiers() {
     ticketInfoState.dispose();
+    qrDataNotifier.dispose();
+  }
+
+  void _disposeTimer() {
+    _qrDataTimer?.cancel();
   }
 
   void _getTicketInfo() {

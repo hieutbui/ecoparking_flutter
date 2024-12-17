@@ -111,10 +111,16 @@ class TicketDetailsView extends StatelessWidget {
                                             TicketStatus.active ||
                                         state.ticket.status ==
                                             TicketStatus.paid) ...[
-                                      QrImageView.withQr(
-                                        qr: controller.qrCode,
-                                        version: QrVersions.max,
-                                        size: 200.0,
+                                      ValueListenableBuilder(
+                                        valueListenable:
+                                            controller.qrDataNotifier,
+                                        builder: (context, qrData, child) {
+                                          return QrImageView.withQr(
+                                            qr: qrData,
+                                            version: QrVersions.max,
+                                            size: 200.0,
+                                          );
+                                        },
                                       ),
                                     ]
                                   ],
