@@ -28,6 +28,10 @@ class Ticket with EquatableMixin {
   final String? parkingPhone;
   @JsonKey(name: 'parking_image')
   final String? parkingImage;
+  @JsonKey(name: 'entry_time')
+  final DateTime? entryTime;
+  @JsonKey(name: 'exit_time')
+  final DateTime? exitTime;
 
   Ticket({
     required this.id,
@@ -43,6 +47,8 @@ class Ticket with EquatableMixin {
     required this.status,
     this.parkingPhone,
     this.parkingImage,
+    this.entryTime,
+    this.exitTime,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
@@ -64,5 +70,7 @@ class Ticket with EquatableMixin {
         status,
         parkingPhone,
         parkingImage,
+        entryTime,
+        exitTime,
       ];
 }
