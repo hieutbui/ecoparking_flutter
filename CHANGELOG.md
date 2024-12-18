@@ -1,3 +1,7 @@
+## v0.1.1 - 18/12/2024
+## Added
+- Secure ticket's QR code
+
 ## v0.1.0 - 08/12/2024
 ## Added
 - Sign in guard
