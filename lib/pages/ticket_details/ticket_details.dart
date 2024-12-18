@@ -11,7 +11,7 @@ import 'package:ecoparking_flutter/domain/services/booking_service.dart';
 import 'package:ecoparking_flutter/domain/state/tickets/get_ticket_info_state.dart';
 import 'package:ecoparking_flutter/domain/usecase/tickets/get_ticket_info_interactor.dart';
 import 'package:ecoparking_flutter/model/ticket/qr_data.dart';
-import 'package:ecoparking_flutter/model/ticket/ticket.dart';
+import 'package:ecoparking_flutter/pages/ticket_details/models/scanned_ticket_info.dart';
 import 'package:ecoparking_flutter/pages/ticket_details/ticket_details_view.dart';
 import 'package:ecoparking_flutter/resource/image_paths.dart';
 import 'package:ecoparking_flutter/utils/dialog_utils.dart';
@@ -93,20 +93,25 @@ class TicketDetailsController extends State<TicketDetails>
   }
 
   void _handleRealtimeChanges(PostgresChangePayload payload) {
+    loggy.info('Realtime changes: $payload');
     const table = TicketTable();
     if (payload.schema == 'public' && payload.table == table.tableName) {
-      final ticketInfo = Ticket.fromJson(payload.newRecord);
+      try {
+        final ticketInfo = ScannedTicketInfo.fromJson(payload.newRecord);
 
-      if (ticket != null && ticket?.id == ticketInfo.id) {
-        _showScannedDialog(ticketInfo);
-      } else if (selectedTicketId != null &&
-          selectedTicketId == ticketInfo.id) {
-        _showScannedDialog(ticketInfo);
+        if (ticket != null && ticket?.id == ticketInfo.id) {
+          _showScannedDialog(ticketInfo);
+        } else if (selectedTicketId != null &&
+            selectedTicketId == ticketInfo.id) {
+          _showScannedDialog(ticketInfo);
+        }
+      } catch (e) {
+        _showScanFailedDialog();
       }
     }
   }
 
-  void _showScannedDialog(Ticket ticketInfo) {
+  void _showScannedDialog(ScannedTicketInfo ticketInfo) {
     if (ticketInfo.entryTime != null && ticketInfo.exitTime != null) {
       _showExitDialog();
     } else if (ticketInfo.entryTime != null) {
@@ -140,6 +145,26 @@ class TicketDetailsController extends State<TicketDetails>
       title: 'Success',
       description: 'You have left the parking lot!',
       svgImage: ImagePaths.imgDialogSuccessful,
+      actions: (context) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(context);
+            },
+          ),
+        ];
+      },
+    );
+  }
+
+  void _showScanFailedDialog() {
+    DialogUtils.show(
+      context: context,
+      title: 'Scan Failed',
+      description: 'Please try again',
+      svgImage: ImagePaths.imgDialogError,
       actions: (context) {
         return <Widget>[
           ActionButton(
