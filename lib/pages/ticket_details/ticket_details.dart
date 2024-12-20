@@ -67,6 +67,7 @@ class TicketDetailsController extends State<TicketDetails>
     _getTicketInfo();
     _startQrTimer();
     _listenRealtimeChanges();
+    _listenBroadcastError();
     loggy.info('TicketDetailsController initialized');
   }
 
@@ -90,6 +91,52 @@ class TicketDetailsController extends State<TicketDetails>
           schema: 'public',
         )
         .subscribe();
+  }
+
+  void _listenBroadcastError() {
+    final key = selectedTicketId ?? ticket?.id;
+
+    if (key == null) {
+      return;
+    }
+
+    final channelName = 'error_$key';
+
+    Supabase.instance.client
+        .channel(
+          channelName,
+          opts: RealtimeChannelConfig(
+            key: key,
+          ),
+        )
+        .onBroadcast(
+          event: 'scan_ticket_error',
+          callback: _handleBroadcastError,
+        )
+        .subscribe();
+  }
+
+  void _handleBroadcastError(Map<String, dynamic> payload) async {
+    loggy.info('Broadcast error: $payload');
+
+    await DialogUtils.show(
+      context: context,
+      title: 'Error',
+      description:
+          'Error occurred while scanning the ticket.\n If you did not scan the ticket, please contact the parking lot staff.',
+      svgImage: ImagePaths.imgDialogError,
+      actions: (context) {
+        return <Widget>[
+          ActionButton(
+            type: ActionButtonType.positive,
+            label: 'OK',
+            onPressed: () {
+              DialogUtils.hide(context);
+            },
+          ),
+        ];
+      },
+    );
   }
 
   void _handleRealtimeChanges(PostgresChangePayload payload) {
