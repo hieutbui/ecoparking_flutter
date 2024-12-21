@@ -1,3 +1,7 @@
+## 0.1.2 - 21/12/2024
+## Added
+- Listen when scan ticket error
+
 ## v0.1.1 - 18/12/2024
 ## Added
 - Secure ticket's QR code
