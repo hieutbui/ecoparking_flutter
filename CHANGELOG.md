@@ -1,3 +1,7 @@
+## v0.1.3 - 22/12/2024
+## Added
+- Building instruction
+
 ## 0.1.2 - 21/12/2024
 ## Added
 - Listen when scan ticket error
