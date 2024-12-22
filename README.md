@@ -4,6 +4,8 @@ An application for graduation project that has 2 main use-cases:
 - User find parking lots
 - Parking's owners and employees manage their parking
 
+*Any Github Page of this project except last release will be remove from Supabase Redirect URLs after 2 days*
+
 ## Getting Started
 
 ### Flutter
@@ -99,6 +101,7 @@ SUPABASE_ANON_KEY=
 STRIPE_PUBLISHABLE_KEY=
 STRIPE_SECRET_KEY=
 ```
+- Navigate to the [Supabase URL Configuration](https://supabase.com/dashboard/project/_/auth/url-configuration) and the local url that you want to run to the Redirect URLs. Ex. `http://localhost:3000`
 
 #### In case you run this project locally in release mode:
 - Web version
@@ -109,6 +112,7 @@ flutter build web --release --dart-define=STRIPE_PUBLISHABLE_KEY='' --dart-defin
 ```bash
 flutter build apk --release --dart-define=STRIPE_PUBLISHABLE_KEY='' --dart-define=MAPBOX_URL_TEMPLATE='' --dart-define=SUPABASE_PROJECT_URL='' --dart-define=SUPABASE_ANON_KEY=''
 ```
+- Navigate to the [Supabase URL Configuration](https://supabase.com/dashboard/project/_/auth/url-configuration) and the local url that you want to run to the Redirect URLs. Ex. `http://localhost:3000`
 
 #### Other environment
 
@@ -120,3 +124,5 @@ Please make sure your running system environment has all of these value:
 | SUPABASE_ANON_KEY      | *Your Supabase project's annon key* |
 | STRIPE_PUBLISHABLE_KEY | *Your Stripe's publishable key*     |
 | STRIPE_SECRET_KEY      | *Your Strips's secret key*          |
+
+*For OAuth Signin, please add the URL to the Supabase Site URL and Supabase Redirect URLs*
