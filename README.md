@@ -73,6 +73,8 @@ enum sort_order {
 }
 ```
 - Navigate to the [Supabase SQL Editor](https://app.supabase.io/project/_/sql) and add all sql to create [EcoParking tables](https://github.com/hieutbui/database_function/tree/51b9f545f6e2c937b58ee5b90747ae115876ad83/creation)
+- Navigate to the [Supabase Integration](https://supabase.com/dashboard/project/_/integrations) and enable: Cron, GraphQL and Stripe Wrapper. (Note: Some integration need a key to connect)
+- Inside [Cron Jobs](https://supabase.com/dashboard/project/_/integrations/cron/jobs), link `update_ticket_status` function with schedule: `*/10 * * * *`
 
 #### Set up env vars
 
