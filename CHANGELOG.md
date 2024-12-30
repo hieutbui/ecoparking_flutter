@@ -1,5 +1,10 @@
+## v0.1.5 - 30/12/2024
+### Updated
+- Hide unused buttons
+- Move map screen when press focus current location
+
 ## v0.1.4 - 22/12/2024
-## Updated
+### Updated
 - README
 
 ## v0.1.3 - 22/12/2024
