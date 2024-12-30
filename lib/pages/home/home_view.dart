@@ -4,7 +4,6 @@ import 'package:ecoparking_flutter/domain/state/markers/find_nearby_parkings_sta
 import 'package:ecoparking_flutter/domain/state/markers/get_current_location_state.dart';
 import 'package:ecoparking_flutter/pages/home/home.dart';
 import 'package:ecoparking_flutter/pages/home/home_view_styles.dart';
-import 'package:ecoparking_flutter/pages/home/widgets/rounded_button/rounded_button.dart';
 import 'package:ecoparking_flutter/pages/home/widgets/search_parking/search_parking_anchor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -82,11 +81,11 @@ class HomePageView extends StatelessWidget {
                       controller: controller,
                       searchController: controller.searchController,
                     ),
-                    const SizedBox(width: HomeViewStyles.topButtonSpacing),
-                    RoundedButton(
-                      icon: Icons.notifications_none_rounded,
-                      onPressed: controller.onNotificationPressed,
-                    ),
+                    // const SizedBox(width: HomeViewStyles.topButtonSpacing),
+                    // RoundedButton(
+                    //   icon: Icons.notifications_none_rounded,
+                    //   onPressed: controller.onNotificationPressed,
+                    // ),
                   ],
                 ),
               ),
