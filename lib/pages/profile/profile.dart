@@ -94,17 +94,17 @@ class ProfileController extends State<ProfilePage>
         leftIcon: Icons.person_outline_rounded,
         onTap: _onEditProfile,
       ),
-      SettingButtonArguments(
-        title: 'Notification',
-        leftIcon: Icons.notifications_outlined,
-        onTap: () {
-          loggy.info('Notification');
-          NavigationUtils.navigateTo(
-            context: context,
-            path: AppPaths.testPage,
-          );
-        },
-      ),
+      // SettingButtonArguments(
+      //   title: 'Notification',
+      //   leftIcon: Icons.notifications_outlined,
+      //   onTap: () {
+      //     loggy.info('Notification');
+      //     NavigationUtils.navigateTo(
+      //       context: context,
+      //       path: AppPaths.testPage,
+      //     );
+      //   },
+      // ),
       SettingButtonArguments(
         title: 'Logout',
         leftIcon: Icons.logout,
