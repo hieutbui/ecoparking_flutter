@@ -743,6 +743,10 @@ class HomeController extends State<HomePage>
     loggy.info('handleGetCurrentLocationSuccess(): success');
     if (success is GetCurrentLocationSuccess) {
       currentLocationNotifier.value = success;
+      mapController.move(
+        convertLocationDataToLatLng(success.currentLocation),
+        HomeViewStyles.initialZoom,
+      );
     } else {
       currentLocationNotifier.value = const GetCurrentLocationIsEmpty();
     }
