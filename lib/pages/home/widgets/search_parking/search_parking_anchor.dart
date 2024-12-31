@@ -28,7 +28,7 @@ class SearchParkingAnchor extends StatelessWidget {
       viewOnChanged: (value) => controller.onSearchChanged(value),
       isFullScreen: true,
       viewBackgroundColor: Theme.of(context).colorScheme.surface,
-      viewHintText: "Search for parking's name or address",
+      viewHintText: "Tìm kiếm bãi đỗ xe",
       headerHintStyle: GoogleFonts.poppins(
         fontSize: 15.0,
         fontWeight: FontWeight.w600,

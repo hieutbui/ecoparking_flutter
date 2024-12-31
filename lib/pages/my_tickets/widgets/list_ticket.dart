@@ -31,7 +31,7 @@ class ListTicket extends StatelessWidget {
 
         if (getUserTicketState is GetUserTicketsIsEmpty) {
           return const Center(
-            child: Text('No tickets found'),
+            child: Text('Không có dữ liệu'),
           );
         }
 
@@ -39,7 +39,7 @@ class ListTicket extends StatelessWidget {
           return Center(
             child: Column(
               children: [
-                const Text('Something went wrong:'),
+                const Text('Có lỗi xảy ra!'),
                 Text(getUserTicketState.exception.toString()),
               ],
             ),

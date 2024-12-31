@@ -31,7 +31,7 @@ class SelectVehicleView extends StatelessWidget {
               padding: SelectVehicleViewStyles.emptyVehiclePadding,
               child: ActionButton(
                 type: ActionButtonType.positive,
-                label: 'Add New Vehicle',
+                label: 'Thêm xe mới',
                 backgroundColor:
                     Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 labelColor: Theme.of(context).colorScheme.primary,
@@ -52,7 +52,7 @@ class SelectVehicleView extends StatelessWidget {
                         if (index == notifier.vehicles.length) {
                           return ActionButton(
                             type: ActionButtonType.positive,
-                            label: 'Add New Vehicle',
+                            label: 'Thêm xe mới',
                             backgroundColor: Theme.of(context)
                                 .colorScheme
                                 .primary
@@ -94,7 +94,7 @@ class SelectVehicleView extends StatelessWidget {
                   decoration: SelectVehicleViewStyles.bottomContainerDecoration,
                   child: ActionButton(
                     type: ActionButtonType.positive,
-                    label: 'Continue',
+                    label: 'Tiếp tục',
                     onPressed: controller.onPressedContinue,
                   ),
                 ),

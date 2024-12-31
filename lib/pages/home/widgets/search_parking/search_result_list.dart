@@ -24,7 +24,7 @@ class SearchResultList extends StatelessWidget {
             top: 16.0,
           ),
           child: Text(
-            'Search Results',
+            'Kết quả tìm kiếm',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
@@ -40,7 +40,7 @@ class SearchResultList extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Text(
-                'Sort by: ',
+                'Sắp xếp theo: ',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: Theme.of(context).colorScheme.secondary,
                     ),
@@ -177,7 +177,7 @@ class SearchResultList extends StatelessWidget {
               } else if (searchParkingsSnapshot is SearchParkingFailure) {
                 return Center(
                   child: Text(
-                    'Could not find any parking',
+                    'Không thể tải dữ liệu',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: const Color(0xFFA1A1A1),
                         ),
@@ -186,7 +186,7 @@ class SearchResultList extends StatelessWidget {
               } else if (searchParkingsSnapshot is SearchParkingIsEmpty) {
                 return Center(
                   child: Text(
-                    'No search results',
+                    'Không có dữ liệu',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: const Color(0xFFA1A1A1),
                         ),

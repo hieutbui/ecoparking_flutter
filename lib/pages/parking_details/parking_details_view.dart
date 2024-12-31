@@ -112,7 +112,7 @@ class ParkingDetailsView extends StatelessWidget {
                       height: ParkingDetailsViewStyles.wideSpacing,
                     ),
                     Text(
-                      'Parking Fee',
+                      'Giá giờ',
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge!
@@ -123,14 +123,14 @@ class ParkingDetailsView extends StatelessWidget {
                       height: ParkingDetailsViewStyles.wideSpacing,
                     ),
                     Text(
-                      'Long term Fee',
+                      'Giá dài hạn',
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge!
                           .copyWith(color: Colors.black),
                     ),
                     GFListTile(
-                      titleText: 'Daily',
+                      titleText: 'Theo ngày',
                       subTitleText: controller.parking?.pricePerDay.toString(),
                       icon: const Icon(Icons.money_outlined),
                       onTap: () => controller.onPressedLongTermPrice(
@@ -138,7 +138,7 @@ class ParkingDetailsView extends StatelessWidget {
                       ),
                     ),
                     GFListTile(
-                      titleText: 'Monthly',
+                      titleText: 'Hàng tháng',
                       subTitleText:
                           controller.parking?.pricePerMonth.toString(),
                       icon: const Icon(Icons.money_outlined),
@@ -147,7 +147,7 @@ class ParkingDetailsView extends StatelessWidget {
                       ),
                     ),
                     GFListTile(
-                      titleText: 'Annually',
+                      titleText: 'Hàng năm',
                       subTitleText: controller.parking?.pricePerYear.toString(),
                       icon: const Icon(Icons.money_outlined),
                       onTap: () => controller.onPressedLongTermPrice(
@@ -168,7 +168,7 @@ class ParkingDetailsView extends StatelessWidget {
                 Expanded(
                   child: ActionButton(
                     type: ActionButtonType.negative,
-                    label: 'Cancel',
+                    label: 'Hủy',
                     isShowArrow: false,
                     onPressed: controller.onPressedCancel,
                     width: ParkingDetailsViewStyles.actionButtonWidth,
@@ -177,7 +177,7 @@ class ParkingDetailsView extends StatelessWidget {
                 Expanded(
                   child: ActionButton(
                     type: ActionButtonType.positive,
-                    label: 'Book Now',
+                    label: 'Đặt ngay',
                     isShowArrow: false,
                     onPressed: controller.onPressedBookNow,
                     width: ParkingDetailsViewStyles.actionButtonWidth,

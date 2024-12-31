@@ -7,13 +7,13 @@ enum TicketStatus {
   String get name {
     switch (this) {
       case TicketStatus.active:
-        return 'Now Active';
+        return 'Đang hoạt động';
       case TicketStatus.paid:
-        return 'Paid';
+        return 'Đã thanh toán';
       case TicketStatus.completed:
-        return 'Completed';
+        return 'Hoan tất';
       case TicketStatus.cancelled:
-        return 'Cancelled';
+        return 'Đã hủy';
     }
   }
 }

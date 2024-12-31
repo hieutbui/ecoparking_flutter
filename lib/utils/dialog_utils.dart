@@ -59,8 +59,8 @@ class DialogUtils {
   static Future<void> showRequiredLogin(BuildContext context) {
     return show(
       context: context,
-      title: 'Login Required',
-      description: 'You need to login to continue',
+      title: 'Vui lòng đăng nhập!',
+      description: 'Bạn cần đăng nhập để tiếp tục',
       svgImage: ImagePaths.imgDialogError,
       actions: (dialogContext) {
         return <Widget>[
@@ -79,8 +79,8 @@ class DialogUtils {
   static Future<void> showRequiredFillProfile(BuildContext context) {
     return show(
       context: context,
-      title: 'Information Required',
-      description: 'You need to fill your profile to continue',
+      title: 'Vui lòng cập nhật thông tin!',
+      description: 'Bạn cần cập nhật thông tin tài khoản để tiếp tục',
       svgImage: ImagePaths.imgDialogError,
       actions: (dialogContext) {
         return <Widget>[

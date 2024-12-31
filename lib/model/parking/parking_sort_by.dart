@@ -15,9 +15,9 @@ enum ParkingSortBy {
   String get name {
     switch (this) {
       case ParkingSortBy.price:
-        return 'Price';
+        return 'Giá';
       case ParkingSortBy.distance:
-        return 'Distance';
+        return 'Khoảng cách';
     }
   }
 }

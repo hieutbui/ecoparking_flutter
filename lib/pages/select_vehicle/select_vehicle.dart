@@ -148,7 +148,7 @@ class SelectVehicleController extends State<SelectVehicle>
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Add New Vehicle',
+                          'Thêm xe mới',
                           style: Theme.of(dialogContext)
                               .textTheme
                               .displayMedium!
@@ -159,7 +159,7 @@ class SelectVehicleController extends State<SelectVehicle>
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Please enter the details of your vehicle',
+                          'Vui lòng nhập thông tin xe',
                           style: Theme.of(dialogContext)
                               .textTheme
                               .bodyLarge!
@@ -172,12 +172,12 @@ class SelectVehicleController extends State<SelectVehicle>
                         const SizedBox(height: 22),
                         TextInputRow(
                           controller: newVehicleNameController,
-                          hintText: 'Vehicle Name',
+                          hintText: 'Tên xe',
                         ),
                         const SizedBox(height: 12),
                         TextInputRow(
                           controller: newVehicleLicensePlateController,
-                          hintText: 'License Plate',
+                          hintText: 'Biển số xe',
                         ),
                       ],
                     ),
@@ -187,7 +187,7 @@ class SelectVehicleController extends State<SelectVehicle>
                     children: <Widget>[
                       ActionButton(
                         type: ActionButtonType.positive,
-                        label: 'Add Vehicle',
+                        label: 'Thêm xe',
                         onPressed: () {
                           _addNewVehicle(
                             name: newVehicleNameController.text,
@@ -199,7 +199,7 @@ class SelectVehicleController extends State<SelectVehicle>
                       const SizedBox(height: 8.0),
                       ActionButton(
                         type: ActionButtonType.negative,
-                        label: 'Cancel',
+                        label: 'Hủy',
                         onPressed: () => Navigator.of(dialogContext).pop(),
                       ),
                     ],

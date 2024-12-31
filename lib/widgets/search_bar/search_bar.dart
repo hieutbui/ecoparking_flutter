@@ -32,7 +32,7 @@ class AppSearchBar extends StatelessWidget {
       trailing: <Widget>[
         if (isShowFilter)
           Tooltip(
-            message: 'Filter',
+            message: 'Lọc',
             child: IconButton(
               onPressed: onFilterPressed,
               icon: SvgPicture.asset(

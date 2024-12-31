@@ -5,9 +5,9 @@ enum ParkingBottomSheetAction {
   String get label {
     switch (this) {
       case ParkingBottomSheetAction.bookNow:
-        return 'Book Now';
+        return 'Đặt ngay';
       case ParkingBottomSheetAction.details:
-        return 'Details';
+        return 'Chi tiết';
     }
   }
 }
