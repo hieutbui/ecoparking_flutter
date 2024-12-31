@@ -31,6 +31,7 @@ class TicketCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               GFImageOverlay(
                 height: 98,
@@ -42,61 +43,63 @@ class TicketCard extends StatelessWidget {
                     : null,
               ),
               const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    ticket.parkingName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge!
-                        .copyWith(color: Colors.black),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  RichText(
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(children: <InlineSpan>[
-                      TextSpan(
-                        text: ticket.total.toString(),
-                        style: GoogleFonts.montserrat(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' / ',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFFA1A1A1),
-                        ),
-                      ),
-                      if (ticket.days != 0) ...[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      ticket.parkingName,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineLarge!
+                          .copyWith(color: Colors.black),
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    RichText(
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      text: TextSpan(children: <InlineSpan>[
                         TextSpan(
-                          text: '${ticket.days} ngày + ',
+                          text: ticket.total.toString(),
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' / ',
                           style: GoogleFonts.montserrat(
                             fontSize: 8,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFFA1A1A1),
                           ),
                         ),
-                      ],
-                      TextSpan(
-                        text: '${ticket.hours} giờ',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFFA1A1A1),
+                        if (ticket.days != 0) ...[
+                          TextSpan(
+                            text: '${ticket.days} ngày + ',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 8,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFFA1A1A1),
+                            ),
+                          ),
+                        ],
+                        TextSpan(
+                          text: '${ticket.hours} giờ',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFFA1A1A1),
+                          ),
                         ),
-                      ),
-                    ]),
-                  ),
-                  const SizedBox(height: 8),
-                  renderTicketStatus(context, ticket.status),
-                ],
+                      ]),
+                    ),
+                    const SizedBox(height: 8),
+                    renderTicketStatus(context, ticket.status),
+                  ],
+                ),
               )
             ],
           ),
