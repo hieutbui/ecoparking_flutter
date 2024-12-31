@@ -7,11 +7,11 @@ enum RegisterTypes {
   String get verifyMessage {
     switch (this) {
       case RegisterTypes.phone:
-        return 'Please check your phone for the verification code';
+        return 'Vui lòng kiểm tra tin nhắn chứa mã xác thực';
       case RegisterTypes.email:
       case RegisterTypes.google:
       case RegisterTypes.facebook:
-        return 'Please check your email for the verification code';
+        return 'Vui lòng kiểm tra email chứa mã xác thực';
     }
   }
 }

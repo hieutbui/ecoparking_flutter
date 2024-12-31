@@ -14,7 +14,8 @@ class StripePaymentApi {
   StripePaymentApi();
 
   Future<CreatePaymentIntentResponse> createPaymentIntent(
-      CreatePaymentIntentRequestBody body) async {
+    CreatePaymentIntentRequestBody body,
+  ) async {
     final url = Uri.parse('https://api.stripe.com/v1/payment_intents');
     final secretKey = EnvLoader.stripeSecretKey;
     final requestBody = {

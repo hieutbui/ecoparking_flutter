@@ -42,7 +42,7 @@ class RegisterView extends StatelessWidget {
                     const SizedBox(height: RegisterViewStyles.textInputSpacing),
                     TextInputRow(
                       controller: controller.passwordController,
-                      hintText: 'Password',
+                      hintText: 'Mật khẩu',
                       textInputAction: TextInputAction.done,
                       prefixIcon: Icons.lock_rounded,
                       keyboardType: TextInputType.visiblePassword,
@@ -54,7 +54,7 @@ class RegisterView extends StatelessWidget {
                     ),
                     ActionButton(
                       type: ActionButtonType.positive,
-                      label: 'Sign up',
+                      label: 'Đăng ký',
                       onPressed: controller.onSignUpPressed,
                     ),
                     const SizedBox(
@@ -71,7 +71,7 @@ class RegisterView extends StatelessWidget {
                         Padding(
                           padding: RegisterViewStyles.dividerTextPadding,
                           child: Text(
-                            'or continue with',
+                            'hoặc',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
@@ -117,7 +117,7 @@ class RegisterView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have an account?',
+                    'Đã có tài khoản?',
                     style: RegisterViewStyles.questionTextStyle,
                   ),
                   const SizedBox(
@@ -126,7 +126,7 @@ class RegisterView extends StatelessWidget {
                   TextButton(
                     onPressed: controller.loginPressed,
                     child: Text(
-                      'Sign in',
+                      'Đăng nhập',
                       style: RegisterViewStyles.loginTextStyle(context),
                     ),
                   ),

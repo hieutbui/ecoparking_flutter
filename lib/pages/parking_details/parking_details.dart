@@ -262,13 +262,13 @@ class ParkingDetailsController extends State<ParkingDetails>
             ];
           },
           image: ImagePaths.imgOnlinePayment,
-          title: 'Long Term Fee',
+          title: 'Giá dài hạn',
           customDescription: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
               children: <InlineSpan>[
                 TextSpan(
-                  text: 'Please contact parking owner for more information\n',
+                  text: 'Chức năng đang được phát triển\n',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
@@ -338,7 +338,7 @@ class ParkingDetailsController extends State<ParkingDetails>
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Added to favorite'),
+          content: Text('Đã thêm vào yêu thích'),
         ),
       );
     } else if (success is AddFavoriteParkingLoading) {
@@ -369,7 +369,7 @@ class ParkingDetailsController extends State<ParkingDetails>
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Removed from favorite'),
+          content: Text('Đã xóa khỏi yêu thích'),
         ),
       );
     } else if (success is RemoveFavoriteParkingLoading) {

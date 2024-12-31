@@ -26,7 +26,7 @@ class CheckoutWeb extends StatelessWidget {
             onCardChanged: onCardChanged,
           ),
           LoadingButton(
-            title: 'Pay',
+            title: 'Thanh toán',
             onPressed: onPressedPayment,
           ),
         ],

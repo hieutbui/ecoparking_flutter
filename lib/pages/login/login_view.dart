@@ -42,7 +42,7 @@ class LoginView extends StatelessWidget {
                     const SizedBox(height: LoginViewStyles.textInputSpacing),
                     TextInputRow(
                       controller: controller.passwordController,
-                      hintText: 'Password',
+                      hintText: 'Mật khẩu',
                       textInputAction: TextInputAction.done,
                       prefixIcon: Icons.lock_rounded,
                       keyboardType: TextInputType.visiblePassword,
@@ -91,7 +91,7 @@ class LoginView extends StatelessWidget {
                     // ),
                     ActionButton(
                       type: ActionButtonType.positive,
-                      label: 'Sign in',
+                      label: 'Đăng nhập',
                       onPressed: controller.onSignInPressed,
                     ),
                     const SizedBox(
@@ -120,7 +120,7 @@ class LoginView extends StatelessWidget {
                         Padding(
                           padding: LoginViewStyles.dividerTextPadding,
                           child: Text(
-                            'or continue with',
+                            'hoặc',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
@@ -166,7 +166,7 @@ class LoginView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don’t have an account?',
+                    'Không có tài khoản?',
                     style: LoginViewStyles.questionTextStyle,
                   ),
                   const SizedBox(
@@ -175,7 +175,7 @@ class LoginView extends StatelessWidget {
                   TextButton(
                     onPressed: controller.onSignUpPressed,
                     child: Text(
-                      'Sign up',
+                      'Đăng ký',
                       style: LoginViewStyles.signUpTextStyle(context),
                     ),
                   ),

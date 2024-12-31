@@ -101,7 +101,7 @@ class RegisterController extends State<RegisterPage>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          error?.message ?? 'Something went wrong!',
+          error?.message ?? 'Có lỗi xảy ra!',
         ),
       ),
     );
@@ -179,8 +179,8 @@ class RegisterController extends State<RegisterPage>
     DialogUtils.show(
       context: context,
       svgImage: ImagePaths.imgDialogError,
-      title: 'Register Failed!',
-      description: 'Please try again!',
+      title: 'Đăng ký thất bại!',
+      description: 'Vui lòng thử lại!',
       actions: (context) {
         return <Widget>[
           ActionButton(
@@ -201,13 +201,13 @@ class RegisterController extends State<RegisterPage>
       DialogUtils.show(
         context: context,
         svgImage: ImagePaths.imgDialogSuccessful,
-        title: 'Register!',
-        description: 'Your email has been verified!',
+        title: 'Đăng ký thành công!',
+        description: 'Email đã được xác nhận!',
         actions: (context) {
           return <Widget>[
             ActionButton(
               type: ActionButtonType.positive,
-              label: 'Go to Login',
+              label: 'Đăng nhập',
               onPressed: () {
                 NavigationUtils.navigateTo(
                   context: context,
@@ -231,13 +231,13 @@ class RegisterController extends State<RegisterPage>
     DialogUtils.show(
       context: context,
       svgImage: ImagePaths.imgDialogSuccessful,
-      title: 'Register Success!',
-      description: 'OTP has been sent to your email. Please check your email!',
+      title: 'Đăng ký thành công!',
+      description: 'Mã xác nhận đã được gửi đến email của bạn!',
       actions: (context) {
         return <Widget>[
           ActionButton(
             type: ActionButtonType.positive,
-            label: 'Go to Verify OTP',
+            label: 'Xác thực',
             onPressed: () {
               NavigationUtils.navigateTo(
                 context: context,
@@ -263,7 +263,7 @@ class RegisterController extends State<RegisterPage>
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content:
-                Text('Cannot Sign In with Google, please try another method'),
+                Text('Không thể đăng nhập bằng Google, vui lòng thử lại sau'),
           ),
         );
       }

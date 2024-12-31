@@ -30,7 +30,7 @@ class TicketDetailsView extends StatelessWidget {
           if (state is GetTicketInfoFailure || state is GetTicketInfoEmpty) {
             return Center(
               child: Text(
-                'Could not load ticket info',
+                'Không thể tải dữ liệu!',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: const Color(0xFFA1A1A1),
                     ),
@@ -94,14 +94,14 @@ class TicketDetailsView extends StatelessWidget {
                                                   TicketStatus.paid) ...[
                                             const TextSpan(
                                                 text:
-                                                    'Scan this on the scanner machine\n'),
+                                                    'Quét mã này ở máy quét\n'),
                                             const TextSpan(
                                               text:
-                                                  'when you are in the parking lot',
+                                                  'Khi bạn đến và rời bãi đỗ xe',
                                             ),
                                           ] else ...[
                                             const TextSpan(
-                                              text: 'This ticket is done\n',
+                                              text: 'Vé đã hoàn thành\n',
                                             )
                                           ]
                                         ],
@@ -129,7 +129,7 @@ class TicketDetailsView extends StatelessWidget {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Entry time',
+                                            'Thời gian vào',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium
@@ -153,7 +153,7 @@ class TicketDetailsView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 8.0),
                                           Text(
-                                            'Exit time',
+                                            'Thời gian ra',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium
@@ -204,11 +204,11 @@ class TicketDetailsView extends StatelessWidget {
                                 TableRow(
                                   children: <Widget>[
                                     TicketInfoField(
-                                      name: 'Parking Name',
+                                      name: 'Tên bãi đỗ',
                                       value: state.ticket.parkingName,
                                     ),
                                     TicketInfoField(
-                                      name: 'Vehicle',
+                                      name: 'Phương tiện',
                                       value:
                                           '${state.ticket.vehicleName} (${state.ticket.licensePlate})',
                                     ),
@@ -217,11 +217,11 @@ class TicketDetailsView extends StatelessWidget {
                                 TableRow(
                                   children: <Widget>[
                                     TicketInfoField(
-                                      name: 'Parking Address',
+                                      name: 'Địa chỉ bãi đỗ',
                                       value: state.ticket.parkingAddress,
                                     ),
                                     TicketInfoField(
-                                      name: 'Duration',
+                                      name: 'Thời gian đặt',
                                       value:
                                           '${state.ticket.days} days ${state.ticket.hours} hours',
                                     ),
@@ -230,13 +230,13 @@ class TicketDetailsView extends StatelessWidget {
                                 TableRow(
                                   children: <Widget>[
                                     TicketInfoField(
-                                      name: 'Start Time',
+                                      name: 'Bắt đầu',
                                       value: controller.formatDateTime(
                                         state.ticket.startTime,
                                       ),
                                     ),
                                     TicketInfoField(
-                                      name: 'End Time',
+                                      name: 'Kết thúc',
                                       value: controller.formatDateTime(
                                         state.ticket.endTime,
                                       ),
@@ -256,7 +256,7 @@ class TicketDetailsView extends StatelessWidget {
                   decoration: TicketDetailsViewStyles.bottomContainerDecoration,
                   child: ActionButton(
                     type: ActionButtonType.positive,
-                    label: 'Navigate to Parking',
+                    label: 'Chỉ đường',
                     onPressed: controller.onNavigateToParking,
                   ),
                 )

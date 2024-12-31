@@ -76,7 +76,7 @@ class TicketCard extends StatelessWidget {
                       ),
                       if (ticket.days != 0) ...[
                         TextSpan(
-                          text: '${ticket.days} days + ',
+                          text: '${ticket.days} ngày + ',
                           style: GoogleFonts.montserrat(
                             fontSize: 8,
                             fontWeight: FontWeight.w600,
@@ -85,7 +85,7 @@ class TicketCard extends StatelessWidget {
                         ),
                       ],
                       TextSpan(
-                        text: '${ticket.hours} hours',
+                        text: '${ticket.hours} giờ',
                         style: GoogleFonts.montserrat(
                           fontSize: 8,
                           fontWeight: FontWeight.w600,
@@ -191,7 +191,7 @@ class TicketCard extends StatelessWidget {
             Expanded(
               child: ActionButton(
                 type: ActionButtonType.hollow,
-                label: 'Cancel Booking',
+                label: 'Hủy vé',
                 onPressed: onCancelBooking,
                 height: 36,
                 // padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -201,7 +201,7 @@ class TicketCard extends StatelessWidget {
             Expanded(
               child: ActionButton(
                 type: ActionButtonType.positive,
-                label: 'View Ticket',
+                label: 'Xem vé',
                 onPressed: () {
                   if (onViewTicket != null) {
                     onViewTicket(ticket);
@@ -216,7 +216,7 @@ class TicketCard extends StatelessWidget {
       case TicketPages.completed:
         return ActionButton(
           type: ActionButtonType.positive,
-          label: 'View Ticket',
+          label: 'Xem vé',
           onPressed: () {
             if (onViewTicket != null) {
               onViewTicket(ticket);

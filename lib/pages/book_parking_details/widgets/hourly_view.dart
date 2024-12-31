@@ -30,7 +30,7 @@ class HourlyView extends StatelessWidget {
                   Padding(
                     padding: BookParkingDetailsViewStyles.paddingText,
                     child: Text(
-                      'Select Date',
+                      'Chọn ngày',
                       style:
                           Theme.of(context).textTheme.headlineSmall!.copyWith(
                                 fontWeight: FontWeight.w600,
@@ -64,7 +64,7 @@ class HourlyView extends StatelessWidget {
                   ),
                   const SizedBox(height: BookParkingDetailsViewStyles.spacing),
                   Text(
-                    'Start Hour',
+                    'Giờ bắt đầu',
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
@@ -104,7 +104,7 @@ class HourlyView extends StatelessWidget {
                           const SizedBox(
                               height: BookParkingDetailsViewStyles.spacing),
                           Text(
-                            'End Hour',
+                            'Giờ kết thúc',
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall!
@@ -172,7 +172,7 @@ class HourlyView extends StatelessWidget {
               const SizedBox(height: BookParkingDetailsViewStyles.spacing),
               ActionButton(
                 type: ActionButtonType.positive,
-                label: 'Continue',
+                label: 'Tiếp tục',
                 onPressed: controller.onPressedContinue,
               )
             ],

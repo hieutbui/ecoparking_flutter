@@ -6,11 +6,11 @@ enum TicketPages {
   String get name {
     switch (this) {
       case TicketPages.onGoing:
-        return 'On Going';
+        return 'Hoạt động';
       case TicketPages.completed:
-        return 'Completed';
+        return 'Hoàn thành';
       case TicketPages.cancelled:
-        return 'Cancelled';
+        return 'Đã hủy';
     }
   }
 

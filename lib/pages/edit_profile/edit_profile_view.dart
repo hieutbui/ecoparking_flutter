@@ -52,7 +52,7 @@ class EditProfileView extends StatelessWidget {
                     ),
                     TextInputRow(
                       controller: controller.nameController,
-                      hintText: 'Full Name',
+                      hintText: 'Tên',
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.name,
                       isShowObscure: false,
@@ -63,7 +63,7 @@ class EditProfileView extends StatelessWidget {
                     ),
                     TextInputRow(
                       controller: controller.nickNameController,
-                      hintText: 'Nick name',
+                      hintText: 'Biệt danh',
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.name,
                       isShowObscure: false,
@@ -106,7 +106,7 @@ class EditProfileView extends StatelessWidget {
                     ),
                     ActionButton(
                       type: ActionButtonType.positive,
-                      label: 'Update',
+                      label: 'Cập nhật',
                       onPressed: controller.onUpdatePressed,
                     )
                   ],

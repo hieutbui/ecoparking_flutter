@@ -30,7 +30,7 @@ class SavedPageView extends StatelessWidget {
           if (userFavoriteParkings is GetUserFavoriteParkingsIsEmpty) {
             return Center(
               child: Text(
-                'No favorite parkings',
+                'Không có bãi đỗ nào được lưu',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: Colors.black,
                     ),
@@ -41,7 +41,7 @@ class SavedPageView extends StatelessWidget {
           if (userFavoriteParkings is GetUserFavoriteParkingsFailure) {
             return Center(
               child: Text(
-                'Failed to load favorite parkings: ${userFavoriteParkings.exception}',
+                'Không thể tải dữ liệu',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: Colors.black,
                     ),

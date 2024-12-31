@@ -44,8 +44,8 @@ class BookParkingDetailsView extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
             tabs: const <Widget>[
-              Tab(child: Text('Hourly')),
-              Tab(child: Text('Daily')),
+              Tab(child: Text('Theo giờ')),
+              Tab(child: Text('Theo ngày')),
             ],
             tabController: controller.tabController,
             labelPadding: EdgeInsets.zero,

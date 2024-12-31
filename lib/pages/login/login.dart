@@ -91,7 +91,7 @@ class LoginController extends State<LoginPage>
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(exception?.message ?? 'Unknown error'),
+        content: Text(exception?.message ?? 'Lỗi không xác định'),
         duration: const Duration(seconds: 3),
       ),
     );
@@ -195,7 +195,7 @@ class LoginController extends State<LoginPage>
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content:
-                Text('Cannot Sign In with Google, please try another method'),
+                Text('Không thể đăng nhập bằng Google, vui lòng thử lại sau'),
           ),
         );
       }

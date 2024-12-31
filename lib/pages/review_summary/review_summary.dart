@@ -97,28 +97,28 @@ class ReviewSummaryController extends State<ReviewSummary>
 
     ticketInfo = [
       InfoLineArguments(
-        title: 'Parking Name',
+        title: 'Tên bãi đỗ',
         info: _bookingService.parking?.parkingName ?? '',
       ),
       InfoLineArguments(
-        title: 'Parking Address',
+        title: 'Địa chỉ',
         info: _bookingService.parking?.address ?? '',
       ),
       InfoLineArguments(
-        title: 'Vehicle',
+        title: 'Phương tiện',
         info:
             '${_bookingService.vehicle?.name} (${_bookingService.vehicle?.licensePlate})',
       ),
       InfoLineArguments(
-        title: 'Start Date',
+        title: 'Bắt đầu',
         info: _formatDateTime(_bookingService.startDateTime),
       ),
       InfoLineArguments(
-        title: 'End Date',
+        title: 'Kết thúc',
         info: _formatDateTime(_bookingService.endDateTime),
       ),
       InfoLineArguments(
-        title: 'Duration',
+        title: 'Thời gian',
         info: duration,
       )
     ];
@@ -127,7 +127,7 @@ class ReviewSummaryController extends State<ReviewSummary>
   void _initializeFeeInfo() {
     feeInfo = [
       InfoLineArguments(
-        title: 'Total Fee',
+        title: 'Tổng cộng',
         info: _bookingService.calculatedPrice?.calculatedFee.total.toString() ??
             '',
       ),
@@ -255,7 +255,7 @@ class ReviewSummaryController extends State<ReviewSummary>
             context: context,
             builder: (context) => Dialog.fullscreen(
               child: AppScaffold(
-                title: 'Payment',
+                title: 'Thanh toán',
                 onBackButtonPressed: (scaffoldContext) {
                   NavigationUtils.goBack(context);
                 },
@@ -315,7 +315,7 @@ class ReviewSummaryController extends State<ReviewSummary>
   void _showOtherErrorMobile({dynamic e}) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Cannot create your payment, please try again'),
+        content: Text('Không thể tạo thanh toán của bạn, vui lòng thử lại'),
       ),
     );
   }
@@ -323,7 +323,7 @@ class ReviewSummaryController extends State<ReviewSummary>
   void _showStripeExceptionMobile(StripeException e) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Cannot create your payment, please try again'),
+        content: Text('Không thể tạo thanh toán của bạn, vui lòng thử lại'),
       ),
     );
   }
@@ -331,7 +331,7 @@ class ReviewSummaryController extends State<ReviewSummary>
   void _showStripeErrorMobile(StripeError e) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Cannot create your payment, please try again'),
+        content: Text('Không thể tạo thanh toán của bạn, vui lòng thử lại'),
       ),
     );
   }

@@ -15,9 +15,9 @@ enum ParkingSortOrder {
   String get name {
     switch (this) {
       case ParkingSortOrder.ascending:
-        return 'Ascending';
+        return 'Tăng dần';
       case ParkingSortOrder.descending:
-        return 'Descending';
+        return 'Giảm dần';
     }
   }
 }

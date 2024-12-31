@@ -190,8 +190,8 @@ class EditProfileController extends State<EditProfile> with ControllerLoggy {
 
       DialogUtils.show(
         context: context,
-        title: 'Success',
-        description: 'Your profile has been updated successfully!',
+        title: 'Thành công',
+        description: 'Cập nhật thông tin cá nhân thành công!',
         svgImage: ImagePaths.imgDialogSuccessful,
         actions: (context) {
           return <Widget>[
@@ -215,8 +215,8 @@ class EditProfileController extends State<EditProfile> with ControllerLoggy {
   void _showUpdateProfileErrorDialog() {
     DialogUtils.show(
       context: context,
-      title: 'Something went wrong',
-      description: 'Cannot update your profile data. Please try again later!',
+      title: 'Có lỗi xảy ra!',
+      description: 'Cập nhật thông tin cá nhân thất bại!',
       svgImage: ImagePaths.imgDialogError,
       actions: (context) {
         return <Widget>[

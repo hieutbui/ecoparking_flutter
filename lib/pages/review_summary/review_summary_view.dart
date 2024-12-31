@@ -51,10 +51,10 @@ class ReviewSummaryView extends StatelessWidget {
                     return GFListTile(
                       titleText: paymentMethod != null
                           ? paymentMethod.getName()
-                          : 'Please select payment method',
+                          : 'Vui lòng chọn phương thức thanh toán',
                       subTitleText: paymentMethod != null
                           ? null
-                          : 'Choose how you want to pay',
+                          : 'Chọn phương thức thanh toán',
                       icon: const Icon(Icons.arrow_forward_ios_rounded),
                       avatar: paymentMethod != null
                           ? paymentMethod.getImagePath().isNotEmpty &&
@@ -73,7 +73,7 @@ class ReviewSummaryView extends StatelessWidget {
                 const SizedBox(height: SummaryViewStyles.actionButtonsSpacing),
                 ActionButton(
                   type: ActionButtonType.positive,
-                  label: 'Continue',
+                  label: 'Tiếp tục',
                   onPressed: controller.onPressedContinue,
                 ),
               ],

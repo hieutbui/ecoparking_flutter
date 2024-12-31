@@ -19,7 +19,7 @@ class CalculatedPrice extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Total',
+              'Tổng tiền',
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.w600,
                     color: Colors.black,

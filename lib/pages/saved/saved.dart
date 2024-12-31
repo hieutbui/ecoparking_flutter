@@ -157,9 +157,9 @@ class SavedController extends State<SavedPage> with ControllerLoggy {
 
     DialogUtils.show(
       context: context,
-      title: 'Remove Favorite Parking',
+      title: 'Xoá bãi đỗ yêu thích',
       description:
-          'Are you sure you want to remove this parking from your favorite?',
+          'Bạn có chắc chắn muốn xoá bãi đỗ ${favoriteParking.parkingName} khỏi danh sách yêu thích?',
       actions: (context) => <Widget>[
         ActionButton(
           type: ActionButtonType.negative,

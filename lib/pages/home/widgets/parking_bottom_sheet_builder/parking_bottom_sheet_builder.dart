@@ -28,7 +28,7 @@ class ParkingBottomSheetBuilder {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Details',
+                    'Chi tiết',
                     style: Theme.of(context)
                         .textTheme
                         .displaySmall!
@@ -41,7 +41,7 @@ class ParkingBottomSheetBuilder {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Navigate to this parking',
+                          'Chỉ đường',
                           style: Theme.of(context)
                               .textTheme
                               .titleSmall!
@@ -125,7 +125,7 @@ class ParkingBottomSheetBuilder {
                 text: TextSpan(
                   children: <InlineSpan>[
                     TextSpan(
-                      text: 'From: ',
+                      text: 'Chỉ từ: ',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             color: const Color(0xFFA1A1A1),
                           ),
@@ -137,7 +137,7 @@ class ParkingBottomSheetBuilder {
                           ),
                     ),
                     TextSpan(
-                      text: ' / hour',
+                      text: ' / giờ',
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFFA1A1A1),
@@ -153,7 +153,7 @@ class ParkingBottomSheetBuilder {
                   Expanded(
                     child: ActionButton(
                       type: ActionButtonType.negative,
-                      label: 'Details',
+                      label: 'Chi tiết',
                       isShowArrow: true,
                       onPressed: () => {
                         Navigator.of(context).pop(
@@ -165,7 +165,7 @@ class ParkingBottomSheetBuilder {
                   Expanded(
                     child: ActionButton(
                       type: ActionButtonType.positive,
-                      label: 'Book Now',
+                      label: 'Đặt ngay',
                       isShowArrow: false,
                       onPressed: () => Navigator.of(context).pop(
                         ParkingBottomSheetAction.bookNow,
