@@ -92,74 +92,74 @@ enum AppPaths {
   String get label {
     switch (this) {
       case AppPaths.login:
-        return 'Login to your Account';
+        return 'Đăng nhập vào tài khoản của bạn';
       case AppPaths.register:
-        return 'Create Your Account';
+        return 'Tạo tài khoản của bạn';
       case AppPaths.registerVerify:
-        return 'Verify Your Account';
+        return 'Xác nhận tài khoản của bạn';
       case AppPaths.home:
-        return 'Home';
+        return 'Trang chủ';
       case AppPaths.saved:
-        return 'Saved';
+        return 'Yêu thích';
       case AppPaths.booking:
-        return 'Booking';
+        return 'Vé';
       case AppPaths.profile:
-        return 'Profile';
+        return 'Hồ sơ';
       case AppPaths.editProfile:
-        return 'Edit Profile';
+        return 'Chỉnh sửa hồ sơ';
       case AppPaths.parkingDetails:
-        return 'Parking Details';
+        return 'Chi tiết bãi đỗ';
       case AppPaths.bookingDetails:
-        return 'Booking Parking Details';
+        return 'Chi tiết đặt chỗ';
       case AppPaths.selectVehicle:
-        return 'Select Vehicle';
+        return 'Chọn xe của bạn';
       case AppPaths.reviewSummary:
-        return 'Review Summary';
+        return 'Kiểm tra';
       case AppPaths.ticketDetails:
-        return 'Ticket Details';
+        return 'Chi tiết vé';
       case AppPaths.paymentMethod:
-        return 'Select Payment Method';
+        return 'Phương thức thanh toán';
       case AppPaths.testPage:
         return 'Test Page';
       default:
-        return 'Home';
+        return 'Trang chủ';
     }
   }
 
   String getTitle({ProfileType? profileType}) {
     switch (this) {
       case AppPaths.login:
-        return 'Login to your Account';
+        return 'Đăng nhập vào tài khoản của bạn';
       case AppPaths.register:
-        return 'Create Your Account';
+        return 'Tạo tài khoản của bạn';
       case AppPaths.registerVerify:
-        return 'Verify Your Account';
+        return 'Xác nhận tài khoản của bạn';
       case AppPaths.home:
-        return 'Home';
+        return 'Trang chủ';
       case AppPaths.saved:
-        return 'My Bookmark';
+        return 'Yêu thích';
       case AppPaths.booking:
-        return 'My Ticket';
+        return 'Vé';
       case AppPaths.profile:
-        return profileType?.title ?? 'Profile';
+        return profileType?.title ?? 'Hồ sơ';
       case AppPaths.editProfile:
-        return 'Edit Profile';
+        return 'Chỉnh sửa hồ sơ';
       case AppPaths.parkingDetails:
-        return 'Parking Details';
+        return 'Chi tiết bãi đỗ';
       case AppPaths.bookingDetails:
-        return 'Booking Parking Details';
+        return 'Chi tiết đặt chỗ';
       case AppPaths.selectVehicle:
-        return 'Select Your Vehicle';
+        return 'Chọn xe của bạn';
       case AppPaths.reviewSummary:
-        return 'Review Summary';
+        return 'Kiểm tra';
       case AppPaths.ticketDetails:
-        return 'Ticket Details';
+        return 'Chi tiết vé';
       case AppPaths.paymentMethod:
-        return 'Payment';
+        return 'Phương thức thanh toán';
       case AppPaths.testPage:
         return 'Test Page';
       default:
-        return 'Home';
+        return 'Trang chủ';
     }
   }
 }
@@ -171,11 +171,11 @@ enum ProfileType {
   String get title {
     switch (this) {
       case ProfileType.noAccount:
-        return 'Let’s you in';
+        return 'Đăng ký';
       case ProfileType.hasAccount:
-        return 'Profile';
+        return 'Hồ sơ';
       default:
-        return 'Profile';
+        return 'Hồ sơ';
     }
   }
 }

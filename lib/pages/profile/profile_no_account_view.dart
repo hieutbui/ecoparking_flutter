@@ -31,7 +31,7 @@ class ProfileNoAccountView extends StatelessWidget {
                   children: <Widget>[
                     SocialLoginButton(
                       icon: ImagePaths.icLoginGG,
-                      label: 'Continue with Google',
+                      label: 'Đăng nhập bằng Google',
                       onPressed: controller.onPressedContinueWithGoogle,
                     ),
                     const SizedBox(
@@ -39,7 +39,7 @@ class ProfileNoAccountView extends StatelessWidget {
                     ),
                     SocialLoginButton(
                       icon: ImagePaths.icLoginFB,
-                      label: 'Continue with Facebook',
+                      label: 'Đăng nhập bằng Facebook',
                       onPressed: controller.onPressedContinueWithFacebook,
                     ),
                     const SizedBox(
@@ -58,7 +58,7 @@ class ProfileNoAccountView extends StatelessWidget {
                           padding:
                               ProfileNoAccountViewStyles.dividerTextPadding,
                           child: Text(
-                            'Or',
+                            'Hoặc',
                             style: ProfileNoAccountViewStyles.dividerTextStyle(
                               context,
                             ),
@@ -78,7 +78,7 @@ class ProfileNoAccountView extends StatelessWidget {
                     ),
                     ActionButton(
                       type: ActionButtonType.positive,
-                      label: 'Sign in with password',
+                      label: 'Đăng nhập bằng email',
                       onPressed: controller.onPressedSignInWithPassword,
                     ),
                   ],
@@ -91,7 +91,7 @@ class ProfileNoAccountView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don’t have an account?',
+                    'Không có tài khoản?',
                     style: ProfileNoAccountViewStyles.questionTextStyle,
                   ),
                   const SizedBox(
@@ -100,7 +100,7 @@ class ProfileNoAccountView extends StatelessWidget {
                   TextButton(
                     onPressed: controller.onPressedSignUp,
                     child: Text(
-                      'Sign up',
+                      'Đăng ký',
                       style:
                           ProfileNoAccountViewStyles.signUpTextStyle(context),
                     ),

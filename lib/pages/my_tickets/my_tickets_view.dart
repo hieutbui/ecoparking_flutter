@@ -44,9 +44,9 @@ class MyTicketsView extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
             tabs: const <Widget>[
-              Tab(child: Text('On Going')),
-              Tab(child: Text('Completed')),
-              Tab(child: Text('Cancelled')),
+              Tab(child: Text('Hoạt động')),
+              Tab(child: Text('Hoàn thành')),
+              Tab(child: Text('Đã hủy')),
             ],
             tabController: controller.tabController,
             labelPadding: EdgeInsets.zero,

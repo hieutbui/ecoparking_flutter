@@ -74,19 +74,19 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
     if (failure is VerifyEmailOtpEmptyAuth) {
       verifyEmailNotifier.value = failure;
       _showVerifyOtpSFailureDialog(
-        'Something went wrong',
-        'Please try again',
+        'Có lỗi xảy ra',
+        'Vui lòng thử lại!',
       );
     } else if (failure is VerifyEmailOtpAuthFailure) {
       verifyEmailNotifier.value = failure;
       _showVerifyOtpSFailureDialog(
-        'Something went wrong',
+        'Có lỗi xảy ra',
         failure.exception.message,
       );
     } else {
       verifyEmailNotifier.value = const VerifyEmailOtpEmptyAuth();
       _showVerifyOtpSFailureDialog(
-        'Something went wrong',
+        'Có lỗi xảy ra',
         failure.toString(),
       );
     }
@@ -105,8 +105,8 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
     } else {
       verifyEmailNotifier.value = const VerifyEmailOtpEmptyAuth();
       _showVerifyOtpSFailureDialog(
-        'Something went wrong',
-        'Please try again',
+        'Có lỗi xảy ra',
+        'Vui lòng thử lại!',
       );
     }
   }
@@ -126,7 +126,7 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
         return <Widget>[
           ActionButton(
             type: ActionButtonType.positive,
-            label: 'Go to Register',
+            label: 'Đăng ký',
             onPressed: () {
               NavigationUtils.navigateTo(
                 context: context,
@@ -146,8 +146,8 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
     DialogUtils.show(
       context: context,
       svgImage: ImagePaths.imgDialogSuccessful,
-      title: 'Verify OTP Success!',
-      description: 'You have successfully verified your OTP. Please login!',
+      title: 'Xác thực thành công!',
+      description: 'Đã xác thực thành công',
       actions: (context) {
         return <Widget>[
           ActionButton(
@@ -172,13 +172,13 @@ class VerifyOtpController extends State<VerifyOtp> with ControllerLoggy {
     DialogUtils.show(
       context: context,
       svgImage: ImagePaths.imgDialogError,
-      title: 'Something went wrong',
-      description: 'Please try to register again',
+      title: 'Có lỗi xảy ra',
+      description: 'Vui lòng thử lại!',
       actions: (context) {
         return <Widget>[
           ActionButton(
             type: ActionButtonType.positive,
-            label: 'Go to Register',
+            label: 'Đăng ký',
             onPressed: () {
               NavigationUtils.navigateTo(
                 context: context,

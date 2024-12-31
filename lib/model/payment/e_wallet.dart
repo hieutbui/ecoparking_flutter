@@ -28,7 +28,7 @@ enum EWallet {
       case EWallet.vnpay:
         return 'VNPay';
       case EWallet.card:
-        return 'Card';
+        return 'Thẻ ngân hàng';
     }
   }
 }

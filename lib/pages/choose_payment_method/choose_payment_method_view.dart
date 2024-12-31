@@ -44,7 +44,7 @@ class ChoosePaymentMethodView extends StatelessWidget {
                       return Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'Other payment methods will be coming soon',
+                          'Các phương thức thanh toán khác sẽ được cập nhật sau',
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: const Color(0xFFA1A1A1),
@@ -87,7 +87,7 @@ class ChoosePaymentMethodView extends StatelessWidget {
             decoration: ChoosePaymentMethodStyles.bottomContainerDecoration,
             child: ActionButton(
               type: ActionButtonType.positive,
-              label: 'Continue',
+              label: 'Tiếp tục',
               onPressed: controller.onPressedContinue,
             ),
           ),

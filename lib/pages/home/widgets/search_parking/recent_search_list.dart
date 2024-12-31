@@ -24,7 +24,7 @@ class RecentSearchList extends StatelessWidget {
             top: 16.0,
           ),
           child: Text(
-            'Recent Searches',
+            'Tìm kiếm gần đây',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
@@ -48,7 +48,7 @@ class RecentSearchList extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    'Could not load recent searches',
+                    'Không thể tải dữ liệu',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: const Color(0xFFA1A1A1),
                         ),
@@ -63,7 +63,7 @@ class RecentSearchList extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    'No recent searches',
+                    'Không có dữ liệu',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: const Color(0xFFA1A1A1),
                         ),

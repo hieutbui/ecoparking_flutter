@@ -90,7 +90,7 @@ class ProfileController extends State<ProfilePage>
   void _initializeSettingOptions() {
     settingOptions = [
       SettingButtonArguments(
-        title: 'Edit Profile',
+        title: 'Sửa thông tin',
         leftIcon: Icons.person_outline_rounded,
         onTap: _onEditProfile,
       ),
@@ -106,7 +106,7 @@ class ProfileController extends State<ProfilePage>
       //   },
       // ),
       SettingButtonArguments(
-        title: 'Logout',
+        title: 'Đăng xuất',
         leftIcon: Icons.logout,
         isDanger: true,
         onTap: _onSignOut,
@@ -120,7 +120,7 @@ class ProfileController extends State<ProfilePage>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          error?.message ?? 'Something went wrong',
+          error?.message ?? 'Có lỗi xảy ra!',
         ),
       ),
     );
@@ -221,7 +221,7 @@ class ProfileController extends State<ProfilePage>
   void _handleSignOutFailure(Failure failure) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Sign out failed'),
+        content: Text('Đăng xuất thất bại, vui lòng thử lại'),
       ),
     );
   }
@@ -243,7 +243,7 @@ class ProfileController extends State<ProfilePage>
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content:
-                Text('Cannot Sign In with Google, please try another method'),
+                Text('Không thể đăng nhập bằng Google, vui lòng thử lại sau'),
           ),
         );
       }

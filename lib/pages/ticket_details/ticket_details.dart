@@ -121,9 +121,9 @@ class TicketDetailsController extends State<TicketDetails>
 
     await DialogUtils.show(
       context: context,
-      title: 'Error',
+      title: 'Lỗi',
       description:
-          'Error occurred while scanning the ticket.\n If you did not scan the ticket, please contact the parking lot staff.',
+          'Có lỗi xảy ra khi quét vé.\n Vui lòng thử lại hoặc liên hệ với quản lý bãi đỗ.',
       svgImage: ImagePaths.imgDialogError,
       actions: (context) {
         return <Widget>[
@@ -169,8 +169,8 @@ class TicketDetailsController extends State<TicketDetails>
   void _showEntryDialog() {
     DialogUtils.show(
       context: context,
-      title: 'Success',
-      description: 'You have arrived at the parking lot!',
+      title: 'Thành công',
+      description: 'Bạn đã vào bãi đỗ!',
       svgImage: ImagePaths.imgDialogSuccessful,
       actions: (context) {
         return <Widget>[
@@ -189,8 +189,8 @@ class TicketDetailsController extends State<TicketDetails>
   void _showExitDialog() {
     DialogUtils.show(
       context: context,
-      title: 'Success',
-      description: 'You have left the parking lot!',
+      title: 'Thành công',
+      description: 'Bạn đã ra khỏi bãi đỗ!',
       svgImage: ImagePaths.imgDialogSuccessful,
       actions: (context) {
         return <Widget>[
@@ -209,8 +209,8 @@ class TicketDetailsController extends State<TicketDetails>
   void _showScanFailedDialog() {
     DialogUtils.show(
       context: context,
-      title: 'Scan Failed',
-      description: 'Please try again',
+      title: 'Lỗi khi quét vé',
+      description: 'Vui lòng thử lại hoặc liên hệ với quản lý bãi đỗ!',
       svgImage: ImagePaths.imgDialogError,
       actions: (context) {
         return <Widget>[
