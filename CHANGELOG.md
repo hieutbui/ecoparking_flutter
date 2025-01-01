@@ -1,7 +1,8 @@
 ## v0.1.6 - 01/01/2025
 ### Added
 - Change all text to Vietnamese
-- Fix ticket card overflow
+### Fixed
+- Ticket card overflow
 
 ## v0.1.5 - 30/12/2024
 ### Updated
