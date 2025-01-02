@@ -1,3 +1,7 @@
+## v0.1.7 - 02/01/2025
+### Added
+- Change app locale to Vietnamese
+
 ## v0.1.6 - 01/01/2025
 ### Added
 - Change all text to Vietnamese
