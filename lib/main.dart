@@ -67,8 +67,9 @@ class EcoParkingApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('en', 'US'),
+            Locale('vi', 'VN'),
           ],
+          locale: const Locale('vi', 'VN'),
           theme: EcoParkingThemes.buildTheme(context),
           builder: (context, child) {
             return Scaffold(
