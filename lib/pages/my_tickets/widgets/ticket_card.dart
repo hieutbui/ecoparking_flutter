@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 class TicketCard extends StatelessWidget {
   final Ticket ticket;
   final TicketPages page;
-  final void Function()? onCancelBooking;
+  final void Function(Ticket)? onCancelBooking;
   final void Function(Ticket)? onViewTicket;
 
   const TicketCard({
@@ -184,7 +184,7 @@ class TicketCard extends StatelessWidget {
 
   Widget renderButtonsRow(
     TicketPages page, {
-    void Function()? onCancelBooking,
+    void Function(Ticket)? onCancelBooking,
     void Function(Ticket)? onViewTicket,
   }) {
     switch (page) {
@@ -195,7 +195,11 @@ class TicketCard extends StatelessWidget {
               child: ActionButton(
                 type: ActionButtonType.hollow,
                 label: 'Hủy vé',
-                onPressed: onCancelBooking,
+                onPressed: () {
+                  if (onCancelBooking != null) {
+                    onCancelBooking(ticket);
+                  }
+                },
                 height: 36,
                 // padding: const EdgeInsets.symmetric(vertical: 8.0),
               ),
