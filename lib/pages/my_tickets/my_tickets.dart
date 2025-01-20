@@ -219,15 +219,8 @@ class MyTicketsController extends State<MyTicketsPage>
     _getTicketsForPage(currentPage);
   }
 
-  void cancelBooking() {
-    loggy.info('cancelBooking()');
-
-    final ticketId = _bookingService.selectedTicketId;
-
-    if (ticketId == null) {
-      loggy.error('Ticket id is null');
-      return;
-    }
+  void cancelBooking(Ticket ticket) {
+    final ticketId = ticket.id;
 
     _cancelTicketSubscription =
         _cancelTicketInteractor.execute(ticketId).listen(

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class ListTicket extends StatelessWidget {
   final ValueNotifier<GetUserTicketsState> ticketsNotifier;
   final TicketPages page;
-  final void Function()? onCancelBooking;
+  final void Function(Ticket)? onCancelBooking;
   final void Function(Ticket)? onViewTicket;
 
   const ListTicket({
