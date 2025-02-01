@@ -1,5 +1,6 @@
 import 'package:ecoparking_flutter/config/app_paths.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details.dart';
+import 'package:ecoparking_flutter/pages/book_parking_details/book_parking_details_view_styles.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/widgets/daily_view.dart';
 import 'package:ecoparking_flutter/pages/book_parking_details/widgets/hourly_view.dart';
 import 'package:ecoparking_flutter/widgets/app_scaffold.dart';
@@ -23,26 +24,21 @@ class BookParkingDetailsView extends StatelessWidget {
       onBackButtonPressed: controller.onBackButtonPressed,
       body: Scaffold(
         appBar: GFAppBar(
-          bottomOpacity: 0.0,
-          elevation: 0.0,
+          bottomOpacity: BookParkingDetailsViewStyles.bottomOpacity,
+          elevation: BookParkingDetailsViewStyles.elevation,
           backgroundColor: Colors.white,
           title: GFSegmentTabs(
-            width: MediaQuery.of(context).size.width - 150,
+            width: BookParkingDetailsViewStyles.segmentTabsWidth(context),
             length: controller.tabLength,
             tabBarColor: Colors.transparent,
             labelColor: Colors.white,
             unselectedLabelColor: Colors.black,
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1,
-            ),
+            border: BookParkingDetailsViewStyles.segmentTabsBorder(context),
             indicatorPadding: EdgeInsets.zero,
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            borderRadius: BookParkingDetailsViewStyles.segmentTabsBorderRadius,
             indicatorSize: TabBarIndicatorSize.tab,
-            indicator: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-            ),
+            indicator:
+                BookParkingDetailsViewStyles.segmentTabsIndicator(context),
             tabs: const <Widget>[
               Tab(child: Text('Theo giờ')),
               Tab(child: Text('Theo ngày')),
