@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 class BookParkingDetailsViewStyles {
   static const double spacing = 16.0;
   static const double wrapperSpacing = 8.0;
+  static const double bottomOpacity = 0.0;
+  static const double elevation = 0.0;
+
+  static double segmentTabsWidth(BuildContext context) =>
+      MediaQuery.of(context).size.width - 150;
 
   static const EdgeInsetsGeometry bottomContainerPadding = EdgeInsets.only(
     top: 8.0,
@@ -42,5 +47,19 @@ class BookParkingDetailsViewStyles {
           topRight: Radius.circular(20),
         ),
         color: Colors.white,
+      );
+
+  static Border segmentTabsBorder(BuildContext context) => Border.all(
+        color: Theme.of(context).colorScheme.primary,
+        width: 1,
+      );
+
+  static const BorderRadius segmentTabsBorderRadius =
+      BorderRadius.all(Radius.circular(5));
+
+  static BoxDecoration segmentTabsIndicator(BuildContext context) =>
+      BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
       );
 }
