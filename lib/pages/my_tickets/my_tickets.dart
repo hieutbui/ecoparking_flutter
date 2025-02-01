@@ -80,6 +80,24 @@ class MyTicketsController extends State<MyTicketsPage>
     _disposeNotifiers();
   }
 
+  void _disposeNotifiers() {
+    onGoingTicketsNotifier.dispose();
+    completedTicketsNotifier.dispose();
+    cancelledTicketsNotifier.dispose();
+    cancelTicketNotifier.dispose();
+  }
+
+  void _cancelSubscriptions() {
+    _onGoingTicketSubscription?.cancel();
+    _completedTicketSubscription?.cancel();
+    _cancelledTicketSubscription?.cancel();
+    _cancelTicketSubscription?.cancel();
+    _onGoingTicketSubscription = null;
+    _completedTicketSubscription = null;
+    _cancelledTicketSubscription = null;
+    _cancelTicketSubscription = null;
+  }
+
   void _getTicketsForPage(TicketPages page) {
     switch (page) {
       case TicketPages.onGoing:
@@ -133,6 +151,63 @@ class MyTicketsController extends State<MyTicketsPage>
             );
 
     return;
+  }
+
+  void _onTabIndexChangedListener() {
+    loggy.info('_onTabIndexChangedListener(): ${tabController.index}');
+    currentPage = TicketPages.values[tabController.index];
+    _getTicketsForPage(currentPage);
+  }
+
+  void cancelBooking(Ticket ticket) {
+    final ticketId = ticket.id;
+
+    _cancelTicketSubscription =
+        _cancelTicketInteractor.execute(ticketId).listen(
+              (result) => result.fold(
+                _handleCancelTicketFailure,
+                _handleCancelTicketSuccess,
+              ),
+            );
+  }
+
+  void viewTicket(Ticket ticket) {
+    loggy.info('viewTicket()');
+    final profile = _accountService.profile;
+
+    if (profile == null) {
+      DialogUtils.showRequiredLogin(context);
+    } else if (profile.phone == null || profile.phone!.isEmpty) {
+      DialogUtils.showRequiredFillProfile(context);
+    } else {
+      _bookingService.setSelectedTicketId(ticket.id);
+    }
+    NavigationUtils.navigateTo(
+      context: context,
+      path: AppPaths.ticketDetails,
+    );
+  }
+
+  void _handleCancelTicketSuccess(Success success) {
+    loggy.info('_handleCancelTicketSuccess(): $success');
+    if (success is CancelTicketSuccess) {
+      cancelTicketNotifier.value = success;
+      _getTicketsForPage(currentPage);
+    } else if (success is CancelTicketLoading) {
+      cancelTicketNotifier.value = success;
+    }
+  }
+
+  void _handleCancelTicketFailure(Failure failure) {
+    loggy.error('_handleCancelTicketFailure(): $failure');
+    if (failure is CancelTicketFailure) {
+      cancelTicketNotifier.value = failure;
+    } else if (failure is CancelTicketEmpty) {
+      cancelTicketNotifier.value = failure;
+    } else {
+      cancelTicketNotifier.value =
+          const CancelTicketFailure(exception: 'Unknown error');
+    }
   }
 
   void _handleGetOnGoingTicketsSuccess(Success success) {
@@ -193,81 +268,6 @@ class MyTicketsController extends State<MyTicketsPage>
     }
 
     return;
-  }
-
-  void _disposeNotifiers() {
-    onGoingTicketsNotifier.dispose();
-    completedTicketsNotifier.dispose();
-    cancelledTicketsNotifier.dispose();
-    cancelTicketNotifier.dispose();
-  }
-
-  void _cancelSubscriptions() {
-    _onGoingTicketSubscription?.cancel();
-    _completedTicketSubscription?.cancel();
-    _cancelledTicketSubscription?.cancel();
-    _cancelTicketSubscription?.cancel();
-    _onGoingTicketSubscription = null;
-    _completedTicketSubscription = null;
-    _cancelledTicketSubscription = null;
-    _cancelTicketSubscription = null;
-  }
-
-  void _onTabIndexChangedListener() {
-    loggy.info('_onTabIndexChangedListener(): ${tabController.index}');
-    currentPage = TicketPages.values[tabController.index];
-    _getTicketsForPage(currentPage);
-  }
-
-  void cancelBooking(Ticket ticket) {
-    final ticketId = ticket.id;
-
-    _cancelTicketSubscription =
-        _cancelTicketInteractor.execute(ticketId).listen(
-              (result) => result.fold(
-                _handleCancelTicketFailure,
-                _handleCancelTicketSuccess,
-              ),
-            );
-  }
-
-  void viewTicket(Ticket ticket) {
-    loggy.info('viewTicket()');
-    final profile = _accountService.profile;
-
-    if (profile == null) {
-      DialogUtils.showRequiredLogin(context);
-    } else if (profile.phone == null || profile.phone!.isEmpty) {
-      DialogUtils.showRequiredFillProfile(context);
-    } else {
-      _bookingService.setSelectedTicketId(ticket.id);
-    }
-    NavigationUtils.navigateTo(
-      context: context,
-      path: AppPaths.ticketDetails,
-    );
-  }
-
-  void _handleCancelTicketSuccess(Success success) {
-    loggy.info('_handleCancelTicketSuccess(): $success');
-    if (success is CancelTicketSuccess) {
-      cancelTicketNotifier.value = success;
-      _getTicketsForPage(currentPage);
-    } else if (success is CancelTicketLoading) {
-      cancelTicketNotifier.value = success;
-    }
-  }
-
-  void _handleCancelTicketFailure(Failure failure) {
-    loggy.error('_handleCancelTicketFailure(): $failure');
-    if (failure is CancelTicketFailure) {
-      cancelTicketNotifier.value = failure;
-    } else if (failure is CancelTicketEmpty) {
-      cancelTicketNotifier.value = failure;
-    } else {
-      cancelTicketNotifier.value =
-          const CancelTicketFailure(exception: 'Unknown error');
-    }
   }
 
   @override
